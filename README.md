@@ -34,8 +34,21 @@ If you have `Math` twice enter the path directly when creating the object:
 /folder/subfolder/Math math2 = Math();
 ```
 
-### Primitives
+### Variables
+Variables are made of 3 parts. They have a type, name and value.
+```A
+int a = 3;
+```
+The variable above has the type `int`, name `a` and value `3`. If we want the type can also
+be detected automatically like so:
+```A
+a = 3;
+```
+Its also valid to define a variable without value: `int a;`. In that case a would return `null`,
+since memory only gets allocated when using `=`.
 
+ - `*` represents pointer?
+ - `null` represents not allocated memory.
  - `boolean` has only two possible values: true and false. Represents one bit (0 or 1) of information.
  - `byte` is an 8-bit signed two's complement integer. It has a minimum value of -128 and a maximum value of 127 (inclusive).
  - `short` is a 16-bit signed two's complement integer. It has a minimum value of -32,768 and a maximum value of 32,767 (inclusive).
@@ -46,8 +59,12 @@ If you have `Math` twice enter the path directly when creating the object:
  - `char` is a single 16-bit Unicode character. It has a minimum value of '\u0000' (or 0) and a maximum value of '\uffff' (or 65,535 inclusive).
  - `code` is a single code block. 
 
-### Initialisation
-Primitives and Objects allocate/reserve memory when they get defined and use it when set.
+### Variables
+Variables can be Primitives or Objects.
+
+
 ```A
+a; // returns nu
+int a; // 
 int a = 1;
 ```
