@@ -36,7 +36,9 @@ If you have `Math` twice enter the path directly when creating the object:
 
 ### Variables
 Variables are made of 3 parts: `int a = 3;` They have a type (int), name (a) and value (3).
-If we want the type can also be detected automatically like so: `a = 3;`
+
+The type can also be detected automatically like so: `a = 3;`
+
 Its also valid to define a variable without value: `int a;`. In that case a would return `null`, since memory only gets allocated when using `=`.
 
  - `obj` parent type of all the below types. Holds the memory address of its variable name and value.
