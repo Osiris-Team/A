@@ -1,6 +1,12 @@
 # A
 A language
 
+### Comments
+`//` marks the start of a comment that goes until the end of the line.
+```A
+int a = 1; // Single line comment
+```
+
 ### Objects
 Each file that contains `A` source code represents one object (must have no file extensions).
 ```
@@ -20,12 +26,12 @@ If we want to use the `Math` object in our `Main` object, add its path to the to
 ```A
 /folder/Math
 
-Math math = new Math();
+Math math = Math();
 ```
 If you have `Math` twice enter the path directly when creating the object:
 ```
-/folder/Math math1 = new Math();
-/folder/subfolder/Math math2 = new Math();
+/folder/Math math1 = Math();
+/folder/subfolder/Math math2 = Math();
 ```
 
 ### Primitives
@@ -40,6 +46,8 @@ If you have `Math` twice enter the path directly when creating the object:
  - `char` is a single 16-bit Unicode character. It has a minimum value of '\u0000' (or 0) and a maximum value of '\uffff' (or 65,535 inclusive).
  - `code` is a single code block. 
 
+### Initialisation
+Primitives and Objects allocate/reserve memory when they get defined and use it when set.
 ```A
 int a = 1;
 ```
