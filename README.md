@@ -8,18 +8,24 @@ project
  README.md
  Main   
 -folder
-  MathUtils
-  NumberUtils
---subfolder   
+  Math
+  Number
+--subfolder
+   Math
    Person
    Wallet
    ...
 ```
-If we want to use the `MathUtils` object in our `Main` object, add its path to the top:
+If we want to use the `Math` object in our `Main` object, add its path to the top:
 ```A
-/folder/MathUtils
+/folder/Math
 
-MathUtils math = new MathUtils();
+Math math = new Math();
+```
+If you have `Math` twice enter the path directly when creating the object:
+```
+/folder/Math math1 = new Math();
+/folder/subfolder/Math math2 = new Math();
 ```
 
 ### Primitives
