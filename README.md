@@ -16,7 +16,7 @@ project
    Wallet
    ...
 ```
-If we want to use the `Math` object in our `Main` object, add its path to the top:
+If we want to use the `Math` object in our `Main` object, add its path to the top in `Main`:
 ```A
 /folder/Math
 
