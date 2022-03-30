@@ -2,25 +2,22 @@
 A language
 
 ### Objects
-Each file that contains `A` source code and ends with `.a` represents one object. 
+Each file that contains `A` source code represents one object (must have no file extensions).
 ```
 project
-
-  README.md
-  Main.a    
-  folder
-  
-    MathUtils.a
-    NumberUtils.a
-    subfolder
-    
-      Person.a
-      Wallet.a
-      ...
+ README.md
+ Main   
+-folder
+  MathUtils
+  NumberUtils
+--subfolder   
+   Person
+   Wallet
+   ...
 ```
-If we want to use the `MathUtils` object in our `Main` object the `import` keyword is used:
+If we want to use the `MathUtils` object in our `Main` object, add its path to the top:
 ```A
-import /folder/MathUtils
+/folder/MathUtils
 
 MathUtils math = new MathUtils();
 ```
