@@ -5,25 +5,19 @@ A language
 Each file that contains `A` source code and ends with `.a` represents one object. 
 ```
 project
-│   README.md
-│   Main.a    
-│
-└───folder1
-│   │   MathUtils.a
-│   │   NumberUtils.a
-│   │
-│   └───subfolder1
-│       │   Person.a
-│       │   Wallet.a
-│       │   ...
-│   
-└───folder2
-    │   Database.a
-    │   SQLUtils.a
+  README.md
+  Main.a    
+  folder
+    MathUtils.a
+    NumberUtils.a
+    subfolder
+      Person.a
+      Wallet.a
+      ...
 ```
 If we want to use the `MathUtils` object in our `Main` object the `import` keyword is used:
 ```A
-import /folder1/MathUtils
+import /folder/MathUtils
 
 MathUtils math = new MathUtils();
 ```
