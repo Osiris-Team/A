@@ -51,3 +51,23 @@ Its also valid to define a variable without value: `int a;`. In that case a woul
  - `double` is a double-precision 64-bit IEEE 754 floating point.
  - `char` is a single 16-bit Unicode character. It has a minimum value of '\u0000' (or 0) and a maximum value of '\uffff' (or 65,535 inclusive).
  - `code` is a single code block. 
+
+### Functions and Scopes
+Code within brackets `{}` is private, which means that its variables are not accessible from outside the brackets.
+```A
+a = 3;
+{
+  b = 0;
+  // a can be used here
+}
+// a can be used here
+// b cannot be used here
+```
+Strictly speaking the variable b from above is inside a function that returns null.
+To access that function and return something useful however, the returned type and function name must be added.
+```A
+int getNumberB{
+  b = 0;
+  return b;
+}
+```
