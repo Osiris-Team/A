@@ -5,12 +5,15 @@ A language
 Each file that contains `A` source code and ends with `.a` represents one object. 
 ```
 project
+
   README.md
   Main.a    
   folder
+  
     MathUtils.a
     NumberUtils.a
     subfolder
+    
       Person.a
       Wallet.a
       ...
