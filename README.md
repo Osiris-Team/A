@@ -8,7 +8,7 @@ int a = 1; // Single line comment
 ```
 
 ### Objects
-Each file that contains `A` source code represents one object (must have no file extensions).
+Each file represents one object (must have no file extensions).
 ```
 project
  README.md
