@@ -63,9 +63,18 @@ int a = 3;
 ```
 Strictly speaking the variable b from above is inside a function that returns null.
 To access that function and return something useful however, the returned type and function name must be added.
+
+We can save code variable and run in later somewhere else like so:
 ```A
-int getNumberB{
-  int b = 0;
+int b = 0;
+setNumber = {
+  b = 9;
+}
+setNumber;
+
+int getNumber = {
+  b = 0;
   return b;
 }
+int result = getNumber; // Executes the code and returns b
 ```
