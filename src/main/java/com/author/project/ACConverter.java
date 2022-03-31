@@ -59,7 +59,7 @@ public class ACConverter {
     public String parseReader(File aSourceFile, BufferedReader reader) throws IOException {
         StringBuilder generated = new StringBuilder();
         try{
-            if(aSourceFile==null) aSourceFile = new File("no-file");
+            if(aSourceFile==null) aSourceFile = new File("unknown");
             int lineCount = 1;
             String line;
             while ((line = reader.readLine()) != null) {
@@ -78,15 +78,16 @@ public class ACConverter {
                         }
                         else if (statement.endsWith("/"))
                             throw new ACompileException(aSourceFile, lineCount, "File path cannot end with '/'.");
+                        // TODO somehow turn this into C code
                     }
                     else if (statement.contains("/"))
                         throw new ACompileException(aSourceFile, lineCount, "File path must start with '/'.");
                     else if (statement.startsWith("int ")){
                         if(statement.contains("=")){
                             if(statement.endsWith(";"))
-                                c.defineVariable(new CVar(statement.substring(0, 3), CTypes._int, statement.substring(statement.indexOf("=")+1, statement.length()-1)));
+                                generated.append(c.defineVariable(new CVar(statement.substring(4, statement.indexOf("=")).trim(), CTypes._int, statement.substring(statement.indexOf("=")+1, statement.length()-1).trim())));
                             else
-                                c.defineVariable(new CVar(statement.substring(0, 3), CTypes._int, statement.substring(statement.indexOf("=")+1)));
+                                generated.append(c.defineVariable(new CVar(statement.substring(4, statement.indexOf("=")).trim(), CTypes._int, statement.substring(statement.indexOf("=")+1).trim())));
                         }
                     }
                 }

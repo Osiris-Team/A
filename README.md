@@ -5,6 +5,14 @@
 Download the [A-Sample](https://github.com/Osiris-Team/A-Sample) repo, open a terminal in that folder and
 execute `./a/a` or `.\a\a.exe` if you are on Windows.
 
+### Pros
+- Object-oriented code without performance loss.
+- Simple and easy to learn syntax.
+
+### Cons
+- Misses a lot of important features, since its in early development.
+- Compilation takes longer since we have the extra compilation step from A to C.
+
 ### Comments
 `//` marks the start of a comment that goes until the end of the line.
 ```A
