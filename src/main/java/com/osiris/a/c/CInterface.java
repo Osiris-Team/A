@@ -1,4 +1,4 @@
-package com.osiris.a;
+package com.osiris.a.c;
 
 public interface CInterface {
 
@@ -22,9 +22,16 @@ public interface CInterface {
     String defineVariable(CVar var);
 
     /**
-     * Sets var1 value to var2 value.
+     * Sets var1 value to var2 value. <br>
+     * var1, var2 are expected to be pointers.
      */
     String setVariable(CVar var1, CVar var2);
+
+    /**
+     * Sets var1 value to var2 value. <br>
+     * var1 is expected to be pointer, var2 a value. <br>
+     */
+    String setVariable(CVar var1, String var2);
 
     /**
      * Returns a prettified string.

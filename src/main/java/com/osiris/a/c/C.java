@@ -1,4 +1,4 @@
-package com.osiris.a;
+package com.osiris.a.c;
 
 public class C implements CInterface {
 
@@ -34,13 +34,18 @@ public class C implements CInterface {
         if(var.value == null)
             return var.type +" "+var.name +";";
         else
-            return var.type.toString().replace("*", "") + " a"+var.name+"="+var.value+";"+
-                    var.type +" "+var.name +"=&a"+var.name+";";
+            return var.type.toString().replace("*", "") + " _"+var.name+"="+var.value+";"+
+                    var.type +" "+var.name +"=&_"+var.name+";";
     }
 
     @Override
     public String setVariable(CVar var1, CVar var2) {
         return "*"+var1.name+" = *"+var2.name+";";
+    }
+
+    @Override
+    public String setVariable(CVar var1, String var2) {
+        return "*"+var1.name+" = "+var2+";";
     }
 
     @Override

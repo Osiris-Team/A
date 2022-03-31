@@ -1,5 +1,8 @@
 package com.osiris.a;
 
+import com.osiris.a.c.C;
+import com.osiris.a.c.CTypes;
+import com.osiris.a.c.CVar;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,6 +36,11 @@ class CTest {
     @Test
     void setVariable() {
         assertEquals("*a = *b;", c.setVariable(new CVar("a", CTypes._int), new CVar("b", CTypes._int)));
+    }
+
+    @Test
+    void setVariable2() {
+        assertEquals("*a = 10;", c.setVariable(new CVar("a", CTypes._int), "10"));
     }
 
     @Test

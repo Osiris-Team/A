@@ -1,8 +1,8 @@
-package com.osiris.a;
+package com.osiris.a.c;
 
 public enum CTypes {
-    _int("int*")
-    ;
+    _int("int*"),
+    code(null); // No direct representation in C
 
     private String type;
 

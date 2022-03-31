@@ -1,4 +1,4 @@
-package com.osiris.a;
+package com.osiris.a.c;
 
 public class CVar {
     public String name;
