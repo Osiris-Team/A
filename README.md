@@ -35,9 +35,7 @@ If you have `Math` twice enter the path directly when creating the object:
 ```
 
 ### Variables
-Variables are made of 3 parts: `int a = 3;` They have a type (int), name (a) and value (3).
-
-The type can also be detected automatically like so: `a = 3;`
+Variables are made of 3 parts: `int a = 3;` They have a type (int), name (a) and value (3). Note that the name cannot contain spaces.
 
 Its also valid to define a variable without value: `int a;`. In that case a would return `null`, since memory only gets allocated when using `=`.
 
@@ -55,9 +53,9 @@ Its also valid to define a variable without value: `int a;`. In that case a woul
 ### Functions and Scopes
 Code within brackets `{}` is private, which means that its variables are not accessible from outside the brackets.
 ```A
-a = 3;
+int a = 3;
 {
-  b = 0;
+  int b = 0;
   // a can be used here
 }
 // a can be used here
@@ -67,7 +65,7 @@ Strictly speaking the variable b from above is inside a function that returns nu
 To access that function and return something useful however, the returned type and function name must be added.
 ```A
 int getNumberB{
-  b = 0;
+  int b = 0;
   return b;
 }
 ```
