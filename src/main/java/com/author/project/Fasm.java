@@ -25,5 +25,6 @@ public class Fasm {
                 throw new RuntimeException("FASM failed to create executable binary.");
             }
         }
+        System.out.println("Created executable at: "+Main.fileBinary);
     }
 }
