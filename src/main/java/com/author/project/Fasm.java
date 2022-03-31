@@ -8,7 +8,7 @@ public class Fasm {
     public Fasm() throws IOException {
         ProcessBuilder builder = new ProcessBuilder();
         builder.environment().put("INCLUDE", Main.fileFasmExe.getParent()+"/INCLUDE");
-        Process process = builder.command("\""+Main.fileFasmExe+"\"", ""+Main.fileSourceAssembly, ""+Main.fileBinary)
+        Process process = builder.command("\""+Main.fileFasmExe+"\"", ""+Main.fileSourceC, ""+Main.fileBinary)
                 .start();
         try(BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))){
             String line = null;

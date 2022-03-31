@@ -9,7 +9,7 @@ public class Main {
     public static File dirCompiler = new File(dir+"/a/compiler");
     public static File dirBinaries = new File(dir+"/a/binaries");
     public static File fileFasmExe = new File(dir+"/a/compiler/fasm/FASM.exe"); // TODO cross-platform
-    public static File fileSourceAssembly = new File(dir+"/a/compiler/source.asm");
+    public static File fileSourceC = new File(dir+"/a/compiler/source.c");
     public static File fileBinary = new File(dir+"/a/binaries/my-program.exe"); // TODO cross-platform
 
     public static void main(String[] args) throws IOException {
@@ -23,7 +23,7 @@ public class Main {
 
         // Final step: Create an executable from the generated assembly code.
         if(!fileFasmExe.exists()) throw new RuntimeException("FASM must be installed! Missing file: "+ fileFasmExe);
-        if(!fileSourceAssembly.exists()) throw new RuntimeException("Assembly code must have been generated before! Missing file: "+fileSourceAssembly);
+        if(!fileSourceC.exists()) throw new RuntimeException("C code must have been generated before! Missing file: "+ fileSourceC);
         new Fasm();
     }
 

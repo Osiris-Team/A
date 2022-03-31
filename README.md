@@ -1,5 +1,13 @@
 # A
-A language
+A language.
+
+Compiles to C, which gets compiled to an executable or library.
+This means that A achieves the same cross-platform performance as C,
+with a simpler syntax and object-oriented code.
+
+### Give it a spin
+Download the [A-Sample](https://github.com/Osiris-Team/A-Sample) repo, open a terminal in that folder and
+execute `./a/a` or `.\a\a.exe` if you are on Windows.
 
 ### Comments
 `//` marks the start of a comment that goes until the end of the line.
