@@ -1,4 +1,4 @@
-package com.author.project;
+package com.osiris.a;
 
 import java.io.File;
 import java.util.ArrayList;

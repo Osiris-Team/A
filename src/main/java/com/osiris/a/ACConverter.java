@@ -1,4 +1,4 @@
-package com.author.project;
+package com.osiris.a;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -60,6 +60,7 @@ public class ACConverter {
         StringBuilder generated = new StringBuilder();
         try{
             if(aSourceFile==null) aSourceFile = new File("unknown");
+            int currentScope = 0;
             int lineCount = 1;
             String line;
             while ((line = reader.readLine()) != null) {

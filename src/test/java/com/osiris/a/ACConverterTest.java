@@ -1,4 +1,4 @@
-package com.author.project;
+package com.osiris.a;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -43,6 +43,11 @@ class ACConverterTest {
     @Test
     void variables() throws IOException {
         String actual = converter.parseString("int a = 10;");
-        System.out.println(actual);
+        Assertions.assertEquals("int aa=10;int* a=&aa;", actual);
+    }
+
+    @Test
+    void scopes() {
+
     }
 }

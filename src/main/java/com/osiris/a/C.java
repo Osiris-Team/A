@@ -1,7 +1,4 @@
-package com.author.project;
-
-import java.io.BufferedReader;
-import java.io.StringReader;
+package com.osiris.a;
 
 public class C implements CInterface {
 
@@ -37,8 +34,8 @@ public class C implements CInterface {
         if(var.value == null)
             return var.type +" "+var.name +";";
         else
-            return var.type.toString().replace("*", "") + " temp_"+var.name+"="+var.value+";"+
-                    var.type +" "+var.name +"=&temp_"+var.name+";";
+            return var.type.toString().replace("*", "") + " a"+var.name+"="+var.value+";"+
+                    var.type +" "+var.name +"=&a"+var.name+";";
     }
 
     @Override
