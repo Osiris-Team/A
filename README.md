@@ -13,6 +13,14 @@ execute `./a/a` or `.\a\a.exe` if you are on Windows.
 - Misses a lot of important features, since its in early development.
 - Compilation takes longer since we have the extra compilation step from A to C.
 
+### Statements
+Multiple statements on a single line must be seperated by a semicolon `;`, otherwise
+the semicolon is optional.
+```A
+int a = 10
+int b = 20; int c = 30
+```
+
 ### Comments
 `//` marks the start of a comment that goes until the end of the line.
 ```A
