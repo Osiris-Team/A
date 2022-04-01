@@ -82,7 +82,10 @@ class ACConverterTest {
         throwsException(() -> converter.parseString("au8asß dßßa8 dßz89231ß9husa sd8791"), "Not a statement.");
         throwsException(() -> converter.parseString("int a = 1000; byte b = a;"), "Wrong value type.");
         throwsException(() -> converter.parseString("int a = 1000\n byte b = a\n"), "Wrong value type.");
-
+        throwsException(() -> converter.parseString("byte a = 1000;"), "Wrong value format.");
+        throwsException(() -> converter.parseString("byte a = 1000\n"), "Wrong value format.");
+        throwsException(() -> converter.parseString("byte a = abcdef1000;"), "Wrong value format.");
+        throwsException(() -> converter.parseString("byte a = abcdef1000\n"), "Wrong value format.");
     }
 
     @Test

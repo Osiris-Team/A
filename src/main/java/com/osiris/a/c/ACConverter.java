@@ -211,10 +211,6 @@ public class ACConverter {
         return null;
     }
 
-    private boolean findPrimitive(String s, int iStart) {
-        return false; // TODO
-    }
-
     /**
      * Checks current & previous code blocks for already existing variables with the same name,
      * throws {@link ACompileException} if it finds one, otherwise adds the provided variable to the current block.
