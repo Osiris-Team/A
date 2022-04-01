@@ -102,27 +102,27 @@ code replaceNumber = (int x) {
 }
 replaceNumber(10);
 ```
-You can even run code from other languages like Assembly or C.
-Note that the parameter helloWorldString below must be encapsulated in spaces when used in the other language.
-```A
-// Prints helloWorldString via assembly code.
-code assemblyCode = (string helloWorldString) assembly {
-   section	.text
-   global _start     ;must be declared for linker (ld)
-	
-_start:	            ;tells linker entry point
-   mov	edx,len     ;message length
-   mov	ecx,msg     ;message to write
-   mov	ebx,1       ;file descriptor (stdout)
-   mov	eax,4       ;system call number (sys_write)
-   int	0x80        ;call kernel
-	
-   mov	eax,1       ;system call number (sys_exit)
-   int	0x80        ;call kernel
 
-section	.data
-msg db ' helloWorldString ', 0xa  ;string to be printed
-len equ $ - msg     ;length of the string
+### Constructors
+Each file/object can have a contructor, which must be named the same as the file.
+```A
+code Main = {
 }
-assemblyCode("Hello, world!"); 
+```
+If not provided the compiler adds it nevertheless. It behaves like a regular function,
+which means that it can also return values and have parameters.
+The only difference is in the way you call it: `new Main()` instead of `Main()`.
+```A
+code Main = (int a, int b) {
+  return a * 10;
+}
+```
+
+### Inheritance
+With the `extends` keyword you can inherit all the another objects' public methods/variables and you can override them.
+With the `overrides` keyword you must inherit all the other objects' public methods/variables and you must override them.
+These keywords must be at the top of the file.
+```A
+extends AnotherObject, AnotherObject2
+overrides AnotherObject3, AnotherObject4
 ```
