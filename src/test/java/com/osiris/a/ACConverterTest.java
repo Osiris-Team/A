@@ -10,20 +10,24 @@ import java.io.IOException;
 class ACConverterTest {
     ACConverter converter = new ACConverter();
 
-    private static void throwsException(Executable executable, String expectedMessage) throws Exception {
+    private static void throwsException(Executable executable, String expectedMessage) throws Throwable {
         boolean thrown = false;
-       try{
-           executable.execute();
-       } catch (Throwable throwable) {
-           thrown = true;
-           if(expectedMessage!=null){
-               if(throwable.getMessage()==null)
-                   throw new Exception("Exception was thrown but message is null even though expected: "+expectedMessage);
-               if(!throwable.getMessage().contains(expectedMessage))
-                   throw new Exception("Exception was thrown but message ("+throwable.getMessage()+") does not contain expected: "+expectedMessage);
-           }
-       }
-       if(!thrown) throw new Exception("Exception was expected but not thrown!");
+        try {
+            executable.execute();
+        } catch (Throwable throwable) {
+            thrown = true;
+            if (expectedMessage != null) {
+                if (throwable.getMessage() == null) {
+                    System.err.println("Exception was thrown but message is null even though expected: " + expectedMessage);
+                    throw throwable;
+                }
+                if (!throwable.getMessage().contains(expectedMessage)) {
+                    System.err.println("Exception was thrown but message (" + throwable.getMessage() + ") does not contain expected: " + expectedMessage);
+                    throw throwable;
+                }
+            }
+        }
+        if (!thrown) throw new Exception("Exception was expected but not thrown!");
     }
 
     @Test
@@ -36,7 +40,7 @@ class ACConverterTest {
     }
 
     @Test
-    void filePath() throws Exception {
+    void filePath() throws Throwable {
         converter.parseString("/file/path");
         throwsException(() -> {
             converter.parseString("file/path");
@@ -44,7 +48,7 @@ class ACConverterTest {
     }
 
     @Test
-    void variables() throws Exception {
+    void variables() throws Throwable {
         String actual = converter.parseString("int a = 10;");
         Assertions.assertEquals("int _a=10;int* a=&_a;", actual);
         actual = converter.parseString("int a;");
@@ -76,6 +80,8 @@ class ACConverterTest {
         throwsException(() -> converter.parseString("a"), "Not a statement.");
         throwsException(() -> converter.parseString("au8asß dßßa8 dßz89231ß9husa sd8791;"), "Not a statement.");
         throwsException(() -> converter.parseString("au8asß dßßa8 dßz89231ß9husa sd8791"), "Not a statement.");
+        throwsException(() -> converter.parseString("int a = 1000; byte b = a;"), "Wrong value type.");
+        throwsException(() -> converter.parseString("int a = 1000\n byte b = a\n"), "Wrong value type.");
 
     }
 

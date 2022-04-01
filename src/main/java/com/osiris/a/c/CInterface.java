@@ -6,11 +6,12 @@ public interface CInterface {
 
     /**
      * Creates function declaration C code.
+     *
      * @param returnType can be null.
-     * @param name the functions' name.
+     * @param name       the functions' name.
      * @param parameters the functions' parameter types.
      */
-    String startFunction(CTypes returnType, String name, CVar... parameters) throws Exception;
+    String startFunction(Types returnType, String name, CVar... parameters) throws Exception;
 
     /**
      * @param returnVar return variable can be null.
