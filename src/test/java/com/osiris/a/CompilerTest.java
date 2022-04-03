@@ -100,9 +100,9 @@ class CompilerTest {
     @Test
     void variableAttributes() throws Throwable {
         // final
-        //throwsException(() -> converter.parseString("int final a = 10; a = 20;"), "Cannot change final variable");
-        //throwsException(() -> converter.parseString("int final a = 10; a = 20;"), "Cannot change final variable");
-        //converter.parseString("int final a; a = 10");
+        throwsException(() -> converter.parseString("int final a = 10; a = 20;"), "Cannot change final variable");
+        throwsException(() -> converter.parseString("int final a = 10; a = 20;"), "Cannot change final variable");
+        converter.parseString("int final a; a = 10");
         throwsException(() -> converter.parseString("int final a; a = 10; a = 20;"), "Cannot change final variable");
     }
 
