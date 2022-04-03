@@ -18,7 +18,7 @@ import java.util.concurrent.Future;
 public class Compiler {
     C c = new C();
     ExecutorService executorService = Executors.newFixedThreadPool(16); // TODO determine OS threads
-    List<Future<String>> activeFutures = new ArrayList<>();
+    List<Future<A>> activeFutures = new ArrayList<>();
 
     /**
      * @param projectDir the root directory that contains all A source code.
@@ -27,11 +27,7 @@ public class Compiler {
     public void parseProject(File projectDir) throws IOException, InterruptedException {
         parseFiles(projectDir);
 
-        List<A> results = new ArrayList<>();
-        while (!activeFutures.isEmpty()) {
-            Thread.sleep(100);
 
-        }
 
         PrintWriter cWriter = new PrintWriter(new BufferedWriter(new FileWriter(Main.fileSourceC)));
         // Create the global context, aka the root code block
@@ -39,7 +35,7 @@ public class Compiler {
         cWriter.print("return 0;}");
     }
 
-    public void parseFiles(File dir) {
+    public void parseFiles(File dir) throws InterruptedException {
         for (File file : dir.listFiles()) {
             if (file.isDirectory()) parseFiles(file);
             else {
@@ -47,25 +43,38 @@ public class Compiler {
                     activeFutures.add(executorService.submit(() -> parseFile(file)));
             }
         }
+        List<Future<A>> results = new ArrayList<>();
+        while (!activeFutures.isEmpty()) {
+            Thread.sleep(100);
+            for (Future<A> result :
+                    activeFutures) {
+                if(result.isDone()){
+                    results.add(result);
+
+                }
+            }
+            activeFutures.removeAll(results);
+        }
     }
 
-    public String parseFile(File aSourceFile) throws IOException {
+    public A parseFile(File aSourceFile) throws IOException {
         return parseReader(new BufferedReader(new FileReader(aSourceFile)));
     }
 
-    public String parseString(String aSourceString) throws IOException {
+    public A parseString(String aSourceString) throws IOException {
         return parseReader(new BufferedReader(new StringReader(aSourceString)));
     }
 
-    public String parseReader(BufferedReader reader) throws IOException {
+    public A parseReader(BufferedReader reader) throws IOException {
         return parseReader(null, reader);
     }
 
-    public String parseReader(File aSourceFile, BufferedReader reader) throws IOException {
-        StringBuilder generatedCFunctionsDefinitions = new StringBuilder();
-        StringBuilder generatedC = new StringBuilder();
+    public A parseReader(File aSourceFile, BufferedReader reader) throws IOException {
+        // Generated C code:
+        StringBuilder genCFunctionsDefinitions = new StringBuilder();
+        StringBuilder genC = new StringBuilder();
         try {
-            if (aSourceFile == null) aSourceFile = new File("unknown");
+            if (aSourceFile == null) aSourceFile = new File("Unknown");
             code currentCode = new code(null, null, null);
             int countOpenBrackets = 0;
             int lineCount = 1;
@@ -98,22 +107,22 @@ public class Compiler {
                     } else if (statement.startsWith("byte ")) {
                         obj var = determineVar(currentCode, aSourceFile, lineCount, statement, Types._byte);
                         addToCurrentCode(aSourceFile, lineCount, var, currentCode);
-                        generatedC.append(c.defineVariable(var));
+                        genC.append(c.defineVariable(var));
 
                     } else if (statement.startsWith("short ")) {
                         obj var = determineVar(currentCode, aSourceFile, lineCount, statement, Types._short);
                         addToCurrentCode(aSourceFile, lineCount, var, currentCode);
-                        generatedC.append(c.defineVariable(var));
+                        genC.append(c.defineVariable(var));
 
                     } else if (statement.startsWith("int ")) {
                         obj var = determineVar(currentCode, aSourceFile, lineCount, statement, Types._int);
                         addToCurrentCode(aSourceFile, lineCount, var, currentCode);
-                        generatedC.append(c.defineVariable(var));
+                        genC.append(c.defineVariable(var));
 
                     } else if (statement.startsWith("long ")) {
                         obj var = determineVar(currentCode, aSourceFile, lineCount, statement, Types._long);
                         addToCurrentCode(aSourceFile, lineCount, var, currentCode);
-                        generatedC.append(c.defineVariable(var));
+                        genC.append(c.defineVariable(var));
 
                     } else if (statement.startsWith("code ")) {
                         code var = (code) determineVar(currentCode, aSourceFile, lineCount, statement, Types.code);
@@ -124,10 +133,10 @@ public class Compiler {
                             currentCode = var;
                         }
 
-                        generatedCFunctionsDefinitions.append(c.defineFunction(var.returnType,
+                        genCFunctionsDefinitions.append(c.defineFunction(var.returnType,
                                 (var.name = aSourceFile.getName()+var.name),
                                 var.parameters.toArray(new obj[0])));
-                        generatedC.append(c.defineVariable(var));
+                        //generatedC.append(c.defineVariable(var));
 
                     } else { // Must be a variable name.
                         if (statement.contains("=")) {
@@ -150,12 +159,12 @@ public class Compiler {
                                 obj existingO = isValidValue(currentCode, o.type, newValue, aSourceFile, lineCount);
                                 if (existingO == null) // new Value is actual value and matches the type
                                 {
-                                    generatedC.append(c.setVariable(o, newValue)); // Update the value
+                                    genC.append(c.setVariable(o, newValue)); // Update the value
                                     o.value = newValue;
                                 }
                                 else // newValue is another variable name
                                 {
-                                    generatedC.append(c.setVariable(o, existingO));  // Update the value
+                                    genC.append(c.setVariable(o, existingO));  // Update the value
                                     o.value = existingO.name;
                                 }
                             }
@@ -170,7 +179,10 @@ public class Compiler {
             throw new RuntimeException(e);
         }
         reader.close();
-        return generatedC.toString();
+        A a = new A();
+        a.cCode = genC.toString();
+        a.cCodeFunctionDefinitions = genCFunctionsDefinitions.toString();
+        return a;
     }
 
     private obj determineVar(code currentCode, File aSourceFile, int lineCount, String statement, Types type) throws CompileException {

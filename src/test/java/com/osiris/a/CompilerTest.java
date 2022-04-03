@@ -49,35 +49,35 @@ class CompilerTest {
     @Test
     void semicolonAndNextLine() throws IOException {
         String actual;
-        actual = converter.parseString("int a; int b; a = b;");
+        actual = converter.parseString("int a; int b; a = b;").cCode;
         Assertions.assertEquals("int* a;int* b;*a = *b;", actual);
-        actual = converter.parseString("int a=10; int b=5; a = b;");
+        actual = converter.parseString("int a=10; int b=5; a = b;").cCode;
         Assertions.assertEquals("int _a=10;int* a=&_a;int _b=5;int* b=&_b;*a = *b;", actual);
-        actual = converter.parseString("int a\n int b\n a = b\n");
+        actual = converter.parseString("int a\n int b\n a = b\n").cCode;
         Assertions.assertEquals("int* a;int* b;*a = *b;", actual);
-        actual = converter.parseString("int a=10\n int b=5\n a = b\n");
+        actual = converter.parseString("int a=10\n int b=5\n a = b\n").cCode;
         Assertions.assertEquals("int _a=10;int* a=&_a;int _b=5;int* b=&_b;*a = *b;", actual);
     }
 
     @Test
     void variables() throws Throwable {
-        String actual = converter.parseString("int a = 10;");
+        String actual = converter.parseString("int a = 10;").cCode;
         Assertions.assertEquals("int _a=10;int* a=&_a;", actual);
-        actual = converter.parseString("int a;");
+        actual = converter.parseString("int a;").cCode;
         Assertions.assertEquals("int* a;", actual);
 
-        actual = converter.parseString("int a = 10");
+        actual = converter.parseString("int a = 10").cCode;
         Assertions.assertEquals("int _a=10;int* a=&_a;", actual);
-        actual = converter.parseString("int a");
+        actual = converter.parseString("int a").cCode;
         Assertions.assertEquals("int* a;", actual);
 
-        actual = converter.parseString("int a; int b; a = b;");
+        actual = converter.parseString("int a; int b; a = b;").cCode;
         Assertions.assertEquals("int* a;int* b;*a = *b;", actual);
-        actual = converter.parseString("int a=10; int b=5; a = b;");
+        actual = converter.parseString("int a=10; int b=5; a = b;").cCode;
         Assertions.assertEquals("int _a=10;int* a=&_a;int _b=5;int* b=&_b;*a = *b;", actual);
-        actual = converter.parseString("int a\n int b\n a = b\n");
+        actual = converter.parseString("int a\n int b\n a = b\n").cCode;
         Assertions.assertEquals("int* a;int* b;*a = *b;", actual);
-        actual = converter.parseString("int a=10\n int b=5\n a = b\n");
+        actual = converter.parseString("int a=10\n int b=5\n a = b\n").cCode;
         Assertions.assertEquals("int _a=10;int* a=&_a;int _b=5;int* b=&_b;*a = *b;", actual);
 
         throwsException(() -> converter.parseString("int a a;"), "Variable name cannot contain spaces.");

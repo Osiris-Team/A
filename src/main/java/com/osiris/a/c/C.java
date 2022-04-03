@@ -50,19 +50,11 @@ public class C implements CInterface {
 
     @Override
     public String defineVariable(obj var) {
-        if (var instanceof code){
-            if (var.value == null)
-                return var.type + " " + var.name + ";";
-            else
-                return var.type.toString().replace("*", "") + " _" + var.name + "=" + var.value + ";" +
-                        var.type + " " + var.name + "=&_" + var.name + ";";
-        }else{
-            if (var.value == null)
-                return var.type + " " + var.name + ";";
-            else
-                return var.type.toString().replace("*", "") + " _" + var.name + "=" + var.value + ";" +
-                        var.type + " " + var.name + "=&_" + var.name + ";";
-        }
+        if (var.value == null)
+            return var.type + " " + var.name + ";";
+        else
+            return var.type.toString().replace("*", "") + " _" + var.name + "=" + var.value + ";" +
+                    var.type + " " + var.name + "=&_" + var.name + ";";
     }
 
     @Override
