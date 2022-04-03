@@ -1,14 +1,13 @@
 package com.osiris.a;
 
-import com.osiris.a.c.ACConverter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 import java.io.IOException;
 
-class ACConverterTest {
-    ACConverter converter = new ACConverter();
+class CompilerTest {
+    Compiler converter = new Compiler();
 
     private static void throwsException(Executable executable, String expectedMessage) throws Throwable {
         boolean thrown = false;
@@ -48,6 +47,19 @@ class ACConverterTest {
     }
 
     @Test
+    void semicolonAndNextLine() throws IOException {
+        String actual;
+        actual = converter.parseString("int a; int b; a = b;");
+        Assertions.assertEquals("int* a;int* b;*a = *b;", actual);
+        actual = converter.parseString("int a=10; int b=5; a = b;");
+        Assertions.assertEquals("int _a=10;int* a=&_a;int _b=5;int* b=&_b;*a = *b;", actual);
+        actual = converter.parseString("int a\n int b\n a = b\n");
+        Assertions.assertEquals("int* a;int* b;*a = *b;", actual);
+        actual = converter.parseString("int a=10\n int b=5\n a = b\n");
+        Assertions.assertEquals("int _a=10;int* a=&_a;int _b=5;int* b=&_b;*a = *b;", actual);
+    }
+
+    @Test
     void variables() throws Throwable {
         String actual = converter.parseString("int a = 10;");
         Assertions.assertEquals("int _a=10;int* a=&_a;", actual);
@@ -81,11 +93,17 @@ class ACConverterTest {
         throwsException(() -> converter.parseString("au8asß dßßa8 dßz89231ß9husa sd8791;"), "Not a statement.");
         throwsException(() -> converter.parseString("au8asß dßßa8 dßz89231ß9husa sd8791"), "Not a statement.");
         throwsException(() -> converter.parseString("int a = 1000; byte b = a;"), "Wrong value type.");
-        throwsException(() -> converter.parseString("int a = 1000\n byte b = a\n"), "Wrong value type.");
         throwsException(() -> converter.parseString("byte a = 1000;"), "Wrong value format.");
-        throwsException(() -> converter.parseString("byte a = 1000\n"), "Wrong value format.");
         throwsException(() -> converter.parseString("byte a = abcdef1000;"), "Wrong value format.");
-        throwsException(() -> converter.parseString("byte a = abcdef1000\n"), "Wrong value format.");
+    }
+
+    @Test
+    void variableAttributes() throws Throwable {
+        // final
+        //throwsException(() -> converter.parseString("int final a = 10; a = 20;"), "Cannot change final variable");
+        //throwsException(() -> converter.parseString("int final a = 10; a = 20;"), "Cannot change final variable");
+        //converter.parseString("int final a; a = 10");
+        throwsException(() -> converter.parseString("int final a; a = 10; a = 20;"), "Cannot change final variable");
     }
 
     @Test

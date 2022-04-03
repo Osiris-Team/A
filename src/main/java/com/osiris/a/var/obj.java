@@ -1,11 +1,24 @@
 package com.osiris.a.var;
 
-import com.osiris.a.c.CVar;
+import com.osiris.a.c.Types;
 
 public class obj {
-    public CVar cVar;
+    public String name;
+    public Types type;
+    public String value;
+    public boolean isFinal;
 
-    public obj(CVar cVar) {
-        this.cVar = cVar;
+    public obj() {
+    }
+
+    public obj(String name, Types type) {
+        this.name = name;
+        this.type = type;
+    }
+
+    public obj(String name, Types type, String value) {
+        this.name = name;
+        this.type = type;
+        this.value = value;
     }
 }

@@ -1,7 +1,7 @@
-package com.osiris.a.c;
+package com.osiris.a;
 
-import com.osiris.a.A;
-import com.osiris.a.Main;
+import com.osiris.a.c.C;
+import com.osiris.a.c.Types;
 import com.osiris.a.var.code;
 import com.osiris.a.var.obj;
 
@@ -15,7 +15,7 @@ import java.util.concurrent.Future;
 /**
  * The A to C converter, compiles/parses A source code into C source code.
  */
-public class ACConverter {
+public class Compiler {
     C c = new C();
     ExecutorService executorService = Executors.newFixedThreadPool(16); // TODO determine OS threads
     List<Future<String>> activeFutures = new ArrayList<>();
@@ -62,6 +62,7 @@ public class ACConverter {
     }
 
     public String parseReader(File aSourceFile, BufferedReader reader) throws IOException {
+        StringBuilder generatedCFunctionsDefinitions = new StringBuilder();
         StringBuilder generatedC = new StringBuilder();
         try {
             if (aSourceFile == null) aSourceFile = new File("unknown");
@@ -81,35 +82,36 @@ public class ACConverter {
                     if (statement.startsWith("/")) {
                         if (statement.contains(" ")) {
                             if (statement.indexOf(" ") != statement.lastIndexOf(" "))
-                                throw new ACompileException(aSourceFile, lineCount, "File path cannot contain more than one space.");
+                                throw new CompileException(aSourceFile, lineCount, "File path cannot contain more than one space.");
                             // Expect variable
                             // TODO /folder/Math math1 = Math();
                         } else if (statement.endsWith("/"))
-                            throw new ACompileException(aSourceFile, lineCount, "File path cannot end with '/'.");
+                            throw new CompileException(aSourceFile, lineCount, "File path cannot end with '/'.");
                         // TODO somehow turn this into C code
+
                     } else if (statement.contains("/"))
-                        throw new ACompileException(aSourceFile, lineCount, "File path must start with '/'.");
+                        throw new CompileException(aSourceFile, lineCount, "File path must start with '/'.");
 
                     else if (statement.startsWith("{")) {
                         countOpenBrackets++;
 
                     } else if (statement.startsWith("byte ")) {
-                        CVar var = determineVar(currentCode, aSourceFile, lineCount, statement, Types._byte);
+                        obj var = determineVar(currentCode, aSourceFile, lineCount, statement, Types._byte);
                         addToCurrentCode(aSourceFile, lineCount, var, currentCode);
                         generatedC.append(c.defineVariable(var));
 
                     } else if (statement.startsWith("short ")) {
-                        CVar var = determineVar(currentCode, aSourceFile, lineCount, statement, Types._short);
+                        obj var = determineVar(currentCode, aSourceFile, lineCount, statement, Types._short);
                         addToCurrentCode(aSourceFile, lineCount, var, currentCode);
                         generatedC.append(c.defineVariable(var));
 
                     } else if (statement.startsWith("int ")) {
-                        CVar var = determineVar(currentCode, aSourceFile, lineCount, statement, Types._int);
+                        obj var = determineVar(currentCode, aSourceFile, lineCount, statement, Types._int);
                         addToCurrentCode(aSourceFile, lineCount, var, currentCode);
                         generatedC.append(c.defineVariable(var));
 
                     } else if (statement.startsWith("long ")) {
-                        CVar var = determineVar(currentCode, aSourceFile, lineCount, statement, Types._long);
+                        obj var = determineVar(currentCode, aSourceFile, lineCount, statement, Types._long);
                         addToCurrentCode(aSourceFile, lineCount, var, currentCode);
                         generatedC.append(c.defineVariable(var));
 
@@ -122,21 +124,29 @@ public class ACConverter {
                             String name = statement.substring(0, statement.indexOf("=")).trim();
                             obj o = findObj(name, currentCode);
                             if (o == null)
-                                throw new ACompileException(aSourceFile, lineCount, "No declaration of variable '" + name + "' in the current or parent code blocks found.");
+                                throw new CompileException(aSourceFile, lineCount, "No declaration of variable '" + name + "' in the current or parent code blocks found.");
                             String newValue;
                             if (statement.endsWith(";"))
                                 newValue = statement.substring(statement.indexOf("=") + 1, statement.length() - 1).trim();
                             else
                                 newValue = statement.substring(statement.indexOf("=") + 1).trim();
                             if (newValue.isEmpty())
-                                throw new ACompileException(aSourceFile, lineCount, "Usage of = even though no value is being assigned.");
-                            obj existingO = isValidValue(currentCode, o.cVar.type, newValue, aSourceFile, lineCount);
+                                throw new CompileException(aSourceFile, lineCount, "Usage of = even though no value is being assigned.");
+                            if(o.isFinal && o.value!=null)
+                                throw new CompileException(aSourceFile, lineCount, "Cannot change final variable '"+o.name+"' value since it was already set.");
+                            obj existingO = isValidValue(currentCode, o.type, newValue, aSourceFile, lineCount);
                             if (existingO == null) // new Value is actual value and matches the type
-                                generatedC.append(c.setVariable(o.cVar, newValue));
+                            {
+                                generatedC.append(c.setVariable(o, newValue)); // Update the value
+                                o.value = newValue;
+                            }
                             else // newValue is another variable name
-                                generatedC.append(c.setVariable(o.cVar, existingO.cVar));
+                            {
+                                generatedC.append(c.setVariable(o, existingO));  // Update the value
+                                o.value = existingO.name;
+                            }
                         } else
-                            throw new ACompileException(aSourceFile, lineCount, "Not a statement."); // TODO add + - and so on
+                            throw new CompileException(aSourceFile, lineCount, "Not a statement."); // TODO add + - and so on
                     }
                 }
                 lineCount++;
@@ -149,7 +159,14 @@ public class ACConverter {
         return generatedC.toString();
     }
 
-    private CVar determineVar(code currentCode, File aSourceFile, int lineCount, String statement, Types type) throws ACompileException {
+    private obj determineVar(code currentCode, File aSourceFile, int lineCount, String statement, Types type) throws CompileException {
+        obj o = new obj();
+        boolean isFinal = false;
+        if (statement.contains(" final ")){
+            statement = statement.replace(" final", "");
+            isFinal = true;
+        }
+
         String name, value = null;
         if (statement.contains("=")) {
             name = statement.substring(4, statement.indexOf("=")).trim();
@@ -158,16 +175,23 @@ public class ACConverter {
             else
                 value = statement.substring(statement.indexOf("=") + 1).trim();
             if (value.isEmpty())
-                throw new ACompileException(aSourceFile, lineCount, "Usage of = even though no value is being assigned.");
+                throw new CompileException(aSourceFile, lineCount, "Usage of = even though no value is being assigned.");
         } else {
             name = statement.substring(4).trim();
         }
         if (name.contains(" "))
-            throw new ACompileException(aSourceFile, lineCount, "Variable name cannot contain spaces.");
-        if (value != null && value.contains(" "))
-            throw new ACompileException(aSourceFile, lineCount, "Variable value cannot contain spaces.");
+            throw new CompileException(aSourceFile, lineCount, "Variable name cannot contain spaces.");
+        if (value != null){
+            if(value.contains(" "))
+                throw new CompileException(aSourceFile, lineCount, "Variable value cannot contain spaces.");
+            if(value.trim().isEmpty()) value = null;
+        }
         isValidValue(currentCode, type, value, aSourceFile, lineCount);
-        return new CVar(name, type, value);
+        o.name = name;
+        o.type = type;
+        o.value = value;
+        o.isFinal = isFinal;
+        return o;
     }
 
     /**
@@ -175,12 +199,12 @@ public class ACConverter {
      * This method covers both cases, by searching for an existing variable first
      * and returning it if it does and has the same type. <br>
      */
-    private obj isValidValue(code currentCode, Types type, String val, File aSourceFile, int lineCount) throws ACompileException {
+    private obj isValidValue(code currentCode, Types type, String val, File aSourceFile, int lineCount) throws CompileException {
         if (val == null) return null;
         obj existingObj = findObj(val, currentCode); // Check if the value is a variable name first and if it is compare value types.
         if (existingObj != null)
-            if (existingObj.cVar.type != type)
-                throw new ACompileException(aSourceFile, lineCount, "Wrong value type. Provided " + existingObj.cVar.type.inA + " '" + val + "', but required " + type.inA + ".");
+            if (existingObj.type != type)
+                throw new CompileException(aSourceFile, lineCount, "Wrong value type. Provided " + existingObj.type.inA + " '" + val + "', but required " + type.inA + ".");
             else
                 return existingObj;
         try {
@@ -206,45 +230,43 @@ public class ACConverter {
                     return null;
             }
         } catch (Exception e) { // To catch runtime exceptions
-            throw new ACompileException(aSourceFile, lineCount, "Wrong value format. Provided value '" + val + "' is not of type " + type.inA + ". Details: " + e.getMessage());
+            throw new CompileException(aSourceFile, lineCount, "Wrong value format. Provided value '" + val + "' is not of type " + type.inA + ". Details: " + e.getMessage());
         }
         return null;
     }
 
     /**
      * Checks current & previous code blocks for already existing variables with the same name,
-     * throws {@link ACompileException} if it finds one, otherwise adds the provided variable to the current block.
+     * throws {@link CompileException} if it finds one, otherwise adds the provided variable to the current block.
      */
-    private void addToCurrentCode(File aSourceFile, int lineCount, CVar var, code currentCode) throws ACompileException {
+    private void addToCurrentCode(File aSourceFile, int lineCount, obj var, code currentCode) throws CompileException {
         for (obj o : currentCode.variables) {
-            if (o.cVar.name.equals(var.name))
-                throw new ACompileException(aSourceFile, lineCount, "Variable '" + var.name + "' was already declared in the current or parent code blocks.");
+            if (o.name.equals(var.name))
+                throw new CompileException(aSourceFile, lineCount, "Variable '" + var.name + "' was already declared in the current or parent code blocks.");
         }
-        code temp = currentCode;
-        code parentCode;
-        while ((parentCode = temp.parentCode) != null) {
+        code parentCode = currentCode.parentCode;
+        while (parentCode != null) {
             for (obj o : parentCode.variables) {
-                if (o.cVar.name.equals(var.name))
-                    throw new ACompileException(aSourceFile, lineCount, "Variable '" + var.name + "' was already declared in the current or parent code blocks.");
+                if (o.name.equals(var.name))
+                    throw new CompileException(aSourceFile, lineCount, "Variable '" + var.name + "' was already declared in the current or parent code blocks.");
             }
-            temp = parentCode.parentCode;
+            parentCode = parentCode.parentCode;
         }
-        currentCode.variables.add(new obj(var));
+        currentCode.variables.add(var);
     }
 
     private obj findObj(String name, code currentCode) {
         for (obj o : currentCode.variables) {
-            if (o.cVar.name.equals(name))
+            if (o.name.equals(name))
                 return o;
         }
-        code temp = currentCode;
-        code parentCode;
-        while ((parentCode = temp.parentCode) != null) {
+        code parentCode = currentCode.parentCode;
+        while (parentCode != null) {
             for (obj o : parentCode.variables) {
-                if (o.cVar.name.equals(name))
+                if (o.name.equals(name))
                     return o;
             }
-            temp = parentCode.parentCode;
+            parentCode = parentCode.parentCode;
         }
         return null;
     }

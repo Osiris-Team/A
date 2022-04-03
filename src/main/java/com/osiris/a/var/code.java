@@ -1,6 +1,5 @@
 package com.osiris.a.var;
 
-import com.osiris.a.c.CVar;
 import com.osiris.a.c.Types;
 
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ public class code extends obj {
     public List<obj> variables = new ArrayList<>();
 
     public code(code parentCode, String name, List<obj> parameters) {
-        super(new CVar(name, Types.code));
+        super(name, Types.code);
         this.parentCode = parentCode;
         this.parameters = parameters;
     }

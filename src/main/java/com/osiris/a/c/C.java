@@ -1,9 +1,11 @@
 package com.osiris.a.c;
 
+import com.osiris.a.var.obj;
+
 public class C implements CInterface {
 
     @Override
-    public String startFunction(Types returnType, String name, CVar... parameters) throws Exception {
+    public String startFunction(Types returnType, String name, obj... parameters) throws Exception {
         String params = "";
         for (int i = 0; i < parameters.length; i++) {
             params += parameters[i].type + " " + parameters[i].name;
@@ -22,7 +24,7 @@ public class C implements CInterface {
     }
 
     @Override
-    public String endFunction(CVar returnVar) {
+    public String endFunction(obj returnVar) {
         if (returnVar == null)
             return "}";
         else
@@ -30,7 +32,7 @@ public class C implements CInterface {
     }
 
     @Override
-    public String defineVariable(CVar var) {
+    public String defineVariable(obj var) {
         if (var.value == null)
             return var.type + " " + var.name + ";";
         else
@@ -39,12 +41,12 @@ public class C implements CInterface {
     }
 
     @Override
-    public String setVariable(CVar var1, CVar var2) {
+    public String setVariable(obj var1, obj var2) {
         return "*" + var1.name + " = *" + var2.name + ";";
     }
 
     @Override
-    public String setVariable(CVar var1, String var2) {
+    public String setVariable(obj var1, String var2) {
         return "*" + var1.name + " = " + var2 + ";";
     }
 
