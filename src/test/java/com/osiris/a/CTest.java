@@ -13,19 +13,19 @@ class CTest {
     @Test
     void startFunction() throws Exception {
         String expected = "void test(int* a, int* b){}";
-        String actual = c.startFunction(null, "test", new obj("a", Types._int), new obj("b", Types._int))
-                + c.endFunction(null);
+        String actual = c.openFunction(null, "test", new obj("a", Types._int), new obj("b", Types._int))
+                + c.closeFunction(null);
         assertEquals(expected, actual);
         expected = "int* test(int* a, int* b){return a;}";
-        actual = c.startFunction(Types._int, "test", new obj("a", Types._int), new obj("b", Types._int))
-                + c.endFunction(new obj("a", Types._int));
+        actual = c.openFunction(Types._int, "test", new obj("a", Types._int), new obj("b", Types._int))
+                + c.closeFunction(new obj("a", Types._int));
         assertEquals(expected, actual);
     }
 
     @Test
     void endFunction() {
-        assertEquals("}", c.endFunction(null));
-        assertEquals("return a;}", c.endFunction(new obj("a", Types._int)));
+        assertEquals("}", c.closeFunction(null));
+        assertEquals("return a;}", c.closeFunction(new obj("a", Types._int)));
     }
 
     @Test

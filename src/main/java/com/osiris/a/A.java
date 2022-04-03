@@ -10,4 +10,6 @@ import java.util.List;
 public class A {
     public boolean success = false;
     public List<File> importedFiles = new ArrayList<>();
+    public String cCodeFunctionDefinitions;
+    public String cCode;
 }

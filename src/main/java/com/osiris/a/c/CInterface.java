@@ -6,6 +6,8 @@ public interface CInterface {
 
     // FUNCTIONS
 
+    String defineFunction(Types returnType, String name, obj... parameters) throws Exception;
+
     /**
      * Creates function declaration C code.
      *
@@ -13,12 +15,12 @@ public interface CInterface {
      * @param name       the functions' name.
      * @param parameters the functions' parameter types.
      */
-    String startFunction(Types returnType, String name, obj... parameters) throws Exception;
+    String openFunction(Types returnType, String name, obj... parameters) throws Exception;
 
     /**
      * @param returnVar return variable can be null.
      */
-    String endFunction(obj returnVar);
+    String closeFunction(obj returnVar);
 
     // VARIABLES
 

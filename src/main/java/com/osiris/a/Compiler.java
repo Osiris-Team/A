@@ -116,8 +116,18 @@ public class Compiler {
                         generatedC.append(c.defineVariable(var));
 
                     } else if (statement.startsWith("code ")) {
-                        if (!statement.endsWith("{")) ;
-                        //throw new ACompileException("Missing ")
+                        code var = (code) determineVar(currentCode, aSourceFile, lineCount, statement, Types.code);
+                        addToCurrentCode(aSourceFile, lineCount, var, currentCode);
+                        if(statement.contains("{")){
+                            countOpenBrackets++;
+                            var.parentCode = currentCode;
+                            currentCode = var;
+                        }
+
+                        generatedCFunctionsDefinitions.append(c.defineFunction(var.returnType,
+                                (var.name = aSourceFile.getName()+var.name),
+                                var.parameters.toArray(new obj[0])));
+                        generatedC.append(c.defineVariable(var));
 
                     } else { // Must be a variable name.
                         if (statement.contains("=")) {
@@ -125,25 +135,29 @@ public class Compiler {
                             obj o = findObj(name, currentCode);
                             if (o == null)
                                 throw new CompileException(aSourceFile, lineCount, "No declaration of variable '" + name + "' in the current or parent code blocks found.");
-                            String newValue;
-                            if (statement.endsWith(";"))
-                                newValue = statement.substring(statement.indexOf("=") + 1, statement.length() - 1).trim();
-                            else
-                                newValue = statement.substring(statement.indexOf("=") + 1).trim();
-                            if (newValue.isEmpty())
-                                throw new CompileException(aSourceFile, lineCount, "Usage of = even though no value is being assigned.");
-                            if(o.isFinal && o.value!=null)
-                                throw new CompileException(aSourceFile, lineCount, "Cannot change final variable '"+o.name+"' value since it was already set.");
-                            obj existingO = isValidValue(currentCode, o.type, newValue, aSourceFile, lineCount);
-                            if (existingO == null) // new Value is actual value and matches the type
-                            {
-                                generatedC.append(c.setVariable(o, newValue)); // Update the value
-                                o.value = newValue;
-                            }
-                            else // newValue is another variable name
-                            {
-                                generatedC.append(c.setVariable(o, existingO));  // Update the value
-                                o.value = existingO.name;
+                            if(o instanceof code){ // Special case when code
+
+                            } else{ // Regular variable
+                                String newValue;
+                                if (statement.endsWith(";"))
+                                    newValue = statement.substring(statement.indexOf("=") + 1, statement.length() - 1).trim();
+                                else
+                                    newValue = statement.substring(statement.indexOf("=") + 1).trim();
+                                if (newValue.isEmpty())
+                                    throw new CompileException(aSourceFile, lineCount, "Usage of = even though no value is being assigned.");
+                                if(o.isFinal && o.value!=null)
+                                    throw new CompileException(aSourceFile, lineCount, "Cannot change final variable '"+o.name+"' value since it was already set.");
+                                obj existingO = isValidValue(currentCode, o.type, newValue, aSourceFile, lineCount);
+                                if (existingO == null) // new Value is actual value and matches the type
+                                {
+                                    generatedC.append(c.setVariable(o, newValue)); // Update the value
+                                    o.value = newValue;
+                                }
+                                else // newValue is another variable name
+                                {
+                                    generatedC.append(c.setVariable(o, existingO));  // Update the value
+                                    o.value = existingO.name;
+                                }
                             }
                         } else
                             throw new CompileException(aSourceFile, lineCount, "Not a statement."); // TODO add + - and so on
@@ -226,7 +240,6 @@ public class Compiler {
                     Long.parseLong(val);
                     return null;
                 case code:
-                    if (!val.endsWith("{")) throw new Exception("Code definition must end with '{'.");
                     return null;
             }
         } catch (Exception e) { // To catch runtime exceptions

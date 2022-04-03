@@ -1,9 +1,11 @@
 # A
-### A language compiles to C, which gets compiled to an executable or library. This means that A achieves the same cross-platform performance as C, with a simpler syntax and object-oriented code.
+**A language compiles to C, which gets compiled to an executable or library. 
+This means that A achieves the same cross-platform performance as C, with a 
+simpler syntax and object-oriented code.**
 
-### Give it a spin
-Download the [A-Sample](https://github.com/Osiris-Team/A-Sample) repo, open a terminal in that folder and
-execute `./a/a` or `.\a\a.exe` if you are on Windows.
+**Download the [A-Sample](https://github.com/Osiris-Team/A-Sample) repo,
+open a terminal in that folder and
+execute `./a/a` or `.\a\a.exe` if you are on Windows.**
 
 ### Pros
 - Object-oriented code without performance loss.
@@ -69,6 +71,7 @@ utils.b // Error: Cannot be accessed
 ```
 ### Functions
 Functions are special code blocks that are held by the `code` variable.
+Note that functions are final by default due to the limitations by the underlying C language.
 ```A
 int b = 0;
 code setNumber = {
@@ -87,7 +90,17 @@ Parameters can be passed over too like so:
 code multiply = (int a, int b) returns int {
   return a * b
 }
-replaceNumber(10)
+multiply(10, 20)
+```
+Note that changing a parameter's value in a function,
+affects the original variables value:
+```A
+code setTo10 = (int a) {
+  a = 10
+}
+int myVariable = 27
+setTo10(myVariable)
+// myVariable is now 10
 ```
 
 ### Files and Objects
@@ -160,8 +173,8 @@ math.divide(a, b)
 `Math`
 ```A
 // Public stuff:
-code final multiply
-code final divide
+code multiply
+code divide
 
 // Private stuff:
 { 

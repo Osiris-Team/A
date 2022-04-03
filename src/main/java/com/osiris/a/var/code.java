@@ -9,6 +9,7 @@ import java.util.List;
  * A code block or scope.
  */
 public class code extends obj {
+    public Types returnType;
     public code parentCode;
     public List<obj> parameters;
     public List<obj> variables = new ArrayList<>();

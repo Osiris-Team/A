@@ -1,11 +1,28 @@
 package com.osiris.a.c;
 
+import com.osiris.a.var.code;
 import com.osiris.a.var.obj;
 
 public class C implements CInterface {
 
     @Override
-    public String startFunction(Types returnType, String name, obj... parameters) throws Exception {
+    public String defineFunction(Types returnType, String name, obj... parameters) throws Exception {
+        String params = "";
+        for (int i = 0; i < parameters.length; i++) {
+            params += parameters[i].type + " " + parameters[i].name;
+            if (parameters.length - 1 != i) {
+                params += ", ";
+            }
+        }
+
+        if (returnType == null)
+            return "void " + name + "(" + params + ");";
+        else
+            return returnType + " " + name + "(" + params + ");";
+    }
+
+    @Override
+    public String openFunction(Types returnType, String name, obj... parameters) throws Exception {
         String params = "";
         for (int i = 0; i < parameters.length; i++) {
             params += parameters[i].type + " " + parameters[i].name;
@@ -24,7 +41,7 @@ public class C implements CInterface {
     }
 
     @Override
-    public String endFunction(obj returnVar) {
+    public String closeFunction(obj returnVar) {
         if (returnVar == null)
             return "}";
         else
@@ -33,11 +50,19 @@ public class C implements CInterface {
 
     @Override
     public String defineVariable(obj var) {
-        if (var.value == null)
-            return var.type + " " + var.name + ";";
-        else
-            return var.type.toString().replace("*", "") + " _" + var.name + "=" + var.value + ";" +
-                    var.type + " " + var.name + "=&_" + var.name + ";";
+        if (var instanceof code){
+            if (var.value == null)
+                return var.type + " " + var.name + ";";
+            else
+                return var.type.toString().replace("*", "") + " _" + var.name + "=" + var.value + ";" +
+                        var.type + " " + var.name + "=&_" + var.name + ";";
+        }else{
+            if (var.value == null)
+                return var.type + " " + var.name + ";";
+            else
+                return var.type.toString().replace("*", "") + " _" + var.name + "=" + var.value + ";" +
+                        var.type + " " + var.name + "=&_" + var.name + ";";
+        }
     }
 
     @Override
