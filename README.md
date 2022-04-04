@@ -35,7 +35,6 @@ Variables are made of 3 parts: `int a = 3;` They have a type (int), name (a) and
 
 It's also valid to define a variable without value: `int a;`. In that case a would return `null`, since memory only gets allocated when using `=`.
 
- - `obj` parent type of all the below types. Holds the memory address of its variable name and value.
  - `boolean` has only two possible values: true and false. Represents one bit (0 or 1) of information.
  - `byte` is an 8-bit signed two's complement integer. It has a minimum value of -128 and a maximum value of 127 (inclusive).
  - `short` is a 16-bit signed two's complement integer. It has a minimum value of -32,768 and a maximum value of 32,767 (inclusive).
@@ -44,11 +43,14 @@ It's also valid to define a variable without value: `int a;`. In that case a wou
  - `float` is a single-precision 32-bit IEEE 754 floating point.
  - `double` is a double-precision 64-bit IEEE 754 floating point.
  - `char` is a single 16-bit Unicode character. It has a minimum value of '\u0000' (or 0) and a maximum value of '\uffff' (or 65,535 inclusive).
+ - `string` is a string of characters, or more accurately: an array of char.
  - `code` is a single code block. 
+ - `T` is the generic type, which can be any of the types from above or any object.
 
 Variables can have additional/optional attributes which get added 
 after the type name example: `int final a = 10`
  - `final` makes the variable unchangeable after first value assignment.
+ - `x<size>` creates an array of the specified size of the current type. 
 
 ### Scopes
 A scope is code within brackets `{}`. 
