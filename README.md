@@ -50,7 +50,7 @@ It's also valid to define a variable without value: `int a;`. In that case a wou
 Variables can have additional/optional attributes which get added 
 after the type name example: `int final a = 10`
  - `final` makes the variable unchangeable after first value assignment.
- - `x<size>` creates an array of the specified size of the current type. 
+ - `[<size>]` creates an array of the current type, of the specified size (integer type). 
 
 ### Scopes
 A scope is code within brackets `{}`. 
