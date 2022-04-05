@@ -7,6 +7,8 @@ simpler syntax and object-oriented code.**
 open a terminal in that folder and
 execute `./a/a` or `.\a\a.exe` if you are on Windows.**
 
+If you are unsure how to pronouce A, there are two good tutorials [here](https://www.youtube.com/watch?v=yBLdQ1a4-JI) and [here](https://www.youtube.com/watch?v=pwTzHbIXSlI).
+
 ### Pros
 - Object-oriented code without performance loss.
 - Simple and easy to learn syntax.
