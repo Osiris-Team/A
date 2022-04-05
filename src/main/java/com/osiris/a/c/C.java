@@ -1,12 +1,17 @@
 package com.osiris.a.c;
 
-import com.osiris.a.var.code;
 import com.osiris.a.var.obj;
 
 public class C implements CInterface {
 
     @Override
-    public String defineFunction(Types returnType, String name, obj... parameters) throws Exception {
+    public String createObject() {
+        // TODO https://stackoverflow.com/questions/17052443/c-function-inside-struct
+        return null;
+    }
+
+    @Override
+    public String defineFunction(Types returnType, String name, obj... parameters) {
         String params = "";
         for (int i = 0; i < parameters.length; i++) {
             params += parameters[i].type + " " + parameters[i].name;
@@ -22,7 +27,7 @@ public class C implements CInterface {
     }
 
     @Override
-    public String openFunction(Types returnType, String name, obj... parameters) throws Exception {
+    public String openFunction(Types returnType, String name, obj... parameters)  {
         String params = "";
         for (int i = 0; i < parameters.length; i++) {
             params += parameters[i].type + " " + parameters[i].name;

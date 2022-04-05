@@ -4,9 +4,13 @@ import com.osiris.a.var.obj;
 
 public interface CInterface {
 
+    // OBJECTS
+
+    String createObject();
+
     // FUNCTIONS
 
-    String defineFunction(Types returnType, String name, obj... parameters) throws Exception;
+    String defineFunction(Types returnType, String name, obj... parameters);
 
     /**
      * Creates function declaration C code.
@@ -15,7 +19,7 @@ public interface CInterface {
      * @param name       the functions' name.
      * @param parameters the functions' parameter types.
      */
-    String openFunction(Types returnType, String name, obj... parameters) throws Exception;
+    String openFunction(Types returnType, String name, obj... parameters);
 
     /**
      * @param returnVar return variable can be null.
