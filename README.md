@@ -1,13 +1,23 @@
 # A
 **A language compiles to C, which gets compiled to an executable or library. 
-This means that A achieves the same cross-platform performance as C, with a 
-simpler syntax and object-oriented code.**
+This means that A achieves the same cross-platform performance as C, with a
+significantly simpler syntax and object-oriented code. Maybe you will even have
+fun coding in this language?**
 
 **Download the [A-Sample](https://github.com/Osiris-Team/A-Sample) repo,
 open a terminal in that folder and
 execute `./a/a` or `.\a\a.exe` if you are on Windows.**
 
 If you are unsure how to pronouce A, there are two good tutorials [here](https://www.youtube.com/watch?v=yBLdQ1a4-JI) and [here](https://www.youtube.com/watch?v=pwTzHbIXSlI).
+
+### Aim
+ - Provide both high and low level methods to everything.
+ - Don't overcomplicate things and keep it easy to read/write.
+ - Stay relevant, meaning new good stuff will replace old stuff. Breaking changes are ok.
+ - Allow easy use of GPU and hardware acceleration, instead of only writing CPU code.
+ - Performance and readability have the same importance.
+ - Provide cross-platform methods for all input and output devices, like (touch-)screens, keyboards, files, etc.
+ - Encourage the use of event listeners.
 
 ### Pros
 - Object-oriented code without performance loss.
@@ -57,7 +67,7 @@ Variables can have additional/optional attributes which get added
 after the type name example: `int locked a = 10`
  - `locked` makes the variable unchangeable after first value assignment.
  - `[<size>]` creates an array of the current type, of the specified size (integer type).
- - `required` this variable is not allowed to be null. 
+ - `!null` this variable is not allowed to be null. 
 
 ### Scopes
 A scope is code within brackets `{}`. 
@@ -99,7 +109,7 @@ Parameters can be passed over too like so:
 code multiply = (int a, int b) returns int {
   return a * b
 }
-multiply(10, 20)
+multiply(a:10, b:20)
 ```
 Note that changing a parameter's value in a function,
 affects the original variables value:
@@ -108,21 +118,32 @@ code setTo10 = (int a) {
   a = 10
 }
 int myVariable = 27
-setTo10(myVariable)
+setTo10(a:myVariable)
 // myVariable is now 10
 ```
 Function parameters are by default optional, which means that
 the compiler won't show errors if the function above was called without
 parameters like this: `setTo10()`.
-That's why the `required` attribute exists, which forces the user
+That's why the `!null` (not null) attribute exists, which forces the user
 to pass over a parameter.
 ```A
-code setTo10 = (int required a) {
+code setTo10 = (int !null a) {
   a = 10
 }
 int myVariable = 27
-setTo10(myVariable) // Valid
+setTo10(a:myVariable) // Valid
 setTo10() // Not valid
+```
+This is done to avoid unnecessary function overloading and
+writing cleaner/less code and less duplicate documentation.
+```A
+code multiply = (int !null a, int !null b, int c) {
+  if(c!=null) return a * b * c
+  else return a * b
+}
+multiply(a:10, b:20) // Valid
+multiply(a:10, b:20, c:30) // Valid
+multiply(a:10) // Not valid
 ```
 
 ### Files and Objects
