@@ -5,6 +5,8 @@ import com.osiris.a.c.Types;
 import com.osiris.a.var.obj;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Paths;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CTest {
