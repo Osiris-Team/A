@@ -151,18 +151,18 @@ Each file represents one object (must have no file extension).
 ```
 project
  - Main
- - Math
+ - MathLib
  - folder
-    - Math
+    - MathLib
 ```
-`Math` can be used in `Main` like so:
+`MathLib` can be used in `Main` like so:
 ```A
-Math math = new Math()
+MathLib math = new MathLib()
 ```
-`Math` in /folder can be used in `Main` like so:
+`MathLib` in /folder can be used in `Main` like so:
 ```
-Math math = new Math()
-/folder/Math math1 = new Math()
+MathLib math = new MathLib()
+/folder/MathLib math1 = new MathLib()
 ```
 
 ### Constructor and the `new` keyword
@@ -172,15 +172,19 @@ The example below should clarify it:
 
 `Person`
 ```A
-code Main = {
+code Person = {
 }
+```
+`Main`
+```A
+Person john = new Person()
 ```
 If not provided the compiler adds it nevertheless. It behaves like a regular function,
 which means that it can also have parameters.
-The difference is in the way you execute it: `new Main()` instead of `Main()` and
+The difference is in the way you execute it: `new Person()` instead of `Person()` and
 that it cannot return stuff since it returns the object.
 ```A
-code Main = (int a, int b) {
+code Person = (int a, int b) {
 }
 ```
 
@@ -202,12 +206,12 @@ The project structure used for this example:
 ```
 project
  - Main
- - Math
+ - MathLib
 ```
 
 `Main`
 ```A
-extends Math
+extends MathLib
 
 int a = 10
 int b = 20
@@ -221,7 +225,7 @@ math.multiply(a, b)
 math.divide(a, b)
 ```
 
-`Math`
+`MathLib`
 ```A
 // Public stuff:
 code multiply
