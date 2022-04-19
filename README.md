@@ -64,14 +64,15 @@ It's also valid to define a variable without value: `int a;`. In that case a wou
  - `any` is the generic type, which can be any of the types from above or any object.
 
 Variables can have additional/optional attributes which get added 
-after the type name example: `int locked a = 10`
- - `locked` makes the variable unchangeable after first value assignment.
+after the type name example: `int public final a = 10`
+ - `public` makes the variable accessible from other files.
+ - `final` makes the variable unchangeable after first value assignment.
  - `[<size>]` creates an array of the current type, of the specified size (integer type).
  - `!null` this variable is not allowed to be null. 
 
 ### Scopes
 A scope is code within brackets `{}`. 
-It makes the variables within it inaccessible from outside.
+Variables within a scope are not accessible from outside:
 ```A
 int a = 3
 {
@@ -90,7 +91,7 @@ utils.b // Error: Cannot be accessed
 ```
 ### Functions
 Functions are special code blocks that are held by the `code` variable.
-Note that functions are locked by default due to the limitations by the underlying C language.
+Note that functions are `final` by default due to the limitations by the underlying C language.
 ```A
 int b = 0;
 code setNumber = {

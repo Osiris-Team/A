@@ -4,7 +4,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
+import java.io.File;
 import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CompilerTest {
     Compiler converter = new Compiler();
@@ -31,11 +34,11 @@ class CompilerTest {
 
     @Test
     void comments() throws IOException {
-        Assertions.assertEquals("", converter.parseString("//comment"));
-        Assertions.assertEquals("", converter.parseString("// comment"));
-        Assertions.assertEquals("", converter.parseString("//              comment"));
-        Assertions.assertEquals("", converter.parseString("                     //comment"));
-        Assertions.assertEquals("", converter.parseString("                     //              comment"));
+        assertEquals("", converter.parseString("//comment").cCode);
+        assertEquals("", converter.parseString("// comment").cCode);
+        assertEquals("", converter.parseString("//              comment").cCode);
+        assertEquals("", converter.parseString("                     //comment").cCode);
+        assertEquals("", converter.parseString("                     //              comment").cCode);
     }
 
     @Test
@@ -50,35 +53,35 @@ class CompilerTest {
     void semicolonAndNextLine() throws IOException {
         String actual;
         actual = converter.parseString("int a; int b; a = b;").cCode;
-        Assertions.assertEquals("int* a;int* b;*a = *b;", actual);
+        assertEquals("int* a;int* b;*a = *b;", actual);
         actual = converter.parseString("int a=10; int b=5; a = b;").cCode;
-        Assertions.assertEquals("int _a=10;int* a=&_a;int _b=5;int* b=&_b;*a = *b;", actual);
+        assertEquals("int* a;*a=10;int* b;*b=5;*a = *b;", actual);
         actual = converter.parseString("int a\n int b\n a = b\n").cCode;
-        Assertions.assertEquals("int* a;int* b;*a = *b;", actual);
+        assertEquals("int* a;int* b;*a = *b;", actual);
         actual = converter.parseString("int a=10\n int b=5\n a = b\n").cCode;
-        Assertions.assertEquals("int _a=10;int* a=&_a;int _b=5;int* b=&_b;*a = *b;", actual);
+        assertEquals("int* a;*a=10;int* b;*b=5;*a = *b;", actual);
     }
 
     @Test
     void variables() throws Throwable {
         String actual = converter.parseString("int a = 10;").cCode;
-        Assertions.assertEquals("int _a=10;int* a=&_a;", actual);
+        assertEquals("int* a;*a=10;", actual);
         actual = converter.parseString("int a;").cCode;
-        Assertions.assertEquals("int* a;", actual);
+        assertEquals("int* a;", actual);
 
         actual = converter.parseString("int a = 10").cCode;
-        Assertions.assertEquals("int _a=10;int* a=&_a;", actual);
+        assertEquals("int* a;*a=10;", actual);
         actual = converter.parseString("int a").cCode;
-        Assertions.assertEquals("int* a;", actual);
+        assertEquals("int* a;", actual);
 
         actual = converter.parseString("int a; int b; a = b;").cCode;
-        Assertions.assertEquals("int* a;int* b;*a = *b;", actual);
+        assertEquals("int* a;int* b;*a = *b;", actual);
         actual = converter.parseString("int a=10; int b=5; a = b;").cCode;
-        Assertions.assertEquals("int _a=10;int* a=&_a;int _b=5;int* b=&_b;*a = *b;", actual);
+        assertEquals("int* a;*a=10;int* b;*b=5;*a = *b;", actual);
         actual = converter.parseString("int a\n int b\n a = b\n").cCode;
-        Assertions.assertEquals("int* a;int* b;*a = *b;", actual);
+        assertEquals("int* a;int* b;*a = *b;", actual);
         actual = converter.parseString("int a=10\n int b=5\n a = b\n").cCode;
-        Assertions.assertEquals("int _a=10;int* a=&_a;int _b=5;int* b=&_b;*a = *b;", actual);
+        assertEquals("int* a;*a=10;int* b;*b=5;*a = *b;", actual);
 
         throwsException(() -> converter.parseString("int a a;"), "Variable name cannot contain spaces.");
         throwsException(() -> converter.parseString("int a a"), "Variable name cannot contain spaces.");
@@ -109,5 +112,21 @@ class CompilerTest {
     @Test
     void scopes() {
 
+    }
+
+    @Test
+    void genFunctionName() {
+        String result = converter.genFunctionName("myFunction",
+                new File("C:\\User\\project\\lib\\MyObject"),
+                new File("C:\\User\\project"));
+        assertEquals("_lib_MyObject_myFunction", result);
+        result = converter.genFunctionName("myFunction",
+                new File("C:/User/project/lib/MyObject"),
+                new File("C:/User/project"));
+        assertEquals("_lib_MyObject_myFunction", result);
+        result = converter.genFunctionName("myFunction",
+                new File("C:/User/project/MyObject"),
+                new File("C:/User/project"));
+        assertEquals("_MyObject_myFunction", result);
     }
 }

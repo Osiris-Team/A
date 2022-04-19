@@ -31,6 +31,7 @@ class CTest {
     @Test
     void defineVariable() {
         assertEquals("int* a;", c.defineVariable(new obj("a", Types._int)));
+        assertEquals("int* a;*a=10;", c.defineVariable(new obj("a", Types._int, "10")));
     }
 
     @Test

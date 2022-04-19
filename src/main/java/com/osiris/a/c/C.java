@@ -5,7 +5,7 @@ import com.osiris.a.var.obj;
 public class C implements CInterface {
 
     @Override
-    public String createObject() {
+    public String openObject() {
         // TODO https://stackoverflow.com/questions/17052443/c-function-inside-struct
         return null;
     }
@@ -55,11 +55,12 @@ public class C implements CInterface {
 
     @Override
     public String defineVariable(obj var) {
-        if (var.value == null)
-            return var.type + " " + var.name + ";";
-        else
-            return var.type.toString().replace("*", "") + " _" + var.name + "=" + var.value + ";" +
-                    var.type + " " + var.name + "=&_" + var.name + ";";
+        // Example:
+        // int* i;
+        // *i = 10;
+        String s = var.type.inC + " " + var.name + ";";
+        if (var.value != null) s += "*"+var.name + "=" + var.value + ";";
+        return s;
     }
 
     @Override

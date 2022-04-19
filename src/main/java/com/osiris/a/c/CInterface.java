@@ -6,7 +6,7 @@ public interface CInterface {
 
     // OBJECTS
 
-    String createObject();
+    String openObject();
 
     // FUNCTIONS
 

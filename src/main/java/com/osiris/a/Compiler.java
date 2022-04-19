@@ -16,6 +16,7 @@ import java.util.concurrent.Future;
  * The A to C converter, compiles/parses A source code into C source code.
  */
 public class Compiler {
+    File projectDir = new File(System.getProperty("user.dir"));
     C c = new C();
     ExecutorService executorService = Executors.newFixedThreadPool(16); // TODO determine OS threads
     List<Future<A>> activeFutures = new ArrayList<>();
@@ -70,11 +71,16 @@ public class Compiler {
     }
 
     public A parseReader(File aSourceFile, BufferedReader reader) throws IOException {
+        if (aSourceFile == null) aSourceFile = new File("Unknown");
         // Generated C code:
+        // The C struct contains the current object/files private stuff
+        StringBuilder genCStruct = new StringBuilder();
+        String structName = genStructName(aSourceFile, projectDir);
+        genCStruct.append("typedef struct "+structName+" "+structName+";");
+        genCStruct.append("struct "+structName+"{");
         StringBuilder genCFunctionsDefinitions = new StringBuilder();
         StringBuilder genC = new StringBuilder();
         try {
-            if (aSourceFile == null) aSourceFile = new File("Unknown");
             code currentCode = new code(null, null, null);
             int countOpenBrackets = 0;
             int lineCount = 1;
@@ -134,7 +140,7 @@ public class Compiler {
                         }
 
                         genCFunctionsDefinitions.append(c.defineFunction(var.returnType,
-                                (var.name = aSourceFile.getName()+var.name),
+                                (var.name = genFunctionName(var.name, aSourceFile, projectDir)),
                                 var.parameters.toArray(new obj[0])));
                         //generatedC.append(c.defineVariable(var));
 
@@ -178,11 +184,37 @@ public class Compiler {
             reader.close();
             throw new RuntimeException(e);
         }
+        genCStruct.append("}");
         reader.close();
         A a = new A();
         a.cCode = genC.toString();
         a.cCodeFunctionDefinitions = genCFunctionsDefinitions.toString();
         return a;
+    }
+
+    public String genStructName(File sourceFile, File projectDir) {
+        return sourceFile.getAbsolutePath().replace(projectDir.getAbsolutePath(), "")
+                .replaceAll("\\\\", "_")
+                .replaceAll(":", "")
+                .replaceAll("/", "_")
+                .trim();
+    }
+
+    /**
+     * Generates a unique function name with the variable name,
+     * source file and project dir. <br>
+     * Example: varName=myFunction <br>
+     * sourceFile=C:\User\project\lib\MyObject <br>
+     * projectDir=C:\User\project <br>
+     * Output/Returns: _lib_MyObject_myFunction <br>
+     */
+    public String genFunctionName(String varName, File sourceFile, File projectDir) {
+        return sourceFile.getAbsolutePath().replace(projectDir.getAbsolutePath(), "")
+                .replaceAll("\\\\", "_")
+                .replaceAll(":", "")
+                .replaceAll("/", "_")
+                .trim() + "_"
+                + varName;
     }
 
     private obj determineVar(code currentCode, File aSourceFile, int lineCount, String statement, Types type) throws CompileException {
