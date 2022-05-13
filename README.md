@@ -1,7 +1,7 @@
 # A
 **A language compiles to C, which gets compiled to an executable or library. 
 This means that A achieves the same cross-platform performance as C, with a
-significantly simpler syntax and object-oriented code. Maybe you will even have
+significantly simpler syntax and object-oriented code (similar to C++, but better). Maybe you will even have
 fun coding in this language?**
 
 **Download the [A-Sample](https://github.com/Osiris-Team/A-Sample) repo,
@@ -19,12 +19,15 @@ If you are unsure how to pronouce A, there are two good tutorials [here](https:/
  - Provide cross-platform methods for all input and output devices, like (touch-)screens, keyboards, files, etc.
  - Encourage the use of event listeners.
 
-### Pros
+### Status
+No release yet, still in early development. Once the basics are done 1.0 will get released.
+
+#### Pros
 - Object-oriented code without performance loss.
 - Simple and easy to learn syntax.
 
-### Cons
-- Misses a lot of important features, since its in early development.
+#### Cons
+- Misses a lot of important features.
 - Compilation takes longer since we have the extra compilation step from A to C.
 
 ### Statements
@@ -70,7 +73,6 @@ after the type name example: `int public final a = 10`
  - `public` makes the variable accessible from other files.
  - `final` makes the variable unchangeable after first value assignment.
  - `[<size>]` creates an array of the current type, of the specified size (integer type).
- - `!null` this variable is not allowed to be null. 
 
 ### Scopes
 A scope is code within brackets `{}`. 
@@ -124,23 +126,11 @@ int myVariable = 27
 setTo10(a:myVariable)
 // myVariable is now 10
 ```
-Function parameters are by default optional, which means that
-the compiler won't show errors if the function above was called without
-parameters like this: `setTo10()`.
-That's why the `!null` (not null) attribute exists, which forces the user
-to pass over a parameter.
-```A
-code setTo10 = (int !null a) {
-  a = 10
-}
-int myVariable = 27
-setTo10(a:myVariable) // Valid
-setTo10() // Not valid
-```
+Parameters can be optional by enclosing them in `<>`.
 This is done to avoid unnecessary function overloading and
-writing cleaner/less code and less duplicate documentation.
+writing cleaner and less code/documentation.
 ```A
-code multiply = (int !null a, int !null b, int c) {
+code multiply = (int a, int b, <int c>) returns int {
   if(c!=null) return a * b * c
   else return a * b
 }
@@ -168,26 +158,24 @@ MathLib math = new MathLib()
 /folder/MathLib math1 = new MathLib()
 ```
 
-### Constructor and the `new` keyword
-`new ObjectName()` creates an instance of an object, which means that the code inside the objects'
+### Constructor and the `new()` function
+`ObjectName.new()` creates an instance of an object, which means that the code inside the objects'
 file gets copied into memory and run. 
 The example below should clarify it:
 
 `Person`
 ```A
-code Person = {
+code static new = {
 }
 ```
 `Main`
 ```A
-Person john = new Person()
+Person john = Person.new()
 ```
 If not provided the compiler adds it nevertheless. It behaves like a regular function,
 which means that it can also have parameters.
-The difference is in the way you execute it: `new Person()` instead of `Person()` and
-that it cannot return stuff since it returns the object.
 ```A
-code Person = (int a, int b) {
+code static new = (int a, int b) {
 }
 ```
 
