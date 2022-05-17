@@ -147,15 +147,27 @@ project
  - MathLib
  - folder
     - MathLib
+    - AnotherLib
 ```
 `MathLib` can be used in `Main` like so:
 ```A
-MathLib math = new MathLib()
+MathLib math = MathLib.new()
 ```
-`MathLib` in /folder can be used in `Main` like so:
+`MathLib` from /folder can be used in `Main` like so:
+This must be done like this, since MathLib exists twice, in the
+current folder and in /folder.
 ```
-MathLib math = new MathLib()
-/folder/MathLib math1 = new MathLib()
+MathLib math = MathLib.new()
+./folder/MathLib math1 = MathLib.new()
+```
+Normally you just enter the files'/folders' relative path on the top:
+```A
+./folder/AnotherLib
+
+// Otherwise you can import the whole folder:
+./folder
+
+AnotherLib anotherLib = AnotherLib.new()
 ```
 
 ### Constructor and the `new()` function
