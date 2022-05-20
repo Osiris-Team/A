@@ -249,4 +249,23 @@ code divide
 }
 ```
 
+### Project structure and dependencies/libs
+The project root directory is located where your `a` directory is in.
+In your code, you can only use/import code that is within that folder.
+To reference it in code use `./`.
 
+The A compiler has a dependency management system (DMS) built in.
+Currently, it supports A projects hosted and released on GitHub.
+With the command `add lib github_repo_url/github_repo_name`, the DMS
+will fetch the `src.zip` of the projects' latest release and extract its
+contents into `./libs/lib_author/lib_name/lib_version`.
+
+To use that lib in your code, you would simply import it by entering
+its path at the top of your file.
+```A
+./libs/lib_author/lib_name/lib_version/SomeObject
+```
+
+Updating libs can be done with the DMS too: `update libs` to update all, or
+`update lib github_repo_url/github_repo_name` to update a specific lib.
+The DMS will take care of renaming/updating your imports in your code too.
