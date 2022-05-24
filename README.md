@@ -158,7 +158,7 @@ Parameters can be passed over too like so:
 code multiply = (int a, int b) returns int {
   return a * b
 }
-multiply(a:10, b:20)
+multiply(10, 20)
 ```
 Note that changing a parameter's value in a function,
 affects the original variables value:
@@ -167,7 +167,7 @@ code setTo10 = (int a) {
   a = 10
 }
 int myVariable = 27
-setTo10(a:myVariable)
+setTo10(myVariable)
 // myVariable is now 10
 ```
 
