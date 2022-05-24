@@ -158,7 +158,7 @@ Parameters can be passed over too like so:
 code multiply = (int a, int b) returns int {
   return a * b
 }
-multiply(a:10, b:20)
+multiply(10, 20)
 ```
 Note that changing a parameter's value in a function,
 affects the original variables value:
@@ -167,20 +167,37 @@ code setTo10 = (int a) {
   a = 10
 }
 int myVariable = 27
-setTo10(a:myVariable)
+setTo10(myVariable)
 // myVariable is now 10
 ```
-Parameters can be optional by enclosing them in `<>`.
+
+### Null safety and optional parameters
+All variables must have a starting/default value when defined, which means
+that code like this: `int a;` will not work.
+
+There is one exception however, namely the optional function parameters,
+those can be `null`.
 This is done to avoid unnecessary function overloading and
 writing cleaner and less code/documentation.
+
+You can make parameters optional by writing `optional: var1, var2, etc...`.
+All variables behind `optional: `until the closing bracket of the function,
+will be allowed to be `null`.
+Note that the function must also throw `NullError` in that case.
 ```A
-code multiply = (int a, int b, <int c>) returns int {
-  if(c!=null) return a * b * c
-  else return a * b
+code multiply = (int a, int b, optional: int c, int d) returns int and throws NullError{
+  int result = a * b
+  if(c!=null) result = result * c
+  if(d!=null) result = result * d
+  return result
 }
-multiply(a:10, b:20) // Valid
-multiply(a:10, b:20, c:30) // Valid
-multiply(a:10) // Not valid
+multiply(10, 20) // Valid
+multiply(10, 20, 30, 40) // Valid
+multiply(10, 20, null, null) // Valid
+multiply(10, 20, 30, null) // Valid
+multiply(10, 20, null, 40) // Valid
+multiply(10, 20, c:30, d:40); // Valid
+multiply(10, 20, c:30) // Valid
 ```
 
 ### Files and Objects
