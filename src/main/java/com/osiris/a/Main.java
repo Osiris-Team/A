@@ -1,20 +1,29 @@
 package com.osiris.a;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.osiris.a.utils.DownloaderThread;
 import com.osiris.autoplug.core.json.JsonTools;
+import com.osiris.betterthread.BThreadManager;
+import com.osiris.betterthread.BThreadPrinter;
+import net.lingala.zip4j.ZipFile;
 import org.fusesource.jansi.Ansi;
 import org.jline.console.ArgDesc;
 import org.jline.console.CmdDesc;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.reader.impl.DefaultParser;
+import org.jline.reader.impl.completer.StringsCompleter;
 import org.jline.terminal.TerminalBuilder;
 import org.jline.utils.AttributedString;
+import org.jline.utils.OSUtils;
 import org.jline.widget.AutosuggestionWidgets;
 import org.jline.widget.TailTipWidgets;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystemException;
 import java.util.*;
 
 public class Main {
@@ -67,12 +76,59 @@ public class Main {
             updateProjectDir(currentDir);
         }
 
+
         if(dirCompiler.listFiles() == null || dirCompiler.listFiles().length == 0){
             try{
-                System.out.println("Missing C compiler. Downloading and installing...");
+                println(Ansi.Color.YELLOW, "Missing C compiler. Downloading and installing...");
                 String url = "https://api.github.com/repos/mstorsjo/llvm-mingw/releases/latest";
                 System.out.println("Source url: "+url);
+                System.out.println("Destination: "+dirCompiler);
                 JsonObject release = new JsonTools().getJsonObject(url);
+                JsonArray assets = release.getAsJsonArray("assets");
+                String downloadUrl = null;
+                String downloadName = null;
+                long downloadExpectedSize = 0;
+                for (JsonElement el : assets) {
+                    JsonObject obj = el.getAsJsonObject();
+                    String name = obj.get("name").getAsString();
+                    downloadName = name;
+                    downloadExpectedSize = obj.get("size").getAsLong();
+                    if(name.endsWith(".zip") && name.contains("ucrt")){
+                        if(OSUtils.IS_WINDOWS){
+                            if(name.contains("ucrt-x86_64")) {
+                                downloadUrl = obj.get("browser_download_url").getAsString();
+                                break;
+                            }
+                        } else if(OSUtils.IS_OSX){
+                            if(name.contains("macos")) {
+                                downloadUrl = obj.get("browser_download_url").getAsString();
+                                break;
+                            }
+                        } else{
+                            if(name.contains("ubuntu")) {
+                                downloadUrl = obj.get("browser_download_url").getAsString();
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                // Download and unpack the c compiler:
+                Objects.requireNonNull(downloadUrl);
+                BThreadManager manager = new BThreadManager();
+                BThreadPrinter printer = new BThreadPrinter(manager);
+                printer.start();
+                File downloadDest = new File(dirCompiler+"/"+downloadName);
+                DownloaderThread download = new DownloaderThread("Download", manager, downloadUrl, downloadDest);
+                download.start();
+                download.join();
+                if(downloadDest.length() != downloadExpectedSize) throw new Exception("Failed download." +
+                        " Expected download file size ("+downloadExpectedSize+") not equal to actual file size ("+downloadDest.length()+").");
+                println("Unpacking (this may take a bit, don't abort)...");
+                new ZipFile(downloadDest).extractAll(dirCompiler.getPath());
+                downloadDest.delete();
+                println("Successfully installed the C compiler.");
+
             } catch (Exception e) {
                 throw new RuntimeException("Critical error during C compiler installation! Please report this issue.", e);
             }
