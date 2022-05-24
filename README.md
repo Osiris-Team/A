@@ -180,10 +180,12 @@ those can be `null`.
 This is done to avoid unnecessary function overloading and
 writing cleaner and less code/documentation.
 
-You can make parameters optional by enclosing them in `<>`.
+You can make parameters optional by writing `optional: var1, var2, etc...`.
+All variables behind `optional: `until the closing bracket of the function,
+will be allowed to be `null`.
 Note that the function must also throw `NullError` in that case.
 ```A
-code multiply = (int a, int b, <int c, int d>) returns int and throws NullError{
+code multiply = (int a, int b, optional: int c, int d) returns int and throws NullError{
   int result = a * b
   if(c!=null) result = result * c
   if(d!=null) result = result * d
