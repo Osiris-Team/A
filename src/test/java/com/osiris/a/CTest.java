@@ -5,8 +5,6 @@ import com.osiris.a.c.Types;
 import com.osiris.a.var.obj;
 import org.junit.jupiter.api.Test;
 
-import java.nio.file.Paths;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CTest {
@@ -32,8 +30,8 @@ class CTest {
 
     @Test
     void defineVariable() {
-        assertEquals("int* a;", c.defineVariable(new obj("a", Types._int)));
-        assertEquals("int* a;*a=10;", c.defineVariable(new obj("a", Types._int, "10")));
+        assertEquals("int* a;", c.defineAndSetVariable(new obj("a", Types._int)));
+        assertEquals("int* a;*a=10;", c.defineAndSetVariable(new obj("a", Types._int, "10")));
     }
 
     @Test

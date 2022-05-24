@@ -18,7 +18,19 @@
         <main.class>com.osiris.a.Main</main.class>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
     <dependencies>
+        <dependency>
+            <groupId>com.github.Osiris-Team</groupId>
+            <artifactId>AutoPlug-Core</artifactId>
+            <version>13.6</version>
+        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -31,13 +43,6 @@
         <finalName>${project.name}</finalName> <!-- If you'd like to have version information on your output jar, remove this. -->
         <defaultGoal>clean package</defaultGoal>
         <plugins>
-
-            <!-- Responsible for running all tests before building. -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M5</version>
-            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -52,7 +57,7 @@
             <!--
             Make this jar executable.
             Remember to check the the jars entry point (main.class property above).
-
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -65,7 +70,7 @@
                     </archive>
                 </configuration>
             </plugin>
-            -->
+
 
             <!--
             Puts your dependencies into the output jar file.
@@ -73,7 +78,7 @@
             you won't need to do this.
             But if you are developing an application for regular people,
             you should uncomment this section.
-
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -90,7 +95,6 @@
                     </execution>
                 </executions>
             </plugin>
-            -->
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

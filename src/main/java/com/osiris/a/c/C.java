@@ -6,7 +6,7 @@ public class C implements CInterface {
 
     @Override
     public String openObject() {
-        // TODO https://stackoverflow.com/questions/17052443/c-function-inside-struct
+
         return null;
     }
 
@@ -39,10 +39,10 @@ public class C implements CInterface {
         //TODO if(types.length > paramPointers.length)
         //    throw new Exception("Too many function parameters ("+params.length()+"). Maximum allowed: "+paramPointers.length+".");
 
-        if (returnType == null)
+        if (returnType.inC == null)
             return "void " + name + "(" + params + "){";
         else
-            return returnType + " " + name + "(" + params + "){";
+            return returnType.inC + " " + name + "(" + params + "){";
     }
 
     @Override
@@ -55,10 +55,15 @@ public class C implements CInterface {
 
     @Override
     public String defineVariable(obj var) {
+        return var.type.inC + " " + var.name + "=malloc(sizeof("+var.type.inC.replace("*", "")+"));";
+    }
+
+    @Override
+    public String defineAndSetVariable(obj var) {
         // Example:
         // int* i;
         // *i = 10;
-        String s = var.type.inC + " " + var.name + ";";
+        String s = var.type.inC + " " + var.name + "=malloc(sizeof("+var.type.inC.replace("*", "")+"));";
         if (var.value != null) s += "*"+var.name + "=" + var.value + ";";
         return s;
     }

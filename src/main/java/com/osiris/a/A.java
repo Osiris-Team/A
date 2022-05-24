@@ -9,7 +9,12 @@ import java.util.List;
  */
 public class A {
     public boolean success = false;
-    public List<File> importedFiles = new ArrayList<>();
+    public File aSourceFile;
+    public List<A> importedFiles = new ArrayList<>();
+    public String cCodeStructDefinition;
+    public String cCodeStructVarDefinitions;
+    public String cCodeStruct;
     public String cCodeFunctionDefinitions;
+    public String cCodeFunctions;
     public String cCode;
 }

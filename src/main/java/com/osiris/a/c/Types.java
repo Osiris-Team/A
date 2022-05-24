@@ -5,7 +5,15 @@ public enum Types {
     _short("short", "short*"),
     _int("int", "int*"),
     _long("long", "long long*"), // Use long long to make sure that its 64bit on Windows too.
+    _custom(null, null),
     code("code", null); // No direct representation in C
+
+    public static Types custom(String inA, String inC){
+        Types t = Types._custom;
+        t.inA = inA;
+        t.inC = inC;
+        return t;
+    }
 
     public String inA;
     public String inC;

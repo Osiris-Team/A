@@ -8,9 +8,7 @@ import com.osiris.a.var.obj;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 /**
  * The A to C converter, compiles/parses A source code into C source code.
@@ -20,23 +18,53 @@ public class Compiler {
     C c = new C();
     ExecutorService executorService = Executors.newFixedThreadPool(16); // TODO determine OS threads
     List<Future<A>> activeFutures = new ArrayList<>();
+    List<A> parsedFiles = new CopyOnWriteArrayList<>();
 
     /**
      * @param projectDir the root directory that contains all A source code.
      * @throws IOException
      */
-    public void parseProject(File projectDir) throws IOException, InterruptedException {
+    public void parseProject(File projectDir) throws IOException, InterruptedException, ExecutionException {
+
         parseFiles(projectDir);
+        fetchResults();
 
-
-
+        // Write to the final c source file containing all the code:
         PrintWriter cWriter = new PrintWriter(new BufferedWriter(new FileWriter(Main.fileSourceC)));
-        // Create the global context, aka the root code block
+
+        // 1. All includes here (split by \n):
+        cWriter.println("#include <stdio.h>");
+        cWriter.println("#include <stdlib.h>");
+
+        // 2. Object type definitions here:
+        for (A a : parsedFiles) {
+            cWriter.print(a.cCodeStructDefinition);
+        }
+
+        // 3. Object structs, with its members here:
+        for (A a : parsedFiles) {
+            cWriter.print(a.cCodeStruct);
+        }
+
+        // 4. All function definitions here:
+        for (A a : parsedFiles) {
+            cWriter.print(a.cCodeFunctionDefinitions);
+        }
+
+        // 5. All functions (constructors included) here:
+        for (A a : parsedFiles) {
+            cWriter.print(a.cCodeFunctions);
+        }
+
+        // TODO:
         cWriter.print("int main(){");
         cWriter.print("return 0;}");
     }
 
-    public void parseFiles(File dir) throws InterruptedException {
+    /**
+     * Done asynchronously. Do {@link #fetchResults()} to get the results.
+     */
+    public synchronized void parseFiles(File dir) throws InterruptedException, ExecutionException {
         for (File file : dir.listFiles()) {
             if (file.isDirectory()) parseFiles(file);
             else {
@@ -44,6 +72,12 @@ public class Compiler {
                     activeFutures.add(executorService.submit(() -> parseFile(file)));
             }
         }
+    }
+
+    /**
+     * Waits until all tasks are done and returns the results ({@link #parsedFiles}).
+     */
+    public synchronized List<A> fetchResults() throws InterruptedException, ExecutionException {
         List<Future<A>> results = new ArrayList<>();
         while (!activeFutures.isEmpty()) {
             Thread.sleep(100);
@@ -51,14 +85,20 @@ public class Compiler {
                     activeFutures) {
                 if(result.isDone()){
                     results.add(result);
-
+                    parsedFiles.add(result.get());
                 }
             }
             activeFutures.removeAll(results);
         }
+        return parsedFiles;
     }
 
     public A parseFile(File aSourceFile) throws IOException {
+        for (A a : parsedFiles) { // Check already parsed files
+            if(a.aSourceFile == aSourceFile) {
+                return a;
+            }
+        }
         return parseReader(new BufferedReader(new FileReader(aSourceFile)));
     }
 
@@ -71,17 +111,22 @@ public class Compiler {
     }
 
     public A parseReader(File aSourceFile, BufferedReader reader) throws IOException {
+        A a = new A();
         if (aSourceFile == null) aSourceFile = new File("Unknown");
+        a.aSourceFile = aSourceFile;
+        String structName = genStructName(aSourceFile, projectDir);
+        a.cCodeStructDefinition = "typedef struct "+structName+" "+structName+";";
         // Generated C code:
         // The C struct contains the current object/files private stuff
         StringBuilder genCStruct = new StringBuilder();
-        String structName = genStructName(aSourceFile, projectDir);
-        genCStruct.append("typedef struct "+structName+" "+structName+";");
         genCStruct.append("struct "+structName+"{");
+        StringBuilder genCVariableDefinitions = new StringBuilder();
+        StringBuilder genCConstructor = new StringBuilder();
+        obj thisObj = new obj("this", Types.custom(structName, structName+"*"));
         StringBuilder genCFunctionsDefinitions = new StringBuilder();
-        StringBuilder genC = new StringBuilder();
+        StringBuilder genCFunctions = new StringBuilder();
+        code currentCode = new code(null, null, null);
         try {
-            code currentCode = new code(null, null, null);
             int countOpenBrackets = 0;
             int lineCount = 1;
             String line;
@@ -113,22 +158,18 @@ public class Compiler {
                     } else if (statement.startsWith("byte ")) {
                         obj var = determineVar(currentCode, aSourceFile, lineCount, statement, Types._byte);
                         addToCurrentCode(aSourceFile, lineCount, var, currentCode);
-                        genC.append(c.defineVariable(var));
 
                     } else if (statement.startsWith("short ")) {
                         obj var = determineVar(currentCode, aSourceFile, lineCount, statement, Types._short);
                         addToCurrentCode(aSourceFile, lineCount, var, currentCode);
-                        genC.append(c.defineVariable(var));
 
                     } else if (statement.startsWith("int ")) {
                         obj var = determineVar(currentCode, aSourceFile, lineCount, statement, Types._int);
                         addToCurrentCode(aSourceFile, lineCount, var, currentCode);
-                        genC.append(c.defineVariable(var));
 
                     } else if (statement.startsWith("long ")) {
                         obj var = determineVar(currentCode, aSourceFile, lineCount, statement, Types._long);
                         addToCurrentCode(aSourceFile, lineCount, var, currentCode);
-                        genC.append(c.defineVariable(var));
 
                     } else if (statement.startsWith("code ")) {
                         code var = (code) determineVar(currentCode, aSourceFile, lineCount, statement, Types.code);
@@ -144,7 +185,10 @@ public class Compiler {
                                 var.parameters.toArray(new obj[0])));
                         //generatedC.append(c.defineVariable(var));
 
-                    } else { // Must be a variable name.
+                    } else if(isAvailableObject(statement, aSourceFile)){
+
+                    }
+                    else { // Must be a variable name.
                         if (statement.contains("=")) {
                             String name = statement.substring(0, statement.indexOf("=")).trim();
                             obj o = findObj(name, currentCode);
@@ -165,12 +209,12 @@ public class Compiler {
                                 obj existingO = isValidValue(currentCode, o.type, newValue, aSourceFile, lineCount);
                                 if (existingO == null) // new Value is actual value and matches the type
                                 {
-                                    genC.append(c.setVariable(o, newValue)); // Update the value
+                                    currentCode.cCode.append(c.setVariable(o, newValue)); // Update the value
                                     o.value = newValue;
                                 }
                                 else // newValue is another variable name
                                 {
-                                    genC.append(c.setVariable(o, existingO));  // Update the value
+                                    currentCode.cCode.append(c.setVariable(o, existingO));  // Update the value
                                     o.value = existingO.name;
                                 }
                             }
@@ -184,12 +228,57 @@ public class Compiler {
             reader.close();
             throw new RuntimeException(e);
         }
+
+        // Create pre-constructor method, that initializes the member variables
+        List<obj> initDefsParams = new ArrayList<>();
+        initDefsParams.add(thisObj);
+        code initDefs = new code(currentCode, "init_defaults_"+structName, initDefsParams);
+        currentCode.variables.add(0, initDefs);
+        for (obj var : currentCode.variables) {
+            if(var.type != Types.code){
+                String cCodeVar = c.defineAndSetVariable(var);
+                initDefs.cCode.append(cCodeVar);
+                genCVariableDefinitions.append(cCodeVar);
+                initDefs.cCode.append("this->"+var.name+"="+var.name+";");
+            }
+        }
+
+        for (obj var : currentCode.variables) {
+            if(var.type == Types.code){
+                code function = (code) var;
+                if(function.isStatic) function.parameters.add(0, thisObj);
+                obj[] params = function.parameters.toArray(new obj[0]);
+                genCFunctionsDefinitions.append(c.defineFunction(function.returnType, function.name, params));
+                genCFunctions.append(c.openFunction(function.returnType, function.name, params));
+                genCFunctions.append(function.cCode);
+                genCFunctions.append("}");
+            }
+        }
+
+
+        a.cCodeStructVarDefinitions = genCVariableDefinitions.toString();
+        genCStruct.append(a.cCodeStructVarDefinitions);
         genCStruct.append("}");
         reader.close();
-        A a = new A();
-        a.cCode = genC.toString();
+
+        a.cCodeStruct = genCStruct.toString();
         a.cCodeFunctionDefinitions = genCFunctionsDefinitions.toString();
+        a.cCodeFunctions = genCFunctions.toString();
+        a.cCode = a.cCodeStructDefinition + a.cCodeStruct + a.cCodeFunctionDefinitions + a.cCodeFunctions;
         return a;
+    }
+
+    private boolean isAvailableObject(String statement, File aSourceFile) {
+        String objName;
+        if(statement.contains(" ")) objName = statement.split(" ")[0];
+        else objName = statement;
+
+        if(aSourceFile.getParentFile() != null){ // Search files in current dir
+            for (File f : aSourceFile.getParentFile().listFiles()) {
+                if(f.getName().equals(objName));
+            }
+        }
+        return false;
     }
 
     public String genStructName(File sourceFile, File projectDir) {

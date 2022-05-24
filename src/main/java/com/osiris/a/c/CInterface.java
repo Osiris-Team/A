@@ -30,6 +30,8 @@ public interface CInterface {
 
     String defineVariable(obj var);
 
+    String defineAndSetVariable(obj var);
+
     /**
      * Sets var1 value to var2 value. <br>
      * var1, var2 are expected to be pointers.

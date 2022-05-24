@@ -69,10 +69,54 @@ Variables are available in all your code without the need of importing something
  - `<ObjectName>` is a type/object you created and named, that contains variables.
 
 Variables can have additional/optional attributes which get added 
-after the type name example: `int public final a = 10`
+at the start: `public final int a = 10`
  - `public` makes the variable accessible from other files.
  - `final` makes the variable unchangeable after first value assignment.
  - `[<size>]` creates an array of the current type, of the specified size (integer type).
+
+### Constructor and the `new`/`this` keywords
+Objects get initialised by using the `new` keyword in code
+like so:
+
+`Main`
+```A
+Person john = new Person()
+Person peter = new Person(35)
+```
+The constructor is the function called to initialise an object.
+- It behaves like a regular function, which means that it can also have parameters,
+  but no return type.
+- There can be multiple constructors with different parameters.
+- It gets added by the compiler automatically if not existing (with no parameters).
+
+`Person`
+```A
+int age = 0
+
+construct with {
+}
+
+construct with (int age) {
+    this.age = age
+}
+```
+The `this` keyword references the current object and can be used
+to differentiate between variables with the same names as shown above.
+
+### The `static` modifier
+The `static` modifier makes a variable independent of its object
+and thus must be accessed in another way:
+
+`Main`
+```A
+Person.age  // valid
+new Person().age // not valid
+```
+
+`Person`
+```A
+int public,static age = 0
+```
 
 ### Scopes
 A scope is code within brackets `{}`. 
@@ -151,14 +195,14 @@ project
 ```
 `MathLib` can be used in `Main` like so:
 ```A
-MathLib math = MathLib.new()
+MathLib math = new MathLib()
 ```
 `MathLib` from /folder can be used in `Main` like so:
 This must be done like this, since MathLib exists twice, in the
 current folder and in /folder.
 ```
-MathLib math = MathLib.new()
-./folder/MathLib math1 = MathLib.new()
+MathLib math = new MathLib()
+./folder/MathLib math1 = new MathLib()
 ```
 Normally you just enter the files'/folders' relative path on the top:
 ```A
@@ -167,28 +211,7 @@ Normally you just enter the files'/folders' relative path on the top:
 // Otherwise you can import the whole folder:
 ./folder
 
-AnotherLib anotherLib = AnotherLib.new()
-```
-
-### Constructor and the `new()` function
-`ObjectName.new()` creates an instance of an object, which means that the code inside the objects'
-file gets copied into memory and run. 
-The example below should clarify it:
-
-`Person`
-```A
-code static new = {
-}
-```
-`Main`
-```A
-Person john = Person.new()
-```
-If not provided the compiler adds it nevertheless. It behaves like a regular function,
-which means that it can also have parameters.
-```A
-code static new = (int a, int b) {
-}
+AnotherLib anotherLib = new AnotherLib()
 ```
 
 ### Inheritance
@@ -202,51 +225,6 @@ These keywords must be at the top of the file.
 ```A
 extends AnotherObject, AnotherObject2
 overrides AnotherObject3, /path/to/AnotherObject4
-```
-
-### Object example
-The project structure used for this example:
-```
-project
- - Main
- - MathLib
-```
-
-`Main`
-```A
-extends MathLib
-
-int a = 10
-int b = 20
-
-multiply(a, b)
-divide(a, b)
-
-// Or instead of extending you can do this:
-Math math = new Math()
-math.multiply(a, b)
-math.divide(a, b)
-```
-
-`MathLib`
-```A
-// Public stuff:
-code multiply
-code divide
-
-// Private stuff:
-{ 
-  int anotherValue = 10
-  int tempValue = 4
-  
-  multiply = (int a, int b) returns int{
-    return a * b;
-  }
-  
-  divide = (int a, int b) returns int{
-    return a / b;
-  }
-}
 ```
 
 ### Project structure and dependencies/libs

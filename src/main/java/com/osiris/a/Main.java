@@ -1,16 +1,62 @@
 package com.osiris.a;
 
+import com.google.gson.JsonObject;
+import com.osiris.autoplug.core.json.JsonTools;
+import org.fusesource.jansi.Ansi;
+import org.jline.console.ArgDesc;
+import org.jline.console.CmdDesc;
+import org.jline.reader.LineReader;
+import org.jline.reader.LineReaderBuilder;
+import org.jline.reader.impl.DefaultParser;
+import org.jline.terminal.TerminalBuilder;
+import org.jline.utils.AttributedString;
+import org.jline.widget.AutosuggestionWidgets;
+import org.jline.widget.TailTipWidgets;
+
 import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
+    public static LineReader reader;
     public static File dirProject, dirCompiler, dirBinaries, fileFasmExe, fileSourceC, fileBinary;
     public static Action action;
 
+    public static void println(String text){
+        println(Ansi.Color.WHITE, text);
+    }
+    public static void println(Ansi.Color color, String text){
+        System.out.println(Ansi.ansi().fg(color).a(text).reset());
+    }
+
     public static void main(String[] args) throws IOException {
-        System.out.println("Started A compiler CLI.");
+        reader = LineReaderBuilder.builder().build();
+
+        // Create autosuggestion widgets
+        AutosuggestionWidgets autosuggestionWidgets = new AutosuggestionWidgets(reader);
+        autosuggestionWidgets.enable();
+
+        // Create tailtips
+        Map<String, CmdDesc> tailTips = new HashMap<>();
+        Map<String, List<AttributedString>> widgetOpts = new HashMap<>();
+        List<AttributedString> mainDesc = Arrays.asList(new AttributedString("widget -N new-widget [function-name]")
+                , new AttributedString("widget -D widget ...")
+                , new AttributedString("widget -A old-widget new-widget")
+                , new AttributedString("widget -U string ...")
+                , new AttributedString("widget -l [options]")
+        );
+        widgetOpts.put("-N", Arrays.asList(new AttributedString("Create new widget")));
+        widgetOpts.put("-D", Arrays.asList(new AttributedString("Delete widgets")));
+        widgetOpts.put("-A", Arrays.asList(new AttributedString("Create alias to widget")));
+        widgetOpts.put("-U", Arrays.asList(new AttributedString("Push characters to the stack")));
+        widgetOpts.put("-l", Arrays.asList(new AttributedString("List user-defined widgets")));
+
+        tailTips.put("widget", new CmdDesc(mainDesc, ArgDesc.doArgNames(Arrays.asList("[pN...]")), widgetOpts));
+        TailTipWidgets tailtipWidgets = new TailTipWidgets(reader, tailTips, 5, TailTipWidgets.TipType.COMPLETER);
+        tailtipWidgets.enable();
+
+        println(Ansi.Color.GREEN, "Started A compiler CLI.");
         System.out.println("Enter 'help' to show a list of all commands.");
         File currentDir = new File(System.getProperty("user.dir"));
         if(currentDir.getName().equals("a")) {
@@ -20,11 +66,23 @@ public class Main {
             System.out.println("Determined project dir: "+currentDir);
             updateProjectDir(currentDir);
         }
+
+        if(dirCompiler.listFiles() == null || dirCompiler.listFiles().length == 0){
+            try{
+                System.out.println("Missing C compiler. Downloading and installing...");
+                String url = "https://api.github.com/repos/mstorsjo/llvm-mingw/releases/latest";
+                System.out.println("Source url: "+url);
+                JsonObject release = new JsonTools().getJsonObject(url);
+            } catch (Exception e) {
+                throw new RuntimeException("Critical error during C compiler installation! Please report this issue.", e);
+            }
+        }
+
         new Thread(() -> {
             try{
                 boolean exit = false;
                 while(!exit){
-                    String line = new Scanner(System.in).nextLine();
+                    String line = reader.readLine();
                     if(line.startsWith("help")){
                         System.out.println("help\n" +
                                 "Info: Displays this.");
@@ -76,13 +134,6 @@ public class Main {
                 System.exit(-1);
             }
         }).start();
-
-
-        //if(dirCompiler.listFiles() == null || dirCompiler.listFiles().length == 0){
-        //    System.out.println("Missing C compiler. Downloading and installing...");
-        //    // TODO download gcc for current OS
-        //    throw new RuntimeException("Missing C compiler! Make sure gcc is installed at: "+dirCompiler);
-        //}
     }
 
     private static void buildC() throws Exception {

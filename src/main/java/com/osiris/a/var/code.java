@@ -13,6 +13,8 @@ public class code extends obj {
     public code parentCode;
     public List<obj> parameters;
     public List<obj> variables = new ArrayList<>();
+    public StringBuilder cCode = new StringBuilder();
+    public boolean isStatic = false;
 
     public code(code parentCode, String name, List<obj> parameters) {
         super(name, Types.code);
