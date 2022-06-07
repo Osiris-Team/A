@@ -232,13 +232,21 @@ AnotherLib anotherLib = new AnotherLib()
 ```
 
 ### Inheritance
-With the `extends` keyword you **can** inherit all the another objects' 
-public methods/variables and you **can** override them.
+The first two lines of the file are reserved for `extends ...` and `overrides ...`.
 
-With the `overrides` keyword you **must** inherit all the other objects'
-public methods/variables and you **must** override them.
+`extends <obj1>, <obj2>, ...` lets you use all 
+the listed objects methods and fields in your current object.
+Their constructors are called in the order they were listed.
+If there are overlapping functions (functions with equal names),
+those objects cannot be extended.
 
-These keywords must be at the top of the file.
+`overrides <obj1>, <obj2>, ...` lets you use all 
+the listed objects methods and fields in your current object, but you
+most override all of them.
+Their constructors must also be overriden, and are called in the order they were listed.
+If there are overlapping functions (functions with equal names),
+those objects cannot be overriden.
+
 ```A
 extends AnotherObject, AnotherObject2
 overrides AnotherObject3, /path/to/AnotherObject4
