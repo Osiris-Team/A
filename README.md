@@ -10,7 +10,7 @@ execute `./a/a` or `.\a\a.exe` if you are on Windows.**
 
 If you are unsure how to pronouce A, there are two good tutorials [here](https://www.youtube.com/watch?v=yBLdQ1a4-JI) and [here](https://www.youtube.com/watch?v=pwTzHbIXSlI).
 
-### Aim
+## Aim
  - Provide both high and low level methods to everything.
  - Don't overcomplicate things and keep it easy to read/write.
  - Stay relevant, meaning new good stuff will replace old stuff. Breaking changes are ok.
@@ -19,7 +19,7 @@ If you are unsure how to pronouce A, there are two good tutorials [here](https:/
  - Provide cross-platform methods for all input and output devices, like (touch-)screens, keyboards, files, etc.
  - Encourage the use of event listeners.
 
-### Status
+## Status
 No release yet, still in early development. Once the basics are done 1.0 will get released.
 
 #### Pros
@@ -30,7 +30,7 @@ No release yet, still in early development. Once the basics are done 1.0 will ge
 - Misses a lot of important features.
 - Compilation takes longer since we have the extra compilation step from A to C.
 
-### Statements
+## Statements
 Multiple statements on a single line must be separated by a semicolon `;` otherwise
 the semicolon is optional.
 ```A
@@ -38,14 +38,14 @@ int a = 10
 int b = 20; int c = 30
 ```
 
-### Comments
+## Comments
 Everything inside a comment is ignored. 
 `//` marks the start of a comment and goes until the end of the line.
 ```A
 int a = 1 // Single line comment
 ```
 
-### Variables/Types
+## Variables/Types
 Variables are made of 3 parts: `int a = 3;` They have a type (int), name (a) and value (3). Note that the name cannot contain spaces.
 
 It's also valid to define a variable without value: `int a;`. In that case a would return `null`, since memory only gets allocated when using `=`.
@@ -74,7 +74,7 @@ at the start: `public final int a = 10`
  - `final` makes the variable unchangeable after first value assignment.
  - `[<size>]` creates an array of the current type, of the specified size (integer type).
 
-### Constructor and the `new`/`this` keywords
+## Constructor and the `new`/`this` keywords
 Objects get initialised by using the `new` keyword in code
 like so:
 
@@ -103,7 +103,7 @@ construct with (int age) {
 The `this` keyword references the current object and can be used
 to differentiate between variables with the same names as shown above.
 
-### The `static` modifier
+## The `static` modifier
 The `static` modifier makes a variable independent of its object
 and thus must be accessed in another way:
 
@@ -118,7 +118,7 @@ new Person().age // not valid
 int public,static age = 0
 ```
 
-### Scopes
+## Scopes
 A scope is code within brackets `{}`. 
 Variables within a scope are not accessible from outside:
 ```A
@@ -137,7 +137,7 @@ Utils utils = new Utils()
 utils.a // Can be accessed
 utils.b // Error: Cannot be accessed
 ```
-### Functions
+## Functions
 Functions are special code blocks that are held by the `code` variable.
 Note that functions are `final` by default due to the limitations by the underlying C language.
 ```A
@@ -171,7 +171,7 @@ setTo10(myVariable)
 // myVariable is now 10
 ```
 
-### Null safety and optional parameters
+## Null safety and optional parameters
 All variables must have a starting/default value when defined, which means
 that code like this: `int a;` will not work.
 
@@ -200,7 +200,7 @@ multiply(10, 20, c:30, d:40); // Valid
 multiply(10, 20, c:30) // Valid
 ```
 
-### Files and Objects
+## Files and Objects
 Each file represents one object (must have no file extension).
 ```
 project
@@ -231,7 +231,7 @@ Normally you just enter the files'/folders' relative path on the top:
 AnotherLib anotherLib = new AnotherLib()
 ```
 
-### Inheritance
+## Inheritance
 The first two lines of the file are reserved for `extends ...` and `overrides ...`.
 
 `extends <obj1>, <obj2>, ...` lets you use all 
@@ -252,7 +252,7 @@ extends AnotherObject, AnotherObject2
 overrides AnotherObject3, /path/to/AnotherObject4
 ```
 
-### Project structure and dependencies/libs
+## Project structure and dependencies/libs
 The project root directory is located where your `a` directory is in.
 In your code, you can only use/import code that is within that folder.
 To reference it in code use `./`.
