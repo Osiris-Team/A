@@ -242,7 +242,7 @@ those objects cannot be extended.
 
 `overrides <obj1>, <obj2>, ...` lets you use all 
 the listed objects methods and fields in your current object, but you
-most override all of them.
+must override all of them.
 Their constructors must also be overriden, and are called in the order they were listed.
 If there are overlapping functions (functions with equal names),
 those objects cannot be overriden.
