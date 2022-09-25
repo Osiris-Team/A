@@ -207,7 +207,7 @@ code myFunction = {}
 code myFunction = (int a) {} // error
 ```
 This ensures that less duplicate documentation is written
-and related code is inside the same function.
+and related code is inside the same function. More details in the next section.
 
 
 
@@ -216,7 +216,8 @@ All variables must have a starting/default value when defined, which means
 that code like this: `int a;` will not work.
 
 Even optional function parameters cannot be null and must be handled
-inside the function scope, inside "sub-functions".
+inside the function scope, inside "sub-functions", otherwise
+the compiler throws an error.
 
 You can make parameters optional by writing `optional: var1, var2, etc...`.
 Here is an example:
