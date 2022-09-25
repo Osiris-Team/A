@@ -1,16 +1,16 @@
 # A
 **A language compiles to C, which gets compiled to an executable or library. 
 This means that A achieves the same cross-platform performance as C, with a
-significantly simpler syntax and object-oriented code (similar to C++, but better). Maybe you will even have
-fun coding in this language?**
+significantly simpler syntax and object-oriented code. 
+Its main aim is to make developing software easy and fun.**
 
 **Download the [A-Sample](https://github.com/Osiris-Team/A-Sample) repo,
 open a terminal in that folder and
 execute `./a/a` or `.\a\a.exe` if you are on Windows.**
 
-If you are unsure how to pronouce A, there are two good tutorials [here](https://www.youtube.com/watch?v=yBLdQ1a4-JI) and [here](https://www.youtube.com/watch?v=pwTzHbIXSlI).
+You can learn the whole language by reading this file and if you are unsure how to pronouce A, there are two good tutorials [here](https://www.youtube.com/watch?v=yBLdQ1a4-JI) and [here](https://www.youtube.com/watch?v=pwTzHbIXSlI).
 
-## Aim
+## Goals
  - Provide both high and low level methods to everything.
  - Don't overcomplicate things and keep it easy to read/write.
  - Stay relevant, meaning new good stuff will replace old stuff. Breaking changes are ok.
@@ -18,17 +18,17 @@ If you are unsure how to pronouce A, there are two good tutorials [here](https:/
  - Performance and readability have the same importance.
  - Provide cross-platform methods for all input and output devices, like (touch-)screens, keyboards, files, etc.
  - Encourage the use of event listeners.
+ - Include a dependecy management system.
 
 ## Status
 No release yet, still in early development. Once the basics are done 1.0 will get released.
 
-#### Pros
-- Object-oriented code without performance loss.
-- Simple and easy to learn syntax.
-
-#### Cons
-- Misses a lot of important features.
-- Compilation takes longer since we have the extra compilation step from A to C.
+- **Pros**
+  - Object-oriented code without performance loss.
+  - Simple and easy to learn syntax.
+- **Cons**
+  - Misses a lot of important features.
+  - Compilation takes longer since we have the extra compilation step from A to C.
 
 ## Statements
 Multiple statements on a single line must be separated by a semicolon `;` otherwise
