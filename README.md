@@ -14,7 +14,7 @@ You can learn the whole language by reading this file and if you are unsure how 
 
 
 ## Goals
- - Provide both high and low level methods to everything.
+ - Focus on declarative, high level methods.
  - Don't overcomplicate things and keep it easy to read/write.
  - Stay relevant, meaning new good stuff will replace old stuff. Breaking changes are ok.
  - Allow easy use of GPU and hardware acceleration, instead of only writing CPU code.
