@@ -184,7 +184,7 @@ int result = getNumber() // Executes the code and returns b
 ```
 Parameters can be passed over too like so:
 ```A
-code multiply = (int a, int b) returns int {
+code multiply = returns int (int a, int b) {
   return a * b
 }
 multiply(10, 20)
