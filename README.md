@@ -1,5 +1,5 @@
 # A
-**A language compiles to C, which gets compiled to an executable or library. 
+**A language compiles to C, which gets compiled to binary (an executable or library). 
 This means that A achieves the same cross-platform performance as C, with a
 significantly simpler syntax and object-oriented code. 
 Its main aim is to make developing software easy and fun.**
