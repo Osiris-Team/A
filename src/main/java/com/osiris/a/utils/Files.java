@@ -13,27 +13,27 @@ public class Files {
      * etc... <br>
      */
     public static final File toFile(String path) {
-        if(path.startsWith(".")){
-            if(!path.contains("/") || !path.contains("\\")){
+        if (path.startsWith(".")) {
+            if (!path.contains("/") || !path.contains("\\")) {
                 // Some files can look like this: ....hello.txt
-                return new File(System.getProperty("user.dir")+"/"+path);
+                return new File(System.getProperty("user.dir") + "/" + path);
             }
             File parentDir = new File(System.getProperty("user.dir"));
             int i = 1;
             for (; i < path.length(); i++) {
-                if(path.charAt(i) == '.') parentDir = parentDir.getParentFile();
+                if (path.charAt(i) == '.') parentDir = parentDir.getParentFile();
                 else break;
             }
             path = path.substring(i);
-            if(path.startsWith("/") || path.startsWith("\\"))
+            if (path.startsWith("/") || path.startsWith("\\"))
                 return new File(parentDir + path);
             else
-                return new File(parentDir +"/"+path);
-        } else if(path.contains("/") || path.contains("\\")){
+                return new File(parentDir + "/" + path);
+        } else if (path.contains("/") || path.contains("\\")) {
             // /files/hello.txt or C:\files\hello.txt
             return new File(path);
-        } else{
-            return new File(System.getProperty("user.dir")+"/"+path);
+        } else {
+            return new File(System.getProperty("user.dir") + "/" + path);
         }
     }
 }

@@ -27,7 +27,7 @@ public class C implements CInterface {
     }
 
     @Override
-    public String openFunction(Types returnType, String name, obj... parameters)  {
+    public String openFunction(Types returnType, String name, obj... parameters) {
         String params = "";
         for (int i = 0; i < parameters.length; i++) {
             params += parameters[i].type + " " + parameters[i].name;
@@ -55,7 +55,7 @@ public class C implements CInterface {
 
     @Override
     public String defineVariable(obj var) {
-        return var.type.inC + " " + var.name + "=malloc(sizeof("+var.type.inC.replace("*", "")+"));";
+        return var.type.inC + " " + var.name + "=malloc(sizeof(" + var.type.inC.replace("*", "") + "));";
     }
 
     @Override
@@ -63,8 +63,8 @@ public class C implements CInterface {
         // Example:
         // int* i;
         // *i = 10;
-        String s = var.type.inC + " " + var.name + "=malloc(sizeof("+var.type.inC.replace("*", "")+"));";
-        if (var.value != null) s += "*"+var.name + "=" + var.value + ";";
+        String s = var.type.inC + " " + var.name + "=malloc(sizeof(" + var.type.inC.replace("*", "") + "));";
+        if (var.value != null) s += "*" + var.name + "=" + var.value + ";";
         return s;
     }
 

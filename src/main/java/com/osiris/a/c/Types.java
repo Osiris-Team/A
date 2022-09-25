@@ -8,19 +8,19 @@ public enum Types {
     _custom(null, null),
     code("code", null); // No direct representation in C
 
-    public static Types custom(String inA, String inC){
-        Types t = Types._custom;
-        t.inA = inA;
-        t.inC = inC;
-        return t;
-    }
-
     public String inA;
     public String inC;
 
     Types(String inA, String inC) {
         this.inA = inA;
         this.inC = inC;
+    }
+
+    public static Types custom(String inA, String inC) {
+        Types t = Types._custom;
+        t.inA = inA;
+        t.inC = inC;
+        return t;
     }
 
     @Override

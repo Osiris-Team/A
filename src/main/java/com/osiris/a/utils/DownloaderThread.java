@@ -13,7 +13,6 @@ import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.Random;
 
 public class DownloaderThread extends BThread {
     private String url;

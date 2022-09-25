@@ -83,7 +83,7 @@ public class Compiler {
             Thread.sleep(100);
             for (Future<A> result :
                     activeFutures) {
-                if(result.isDone()){
+                if (result.isDone()) {
                     results.add(result);
                     parsedFiles.add(result.get());
                 }
@@ -95,7 +95,7 @@ public class Compiler {
 
     public A parseFile(File aSourceFile) throws IOException {
         for (A a : parsedFiles) { // Check already parsed files
-            if(a.aSourceFile == aSourceFile) {
+            if (a.aSourceFile == aSourceFile) {
                 return a;
             }
         }
@@ -115,14 +115,14 @@ public class Compiler {
         if (aSourceFile == null) aSourceFile = new File("Unknown");
         a.aSourceFile = aSourceFile;
         String structName = genStructName(aSourceFile, projectDir);
-        a.cCodeStructDefinition = "typedef struct "+structName+" "+structName+";";
+        a.cCodeStructDefinition = "typedef struct " + structName + " " + structName + ";";
         // Generated C code:
         // The C struct contains the current object/files private stuff
         StringBuilder genCStruct = new StringBuilder();
-        genCStruct.append("struct "+structName+"{");
+        genCStruct.append("struct " + structName + "{");
         StringBuilder genCVariableDefinitions = new StringBuilder();
         StringBuilder genCConstructor = new StringBuilder();
-        obj thisObj = new obj("this", Types.custom(structName, structName+"*"));
+        obj thisObj = new obj("this", Types.custom(structName, structName + "*"));
         StringBuilder genCFunctionsDefinitions = new StringBuilder();
         StringBuilder genCFunctions = new StringBuilder();
         code currentCode = new code(null, null, null);
@@ -174,7 +174,7 @@ public class Compiler {
                     } else if (statement.startsWith("code ")) {
                         code var = (code) determineVar(currentCode, aSourceFile, lineCount, statement, Types.code);
                         addToCurrentCode(aSourceFile, lineCount, var, currentCode);
-                        if(statement.contains("{")){
+                        if (statement.contains("{")) {
                             countOpenBrackets++;
                             var.parentCode = currentCode;
                             currentCode = var;
@@ -185,18 +185,17 @@ public class Compiler {
                                 var.parameters.toArray(new obj[0])));
                         //generatedC.append(c.defineVariable(var));
 
-                    } else if(isAvailableObject(statement, aSourceFile)){
+                    } else if (isAvailableObject(statement, aSourceFile)) {
 
-                    }
-                    else { // Must be a variable name.
+                    } else { // Must be a variable name.
                         if (statement.contains("=")) {
                             String name = statement.substring(0, statement.indexOf("=")).trim();
                             obj o = findObj(name, currentCode);
                             if (o == null)
                                 throw new CompileException(aSourceFile, lineCount, "No declaration of variable '" + name + "' in the current or parent code blocks found.");
-                            if(o instanceof code){ // Special case when code
+                            if (o instanceof code) { // Special case when code
 
-                            } else{ // Regular variable
+                            } else { // Regular variable
                                 String newValue;
                                 if (statement.endsWith(";"))
                                     newValue = statement.substring(statement.indexOf("=") + 1, statement.length() - 1).trim();
@@ -204,15 +203,14 @@ public class Compiler {
                                     newValue = statement.substring(statement.indexOf("=") + 1).trim();
                                 if (newValue.isEmpty())
                                     throw new CompileException(aSourceFile, lineCount, "Usage of = even though no value is being assigned.");
-                                if(o.isFinal && o.value!=null)
-                                    throw new CompileException(aSourceFile, lineCount, "Cannot change final variable '"+o.name+"' value since it was already set.");
+                                if (o.isFinal && o.value != null)
+                                    throw new CompileException(aSourceFile, lineCount, "Cannot change final variable '" + o.name + "' value since it was already set.");
                                 obj existingO = isValidValue(currentCode, o.type, newValue, aSourceFile, lineCount);
                                 if (existingO == null) // new Value is actual value and matches the type
                                 {
                                     currentCode.cCode.append(c.setVariable(o, newValue)); // Update the value
                                     o.value = newValue;
-                                }
-                                else // newValue is another variable name
+                                } else // newValue is another variable name
                                 {
                                     currentCode.cCode.append(c.setVariable(o, existingO));  // Update the value
                                     o.value = existingO.name;
@@ -232,21 +230,21 @@ public class Compiler {
         // Create pre-constructor method, that initializes the member variables
         List<obj> initDefsParams = new ArrayList<>();
         initDefsParams.add(thisObj);
-        code initDefs = new code(currentCode, "init_defaults_"+structName, initDefsParams);
+        code initDefs = new code(currentCode, "init_defaults_" + structName, initDefsParams);
         currentCode.variables.add(0, initDefs);
         for (obj var : currentCode.variables) {
-            if(var.type != Types.code){
+            if (var.type != Types.code) {
                 String cCodeVar = c.defineAndSetVariable(var);
                 initDefs.cCode.append(cCodeVar);
                 genCVariableDefinitions.append(cCodeVar);
-                initDefs.cCode.append("this->"+var.name+"="+var.name+";");
+                initDefs.cCode.append("this->" + var.name + "=" + var.name + ";");
             }
         }
 
         for (obj var : currentCode.variables) {
-            if(var.type == Types.code){
+            if (var.type == Types.code) {
                 code function = (code) var;
-                if(function.isStatic) function.parameters.add(0, thisObj);
+                if (function.isStatic) function.parameters.add(0, thisObj);
                 obj[] params = function.parameters.toArray(new obj[0]);
                 genCFunctionsDefinitions.append(c.defineFunction(function.returnType, function.name, params));
                 genCFunctions.append(c.openFunction(function.returnType, function.name, params));
@@ -270,12 +268,12 @@ public class Compiler {
 
     private boolean isAvailableObject(String statement, File aSourceFile) {
         String objName;
-        if(statement.contains(" ")) objName = statement.split(" ")[0];
+        if (statement.contains(" ")) objName = statement.split(" ")[0];
         else objName = statement;
 
-        if(aSourceFile.getParentFile() != null){ // Search files in current dir
+        if (aSourceFile.getParentFile() != null) { // Search files in current dir
             for (File f : aSourceFile.getParentFile().listFiles()) {
-                if(f.getName().equals(objName));
+                if (f.getName().equals(objName)) ;
             }
         }
         return false;
@@ -309,7 +307,7 @@ public class Compiler {
     private obj determineVar(code currentCode, File aSourceFile, int lineCount, String statement, Types type) throws CompileException {
         obj o = new obj();
         boolean isFinal = false;
-        if (statement.contains(" final ")){
+        if (statement.contains(" final ")) {
             statement = statement.replace(" final", "");
             isFinal = true;
         }
@@ -328,10 +326,10 @@ public class Compiler {
         }
         if (name.contains(" "))
             throw new CompileException(aSourceFile, lineCount, "Variable name cannot contain spaces.");
-        if (value != null){
-            if(value.contains(" "))
+        if (value != null) {
+            if (value.contains(" "))
                 throw new CompileException(aSourceFile, lineCount, "Variable value cannot contain spaces.");
-            if(value.trim().isEmpty()) value = null;
+            if (value.trim().isEmpty()) value = null;
         }
         isValidValue(currentCode, type, value, aSourceFile, lineCount);
         o.name = name;
