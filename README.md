@@ -10,6 +10,9 @@ execute `./a/a` or `.\a\a.exe` if you are on Windows.**
 
 You can learn the whole language by reading this file and if you are unsure how to pronouce A, there are two good tutorials [here](https://www.youtube.com/watch?v=yBLdQ1a4-JI) and [here](https://www.youtube.com/watch?v=pwTzHbIXSlI).
 
+
+
+
 ## Goals
  - Provide both high and low level methods to everything.
  - Don't overcomplicate things and keep it easy to read/write.
@@ -20,15 +23,14 @@ You can learn the whole language by reading this file and if you are unsure how 
  - Encourage the use of event listeners.
  - Include a dependecy management system.
 
-## Status
-No release yet, still in early development. Once the basics are done 1.0 will get released.
 
-- **Pros**
-  - Object-oriented code without performance loss.
-  - Simple and easy to learn syntax.
-- **Cons**
-  - Misses a lot of important features.
-  - Compilation takes longer since we have the extra compilation step from A to C.
+
+## Status
+- No release yet, still in early development. 
+- Once the basics are done 1.0 will get released.
+- A compiler is written in Java.
+
+
 
 ## Statements
 Multiple statements on a single line must be separated by a semicolon `;` otherwise
@@ -38,12 +40,16 @@ int a = 10
 int b = 20; int c = 30
 ```
 
+
+
 ## Comments
 Everything inside a comment is ignored. 
 `//` marks the start of a comment and goes until the end of the line.
 ```A
 int a = 1 // Single line comment
 ```
+
+
 
 ## Variables/Types
 - A variable is a particular set of bits or type of data located in the RAM that can be modified.
@@ -89,6 +95,8 @@ at the start: `public final int a = 10`
  - `final` makes the variable unchangeable after first value assignment.
  - `[<size>]` creates an array of the current type, of the specified size (integer type).
 
+
+
 ## Constructor and the `new`/`this` keywords
 Objects get initialised by using the `new` keyword in code
 like so:
@@ -118,6 +126,8 @@ construct with (int age) {
 The `this` keyword references the current object and can be used
 to differentiate between variables with the same names as shown above.
 
+
+
 ## The `static` modifier
 The `static` modifier makes a variable independent of its object
 and thus must be accessed in another way:
@@ -132,6 +142,7 @@ new Person().age // not valid
 ```A
 int public,static age = 0
 ```
+
 
 ## Scopes
 A scope is code within brackets `{}`. 
@@ -152,6 +163,9 @@ Utils utils = new Utils()
 utils.a // Can be accessed
 utils.b // Error: Cannot be accessed
 ```
+
+
+
 ## Functions
 Functions are special code blocks that are held by the `code` variable.
 Note that functions are `final` by default due to the limitations by the underlying C language.
@@ -186,34 +200,45 @@ setTo10(myVariable)
 // myVariable is now 10
 ```
 
+### Function overloading
+Function overloading is not allowed. 
+```a
+code myFunction = {}
+code myFunction = (int a) {} // error
+```
+This ensures that less duplicate documentation is written
+and related code is inside the same function.
+
+
+
 ## Null safety and optional parameters
 All variables must have a starting/default value when defined, which means
 that code like this: `int a;` will not work.
 
-There is one exception however, namely the optional function parameters,
-those can be `null`.
-This is done to avoid unnecessary function overloading and
-writing cleaner and less code/documentation.
+Even optional function parameters cannot be null and must be handled
+inside the function scope, inside "sub-functions".
 
 You can make parameters optional by writing `optional: var1, var2, etc...`.
-All variables behind `optional: `until the closing bracket of the function,
-will be allowed to be `null`.
-Note that the function must also throw `NullError` in that case.
+Here is an example:
 ```A
-code multiply = (int a, int b, optional: int c, int d) returns int and throws NullError{
+code multiply = returns int (int a, int b, optional: int c, int d){
   int result = a * b
-  if(c!=null) result = result * c
-  if(d!=null) result = result * d
+  (c) = { // Only executed when c is provided
+    result = result * c 
+  }
+  (d) = { // Only executed when d is provided
+    result = result * d
+  }
   return result
 }
 multiply(10, 20) // Valid
-multiply(10, 20, 30, 40) // Valid
-multiply(10, 20, null, null) // Valid
-multiply(10, 20, 30, null) // Valid
-multiply(10, 20, null, 40) // Valid
+multiply(10, 20, 30, 40) // Not valid, optional parameters must have the variable name
 multiply(10, 20, c:30, d:40); // Valid
 multiply(10, 20, c:30) // Valid
+multiply(10, 20, d:40) // Valid
 ```
+
+
 
 ## Files and Objects
 Each file represents one object (must have no file extension).
@@ -245,6 +270,8 @@ Normally you just enter the files'/folders' relative path on the top:
 
 AnotherLib anotherLib = new AnotherLib()
 ```
+
+
 
 ## Inheritance
 The first two lines of the file are reserved for `extends ...` and `overrides ...`.
