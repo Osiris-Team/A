@@ -28,7 +28,7 @@ You can learn the whole language by reading this file and if you are unsure how 
 ## Status
 - No release yet, still in early development. 
 - Once the basics are done 1.0 will get released.
-- A compiler is written in Java.
+- A compiler is written in Java and misses a bunch of the features mentioned in this file.
 
 
 
