@@ -210,6 +210,18 @@ This ensures that less duplicate documentation is written
 and related code is inside the same function. More details in the next section.
 
 
+### Return multiple values
+Sometimes you want to return multiple values from a single function.
+In most languages you would need to create a new class with fields.
+A however has a built in solution for this to make it easier:
+```A
+code myFunction = returns int a, int b {
+  return 10, 20
+}
+int a, int b = myFunction();
+```
+
+
 
 ## Null safety and optional parameters
 All variables must have a starting/default value when defined, which means
