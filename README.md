@@ -70,7 +70,7 @@ int a = 1 // Single line comment
 - Variables can interact with each other via operands like `+ or -`.
 - Variables are available in all your code without the need of importing something.
 
-#### Numbers
+### Numbers
  - `boolean` has only two possible values: true (1) and false (0). Represents one bit of information.
  - `byte` is an 8-bit signed two's complement integer. It has a minimum value of -128 and a maximum value of 127 (inclusive).
  - `short` is a 16-bit signed two's complement integer. It has a minimum value of -32,768 and a maximum value of 32,767 (inclusive).
@@ -79,7 +79,7 @@ int a = 1 // Single line comment
  - `float` is a single-precision 32-bit IEEE 754 floating point.
  - `double` is a double-precision 64-bit IEEE 754 floating point.
  
-#### Text
+### Text
  - `char` is a single 16-bit Unicode character. It has a minimum value of '\u0000' (or 0) and a maximum value of '\uffff' (or 65,535 inclusive).
  - `string` is a string of characters, or more accurately: an array of char with variable length.
  
@@ -91,7 +91,7 @@ int a = 1 // Single line comment
  "10" // string
  ```
  
-#### Special
+### Special
  - `var` the generic type. Gets replaced by the actual type at compilation.
  - `code` is a single code block.
  - `<ObjectName>` is a type/object you created and named, that contains variables.
@@ -102,53 +102,6 @@ at the start: `public final int a = 10`
  - `final` makes the variable unchangeable after first value assignment.
  - `[<size>]` creates an array of the current type, of the specified size (integer type).
 
-
-
-## Constructor and the `new`/`this` keywords
-Objects get initialised by using the `new` keyword in code
-like so:
-
-`Main`
-```A
-Person john = new Person()
-Person peter = new Person(35)
-```
-The constructor is the function called to initialise an object.
-- It behaves like a regular function, which means that it can also have parameters,
-  but no return type.
-- There can be multiple constructors with different parameters.
-- It gets added by the compiler automatically if not existing (with no parameters).
-
-`Person`
-```A
-int age = 0
-
-construct with {
-}
-
-construct with (int age) {
-    this.age = age
-}
-```
-The `this` keyword references the current object and can be used
-to differentiate between variables with the same names as shown above.
-
-
-
-## The `static` modifier
-The `static` modifier makes a variable independent of its object
-and thus must be accessed in another way:
-
-`Main`
-```A
-Person.age  // valid
-new Person().age // not valid
-```
-
-`Person`
-```A
-int public,static age = 0
-```
 
 
 ## Scopes
@@ -258,6 +211,53 @@ multiply(10, 20, c:30) // Valid
 multiply(10, 20, d:40) // Valid
 ```
 
+
+
+## Constructor and the `new`/`this` keywords
+Objects get initialised by using the `new` keyword in code
+like so:
+
+`Main`
+```A
+Person john = new Person()
+Person peter = new Person(35)
+```
+The constructor is the function called to initialise an object.
+- It behaves like a regular function, which means that it can also have parameters,
+  but no return type.
+- There can be multiple constructors with different parameters.
+- It gets added by the compiler automatically if not existing (with no parameters).
+
+`Person`
+```A
+int age = 0
+
+construct with {
+}
+
+construct with (int age) {
+    this.age = age
+}
+```
+The `this` keyword references the current object and can be used
+to differentiate between variables with the same names as shown above.
+
+
+
+## The `static` modifier
+The `static` modifier makes a variable independent of its object
+and thus must be accessed in another way:
+
+`Main`
+```A
+Person.age  // valid
+new Person().age // not valid
+```
+
+`Person`
+```A
+int public,static age = 0
+```
 
 
 ## Files and Objects
