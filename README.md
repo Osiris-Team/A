@@ -232,13 +232,6 @@ peter.id // == 2
 
 Person.count // == 2
 ```
-The constructor is the function called to initialise an object.
-- There can only be one in a file/object.
-- It behaves like a regular function, which means that it can also have parameters,
-  but no return type.
-- It gets added by the compiler automatically if not existing (with no parameters).
-- Variables defined inside the contructor are only available to the instantiated object.
-
 `Person`
 ```A
 int count = 0
@@ -248,6 +241,12 @@ new (int age) {
     int id = count
 }
 ```
+The constructor is the function called to initialise an object:
+- There can only be one in a file/object.
+- It behaves like a regular function, which means that it can also have parameters,
+  but no return type.
+- It gets added by the compiler automatically if not existing (with no parameters).
+- Variables defined inside the contructor are only available to the instantiated object.
 
 
 
