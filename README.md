@@ -216,7 +216,9 @@ multiply(10, 20, d:40) // Valid
 
 
 
-## Constructor and the `new`/`this` keywords
+## The `new` keyword
+The main programming paradigm is the functional one,
+however A supports object oriented programming too.
 Objects get initialised by using the `new` keyword in code
 like so:
 
@@ -224,40 +226,30 @@ like so:
 ```A
 Person john = new Person()
 Person peter = new Person(35)
+
+john.id // == 1
+peter.id // == 2
+
+Person.count // == 2
 ```
 The constructor is the function called to initialise an object.
 - There can only be one in a file/object.
 - It behaves like a regular function, which means that it can also have parameters,
   but no return type.
 - It gets added by the compiler automatically if not existing (with no parameters).
+- Variables defined inside the contructor are only available to the instantiated object.
 
 `Person`
 ```A
-int age = 0
+int count = 0
 
 new (int age) {
-    this.age = age
+    count++
+    int id = count
 }
 ```
-The `this` keyword references the current object and can be used
-to differentiate between variables with the same names as shown above.
 
 
-
-## The `static` modifier
-The `static` modifier makes a variable independent of its object
-and thus must be accessed in another way:
-
-`Main`
-```A
-Person.age  // valid
-new Person().age // not valid
-```
-
-`Person`
-```A
-int public,static age = 0
-```
 
 
 ## Files and Objects
