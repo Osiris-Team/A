@@ -167,25 +167,28 @@ code myFunction = {}
 code myFunction = (int a) {} // error
 ```
 This ensures that less duplicate documentation is written
-and related code is inside the same function. More details in the next section.
+and related code is inside the same function.
 
 
 ### Return multiple values
 Sometimes you want to return multiple values from a single function.
-In most languages you would need to create a new class with fields.
+In most languages you would need to create a new class or a new datatype which can be annoying.
 A however has a built in solution for this to make it easier:
 ```A
 code myFunction = returns int a, int b {
   return 10, 20
 }
-int a, int b = myFunction();
+int a, int b = myFunction()
+// or
+int c = 0, int d = 0
+(c, d) = myFunction()
 ```
 
 
 
 ## Null safety and optional parameters
 All variables must have a starting/default value when defined, which means
-that code like this: `int a;` will not work.
+that code like this: `int a;` will not work. Thus there is no `null` type in A.
 
 Even optional function parameters cannot be null and must be handled
 inside the function scope, inside "sub-functions", otherwise
@@ -223,19 +226,16 @@ Person john = new Person()
 Person peter = new Person(35)
 ```
 The constructor is the function called to initialise an object.
+- There can only be one in a file/object.
 - It behaves like a regular function, which means that it can also have parameters,
   but no return type.
-- There can be multiple constructors with different parameters.
 - It gets added by the compiler automatically if not existing (with no parameters).
 
 `Person`
 ```A
 int age = 0
 
-construct with {
-}
-
-construct with (int age) {
+new (int age) {
     this.age = age
 }
 ```
