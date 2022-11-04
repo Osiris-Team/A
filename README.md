@@ -1,15 +1,22 @@
 # A
-**A language compiles to C, which gets compiled to a platform-dependent binary (an executable or library). 
-This means that A achieves the same cross-platform performance as C, with a
-significantly simpler syntax and object-oriented code. 
-Its main aim is to make developing software easy and fun.**
+A language is my idea of a perfect programming language, which was
+born from the frustration and joy of using languages like Java, C, C++ and JavaScript.
+I don't expect this to be used seriously by people, ever.
+My hope is that maybe someday some stuff shown here makes it into
+actual programming languages.
 
-**Download the [A-Sample](https://github.com/Osiris-Team/A-Sample) repo,
-open a terminal in that folder and
-execute `./a/a` or `.\a\a.exe` if you are on Windows.**
+Don't get me wrong though, A language is not just theory!
+There is an actual compiler written in Java that compiles A to C.
+Since C gets compiled to a platform-specific binary (an executable or library),
+A achieves the same cross-platform performance as C.
 
+Its main aim ist to make programming fun, fast and easy.
+Functions are variables for example. To be exact, everything in this language is a variable.
 You can learn the whole language by reading this file and if you are unsure how to pronouce A, there are two good tutorials [here](https://www.youtube.com/watch?v=yBLdQ1a4-JI) and [here](https://www.youtube.com/watch?v=pwTzHbIXSlI).
 
+If you want to get started right away, download the [A-Sample](https://github.com/Osiris-Team/A-Sample) repo,
+open a terminal in that folder and
+execute `./a/a` on Linux or `.\a\a.exe` if you are on Windows (this starts the A compiler command-line interface).
 
 
 
