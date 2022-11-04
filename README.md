@@ -224,7 +224,7 @@ like so:
 
 `Main`
 ```A
-Person john = new Person()
+Person john = new Person(63)
 Person peter = new Person(35)
 
 john.id // == 1
