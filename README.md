@@ -2,7 +2,6 @@
 A language is my idea of a perfect programming language, which was
 born from the frustration and joy of using languages like Java, C, C++ and JavaScript.
 
-Don't get me wrong though, A language is not just theory!
 There is an actual compiler written in Java that compiles A to C.
 Since C gets compiled to a platform-specific binary (an executable or library),
 A achieves the same cross-platform performance as C.
