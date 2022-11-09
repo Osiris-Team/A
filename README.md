@@ -1,8 +1,8 @@
 # A
 A language is my idea of a perfect programming language, which was
 born from the frustration and joy of using languages like Java, C, C++ and JavaScript.
-I don't expect this to be used seriously by people, ever.
-My hope is that maybe someday some stuff shown here makes it into
+I don't expect this to be used seriously by people, ever, there is hope however that
+maybe someday some stuff shown here makes it into
 actual programming languages.
 
 Don't get me wrong though, A language is not just theory!
