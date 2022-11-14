@@ -16,10 +16,8 @@ execute `./a/a` on Linux or `.\a\a.exe` if you are on Windows (this starts the A
 
 
 
-## Goals
- - Focus on declarative, high level methods.
- - Don't overcomplicate things and keep it easy to read/write.
- - Stay relevant, meaning new good stuff will replace old stuff. Breaking changes are ok.
+## Core philosophy
+ - No standard library, provide independent packages instead.
  - Allow easy use of GPU and hardware acceleration, instead of only writing CPU code.
  - Performance and readability have the same importance.
  - Provide cross-platform methods for all input and output devices, like (touch-)screens, keyboards, files, etc.
