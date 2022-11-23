@@ -282,24 +282,21 @@ AnotherLib anotherLib = new AnotherLib()
 
 
 ## Inheritance
-The first two lines of the file are reserved for `extends ...` and `overrides ...`.
+There are two ways of inheriting another objects' functionality, namely
+via the `inherit` and `override` keywords.
 
-`extends <obj1>, <obj2>, ...` lets you use all 
-the listed objects methods and fields in your current object.
-Their constructors are called in the order they were listed.
-If there are overlapping functions (functions with equal names),
+`inherit <obj1>, <obj2>, ...` lets you use the methods and fields of the inherited object in your current object.
+- Their constructors are called in the order they were listed.
+- If there are overlapping functions (functions with equal names),
 those objects cannot be extended.
 
-`overrides <obj1>, <obj2>, ...` lets you use all 
-the listed objects methods and fields in your current object, but you
-must override all of them.
-Their constructors must also be overriden, and are called in the order they were listed.
-If there are overlapping functions (functions with equal names),
-those objects cannot be overriden.
+`override <obj1>, <obj2>, ...` lets you use the methods and fields of the overriden object in your current object, but you
+must provide your own implementation for all of them.
+- Their constructors must also be overriden, and are called in the order they were listed.
 
 ```A
-extends AnotherObject, AnotherObject2
-overrides AnotherObject3, /path/to/AnotherObject4
+inherit AnotherObject, AnotherObject2
+override AnotherObject3, /path/to/AnotherObject4
 ```
 
 ## Project structure and dependencies/libs
