@@ -39,7 +39,7 @@ public class C implements CInterface {
         //TODO if(types.length > paramPointers.length)
         //    throw new Exception("Too many function parameters ("+params.length()+"). Maximum allowed: "+paramPointers.length+".");
 
-        if (returnType.inC == null)
+        if (returnType == null || returnType.inC == null)
             return "void " + name + "(" + params + "){";
         else
             return returnType.inC + " " + name + "(" + params + "){";
@@ -55,7 +55,7 @@ public class C implements CInterface {
 
     @Override
     public String defineVariable(obj var) {
-        return var.type.inC + " " + var.name + "=malloc(sizeof(" + var.type.inC.replace("*", "") + "));";
+        return var.type.inC + " " + var.name + "=calloc(1, sizeof(" + var.type.inC + "));";
     }
 
     @Override
@@ -63,7 +63,7 @@ public class C implements CInterface {
         // Example:
         // int* i;
         // *i = 10;
-        String s = var.type.inC + " " + var.name + "=malloc(sizeof(" + var.type.inC.replace("*", "") + "));";
+        String s = var.type.inC + " " + var.name + "=calloc(1, sizeof(" + var.type.inC + "));";
         if (var.value != null) s += "*" + var.name + "=" + var.value + ";";
         return s;
     }

@@ -1,5 +1,7 @@
 package com.osiris.a.c;
 
+import java.util.Objects;
+
 public enum Types {
     _byte("byte", "char*"), // TODO value need to look like this in C: 0b11111111
     _short("short", "short*"),

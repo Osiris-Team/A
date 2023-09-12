@@ -30,8 +30,8 @@ class CTest {
 
     @Test
     void defineVariable() {
-        assertEquals("int* a;", c.defineAndSetVariable(new obj("a", Types._int)));
-        assertEquals("int* a;*a=10;", c.defineAndSetVariable(new obj("a", Types._int, "10")));
+        assertEquals("int* a=calloc(1, sizeof(int*));", c.defineAndSetVariable(new obj("a", Types._int)));
+        assertEquals("int* a=calloc(1, sizeof(int*));*a=10;", c.defineAndSetVariable(new obj("a", Types._int, "10")));
     }
 
     @Test

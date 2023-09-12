@@ -256,7 +256,7 @@ public class Compiler {
 
         a.cCodeStructVarDefinitions = genCVariableDefinitions.toString();
         genCStruct.append(a.cCodeStructVarDefinitions);
-        genCStruct.append("}");
+        genCStruct.append("};");
         reader.close();
 
         a.cCodeStruct = genCStruct.toString();
