@@ -53,38 +53,45 @@ int a = 1 // Single line comment
 
 
 ## Variables/Types
-- A variable is a particular set of bits located in the RAM that can be modified.
+- A variable is a particular set of bits or type of data located in the RAM that can be modified.
 - To reference a specific variable it has to be named.
 - The three major data types are numbers, text and special.
 - All major types have minor types which are listed further below.
-- Variables are made of 2 parts: `a = 3` They have a name (a) and default value (3).
-- All variables must have a non-null default value.
-- The variables type is NOT allowed to change at runtime.
+- Variables are made of 3 parts: `int a = 3` They have a type (int), name (a) and default value (3).
+- Variables can be made of 2 parts: `a = 3`.
+- If a variables' type is not set, it is determined and set by the compiler to the smallest type (or the biggest if it fails).
 - The variable name cannot contain spaces.
 - Variables can interact with each other via operands like `+ or -`.
 - Variables are available in all your code without the need of importing something.
 
 ### Numbers
-The examples below use the number 24.
- - `true` or `false` is the boolean type and represents one bit of information.
- - `24i` is an 8-bit signed two's complement integer. It has a minimum value of -128 and a maximum value of 127 (inclusive).
- - `24ii` is a 16-bit signed two's complement integer. It has a minimum value of -32,768 and a maximum value of 32,767 (inclusive).
- - `24iii` or `24` is a 32-bit signed two's complement integer, which has a minimum value of -2^31 and a maximum value of 2^31 -1.
- - `24iiii` is a 64-bit two's complement integer. The signed long has a minimum value of -2^63 and a maximum value of 2^63 -1.
- - `24f` or `24.0` is a single-precision 32-bit IEEE 754 floating point.
- - `24ff` is a double-precision 64-bit IEEE 754 floating point.
+ - `boolean` has only two possible values: true (1) and false (0). Represents one bit of information.
+ - `byte` is an 8-bit signed two's complement integer. It has a minimum value of -128 and a maximum value of 127 (inclusive).
+ - `short` is a 16-bit signed two's complement integer. It has a minimum value of -32,768 and a maximum value of 32,767 (inclusive).
+ - `int` is a 32-bit signed two's complement integer, which has a minimum value of -2^31 and a maximum value of 2^31 -1.
+ - `long` is a 64-bit two's complement integer. The signed long has a minimum value of -2^63 and a maximum value of 2^63 -1.
+ - `float` is a single-precision 32-bit IEEE 754 floating point.
+ - `double` is a double-precision 64-bit IEEE 754 floating point.
  
 ### Text
- - `'a'` is a single 16-bit Unicode character. It has a minimum value of '\u0000' (or 0) and a maximum value of '\uffff' (or 65,535 inclusive).
- - `"abc"` is a string of characters, or more accurately: an array of char with variable length.
+ - `char` is a single 16-bit Unicode character. It has a minimum value of '\u0000' (or 0) and a maximum value of '\uffff' (or 65,535 inclusive).
+ - `string` is a string of characters, or more accurately: an array of char with variable length.
+ 
+ Text in code is identified by encapsulating the data in quotes `"`:
+ ```a
+ "a" // char
+ "Hello World!" // string
+ 10 // number
+ "10" // string
+ ```
  
 ### Special
  - `var` the generic type. Gets replaced by the actual type at compilation.
- - `{}` is a single code block.
+ - `code` is a single code block.
  - `<ObjectName>` is a type/object you created and named, that contains variables.
 
 Variables can have additional/optional attributes which get added 
-at the start: `public final a = 10`
+at the start: `public final int a = 10`
  - `public` makes the variable accessible from other files.
  - `final` makes the variable unchangeable after first value assignment.
  - `[<size>]` creates an array of the current type, of the specified size (integer type).
