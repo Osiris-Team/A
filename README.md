@@ -51,7 +51,7 @@ int a = 1 // Single line comment
 
 
 
-### Folders are Classes!
+## Folders are Classes!
 ```
 /Main.a
 /Person
@@ -80,7 +80,7 @@ p = Person()
 // How do I make sure Person gets loaded with all class blocks, even optional ones?
 p = Person+*()
 
-// How do I use only a specific optional sub-class?
+// How do I use only a specific optional class block?
 p = Person+CanThink()
 ```
 
@@ -92,27 +92,27 @@ It's a particular set of bits or type of data located in the RAM that can be mod
 Primitive types (listed below) are available in all your code without the need of importing something.
 
 ### Numbers
-| Name | Description                                                                                                           | Usage                 |
-| ---- |-----------------------------------------------------------------------------------------------------------------------|-----------------------|
-| boolean | Has only two possible values: true (1) and false (0). Represents one bit of information.                              | `v = true; v = false` |
-| byte | An 8-bit signed two's complement integer. It has a minimum value of -128 and a maximum value of 127 (inclusive).      | `v = 1b`              |
-| short | A 16-bit signed two's complement integer. It has a minimum value of -32,768 and a maximum value of 32,767 (inclusive) | `v = 1s`              |
-| int | A 32-bit signed two's complement integer, which has a minimum value of -2^31 and a maximum value of 2^31 -1.          | `v = 1`               |
-| long | A 64-bit two's complement integer. The signed long has a minimum value of -2^63 and a maximum value of 2^63 -1.       | `v = 1l`              |
-| float | A single-precision 32-bit IEEE 754 floating point.                                                                    | `v = 1f`              |
-| double | A double-precision 64-bit IEEE 754 floating point.                                                                    | `v = 1d; v= 1.0`      |
+| Name | Description                                                                                                         | Usage                 |
+| ---- |---------------------------------------------------------------------------------------------------------------------|-----------------------|
+| boolean | Has only two possible values: true (1) and false (0). Represents one bit of information.                            | `v = true; v = false` |
+| byte | 8-bit signed two's complement integer. It has a minimum value of -128 and a maximum value of 127 (inclusive).       | `v = 1b`              |
+| short | 16-bit signed two's complement integer. It has a minimum value of -32,768 and a maximum value of 32,767 (inclusive) | `v = 1s`              |
+| int | 32-bit signed two's complement integer, which has a minimum value of -2^31 and a maximum value of 2^31 -1.          | `v = 1`               |
+| long | 64-bit two's complement integer. The signed long has a minimum value of -2^63 and a maximum value of 2^63 -1.       | `v = 1l`              |
+| float | Single-precision 32-bit IEEE 754 floating point.                                                                    | `v = 1f`              |
+| double | Double-precision 64-bit IEEE 754 floating point.                                                                    | `v = 1d; v= 1.0`      |
  
 ### Text
-| Name | Description                                                                                                                         | Usage          |
-| ---- |-------------------------------------------------------------------------------------------------------------------------------------|----------------|
-| char | A single 16-bit Unicode character. It has a minimum value of '\u0000' (or 0) and a maximum value of '\uffff' (or 65,535 inclusive). | `v = "a"`        |
-| string | A string of characters, or more accurately: an array of char with variable length.                                                  | `v = "aa"`     |
+| Name | Description                                                                                                                       | Usage          |
+| ---- |-----------------------------------------------------------------------------------------------------------------------------------|----------------|
+| char | Single 16-bit Unicode character. It has a minimum value of '\u0000' (or 0) and a maximum value of '\uffff' (or 65,535 inclusive). | `v = "a"`        |
+| string | String of characters, or more accurately: an array of char with variable length.                                                  | `v = "aa"`     |
  
 ### Special
-| Name       | Description                                                                          | Usage              |
-|------------|--------------------------------------------------------------------------------------|--------------------|
-| code       | A single code block                                                                  | `v = (){}`         |
-| ObjectName | A ObjectName.a file you created. If in another folder requires an import to be used. | `v = ObjectName()` |
+| Name       | Description                                                                                       | Usage              |
+|------------|---------------------------------------------------------------------------------------------------|--------------------|
+| code       | Single code block                                                                                 | `v = (){}`         |
+| ObjectName | Comes from the ObjectName.a file you created. If in another folder requires an import to be used. | `v = ObjectName()` |
 
 ### Attributes
 Variables can have additional/optional attributes which get added 
