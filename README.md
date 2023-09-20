@@ -46,7 +46,7 @@ b = 20; c = 30
 Everything inside a comment is ignored. 
 `//` marks the start of a comment and goes until the end of the line.
 ```A
-int a = 1 // Single line comment
+a = 1 // Single line comment
 ```
 
 
