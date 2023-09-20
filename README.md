@@ -67,6 +67,8 @@ The other files in that folder are named class blocks. This makes it possible to
 an otherwise very large file into multiple smaller files, since a class block has access to the code
 of all the other class blocks in that folder.
 
+In other words it allows us to write organized/clean spaghetti code!
+
 Note that class blocks can be optional (simply add the optional keyword to the top of the file),
 in which case other class blocks will not have access to its code,
 but the optional class block still has access to the code of all the others.
