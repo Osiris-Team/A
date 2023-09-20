@@ -245,7 +245,7 @@ multiply(10, 20, d:40) // Valid
 ## The `constructor` keyword
 The main programming paradigm is the functional one,
 however A supports object oriented programming too.
-Objects get initialised by using the `new` keyword in code
+Objects get initialised by using the `ObjectName()`
 like so:
 
 `Main`
