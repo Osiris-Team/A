@@ -143,9 +143,9 @@ benefits as statically typed languages.
 A scope is code within brackets `{}`. 
 Variables within a scope are not accessible from outside:
 ```A
-int a = 3
+a = 3
 {
-  int b = 0
+  b = 0
   // a can be used here
 }
 // a can be used here
@@ -154,7 +154,7 @@ int a = 3
 Let's say the code above is located in the `Utils` file and we want to access 
 it in our `Main` file:
 ```A
-Utils utils = new Utils()
+Utils utils = Utils()
 utils.a // Can be accessed
 utils.b // Error: Cannot be accessed
 ```
@@ -165,7 +165,7 @@ utils.b // Error: Cannot be accessed
 Functions are special code blocks that are held by the `code` variable.
 Note that functions are `final` by default due to the limitations by the underlying C language.
 ```A
-int b = 0;
+b = 0;
 code setNumber = {
   b = 9
 }
@@ -175,7 +175,7 @@ setNumber() // Executes the code
 code getNumber = returns int {
   return b
 }
-int result = getNumber() // Executes the code and returns b
+result = getNumber() // Executes the code and returns b
 ```
 Parameters can be passed over too like so:
 ```A
@@ -190,7 +190,7 @@ affects the original variables value:
 code setTo10 = (int a) {
   a = 10
 }
-int myVariable = 27
+myVariable = 27
 setTo10(myVariable)
 // myVariable is now 10
 ```
@@ -213,9 +213,9 @@ A however has a built in solution for this to make it easier:
 code myFunction = returns int a, int b {
   return 10, 20
 }
-int a, int b = myFunction()
+a, b = myFunction()
 // or
-int c = 0, int d = 0
+c = 0, d = 0
 (c, d) = myFunction()
 ```
 
@@ -223,24 +223,15 @@ int c = 0, int d = 0
 
 ## Null safety and optional parameters
 All variables must have a starting/default value when defined, which means
-that code like this: `int a;` will not work. Thus there is no `null` type in A.
+that code like this: `a;` will not work. Thus there is no `null` type in A.
 
-Even optional function parameters cannot be null and must be handled
-inside the function scope, inside "sub-functions", otherwise
-the compiler throws an error.
+Optional function parameters must have a default value.
 
 You can make parameters optional by writing `optional: var1, var2, etc...`.
 Here is an example:
 ```A
-code multiply = returns int (int a, int b, optional: int c, int d){
-  int result = a * b
-  (c) = { // Only executed when c is provided
-    result = result * c 
-  }
-  (d) = { // Only executed when d is provided
-    result = result * d
-  }
-  return result
+code multiply = returns int (int a, int b, optional: int c = 1, int d = 1){ 
+  return a * b * c * d
 }
 multiply(10, 20) // Valid
 multiply(10, 20, 30, 40) // Not valid, optional parameters must have the variable name
@@ -259,8 +250,8 @@ like so:
 
 `Main`
 ```A
-Person john = new Person(63)
-Person peter = new Person(35)
+Person john = Person(63)
+Person peter = Person(35)
 
 john.age // == 63
 john.id // == 1
@@ -272,11 +263,11 @@ Person.count // == 2
 ```
 `Person`
 ```A
-int count = 0
+count = 0
 
-new (int age) {
+constructor (int age) {
     count++
-    int id = count
+    id = count
 }
 ```
 The constructor is the function called to initialise an object:
@@ -301,14 +292,14 @@ project
 ```
 `MathLib` can be used in `Main` like so:
 ```A
-MathLib math = new MathLib()
+MathLib math = MathLib()
 ```
 `MathLib` from /folder can be used in `Main` like so:
 This must be done like this, since MathLib exists twice, in the
 current folder and in /folder.
 ```
-MathLib math = new MathLib()
-./folder/MathLib math1 = new MathLib()
+MathLib math = MathLib()
+./folder/MathLib math1 = MathLib()
 ```
 Normally you just enter the files'/folders' relative path on the top:
 ```A
@@ -317,7 +308,7 @@ Normally you just enter the files'/folders' relative path on the top:
 // Otherwise you can import the whole folder:
 ./folder
 
-AnotherLib anotherLib = new AnotherLib()
+AnotherLib anotherLib = AnotherLib()
 ```
 
 
