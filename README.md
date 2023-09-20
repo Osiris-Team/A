@@ -25,7 +25,6 @@ execute `./a/a` on Linux or `.\a\a.exe` if you are on Windows (this starts the A
  - Include a dependecy management system.
 
 
-
 ## Status
 - No release yet, still in early development. 
 - Once the basics are done 1.0 will get released.
@@ -37,8 +36,8 @@ execute `./a/a` on Linux or `.\a\a.exe` if you are on Windows (this starts the A
 Multiple statements on a single line must be separated by a semicolon `;` otherwise
 the semicolon is optional.
 ```A
-int a = 10
-int b = 20; int c = 30
+a = 10
+b = 20; c = 30
 ```
 
 
@@ -52,50 +51,92 @@ int a = 1 // Single line comment
 
 
 
-## Variables/Types
-- A variable is a particular set of bits or type of data located in the RAM that can be modified.
-- To reference a specific variable it has to be named.
-- The three major data types are numbers, text and special.
-- All major types have minor types which are listed further below.
-- Variables are made of 3 parts: `int a = 3` They have a type (int), name (a) and default value (3).
-- Variables can be made of 2 parts: `a = 3`.
-- If a variables' type is not set, it is determined and set by the compiler to the smallest type (or the biggest if it fails).
-- The variable name cannot contain spaces.
-- Variables can interact with each other via operands like `+ or -`.
-- Variables are available in all your code without the need of importing something.
+### Folders are Classes!
+```
+/Main.a
+/Person
+/Person/Person.a
+/Person/Brain.a
+/Person/CanThink.a
+/Person/CanWalk.a
+```
+Folders whose names start capitalized and have a `.a` file with the same name in them, are Classes,
+otherwise they are regular folders.
+
+The other files in that folder are named class blocks. This makes it possible to break down
+an otherwise very large file into multiple smaller files, since a class block has access to the code
+of all the other class blocks in that folder.
+
+Note that class blocks can be optional (simply add the optional keyword to the top of the file),
+in which case other class blocks will not have access to its code,
+but the optional class block still has access to the code of all the others.
+CanThink and CanWalk are optional btw.
+
+Usage in Main.a:
+```
+// How do I use the Person class with its class blocks?
+p = Person()
+
+// How do I make sure Person gets loaded with all class blocks, even optional ones?
+p = Person+*()
+
+// How do I use only a specific optional sub-class?
+p = Person+CanThink()
+```
+
+
+
+## Values, Variables and Types
+A variable is a value with a name/reference. 
+It's a particular set of bits or type of data located in the RAM that can be modified.
+Primitive types (listed below) are available in all your code without the need of importing something.
 
 ### Numbers
- - `boolean` has only two possible values: true (1) and false (0). Represents one bit of information.
- - `byte` is an 8-bit signed two's complement integer. It has a minimum value of -128 and a maximum value of 127 (inclusive).
- - `short` is a 16-bit signed two's complement integer. It has a minimum value of -32,768 and a maximum value of 32,767 (inclusive).
- - `int` is a 32-bit signed two's complement integer, which has a minimum value of -2^31 and a maximum value of 2^31 -1.
- - `long` is a 64-bit two's complement integer. The signed long has a minimum value of -2^63 and a maximum value of 2^63 -1.
- - `float` is a single-precision 32-bit IEEE 754 floating point.
- - `double` is a double-precision 64-bit IEEE 754 floating point.
+| Name | Description                                                                                                           | Usage                 |
+| ---- |-----------------------------------------------------------------------------------------------------------------------|-----------------------|
+| boolean | Has only two possible values: true (1) and false (0). Represents one bit of information.                              | `v = true; v = false` |
+| byte | An 8-bit signed two's complement integer. It has a minimum value of -128 and a maximum value of 127 (inclusive).      | `v = 1b`              |
+| short | A 16-bit signed two's complement integer. It has a minimum value of -32,768 and a maximum value of 32,767 (inclusive) | `v = 1s`              |
+| int | A 32-bit signed two's complement integer, which has a minimum value of -2^31 and a maximum value of 2^31 -1.          | `v = 1`               |
+| long | A 64-bit two's complement integer. The signed long has a minimum value of -2^63 and a maximum value of 2^63 -1.       | `v = 1l`              |
+| float | A single-precision 32-bit IEEE 754 floating point.                                                                    | `v = 1f`              |
+| double | A double-precision 64-bit IEEE 754 floating point.                                                                    | `v = 1d; v= 1.0`      |
  
 ### Text
- - `char` is a single 16-bit Unicode character. It has a minimum value of '\u0000' (or 0) and a maximum value of '\uffff' (or 65,535 inclusive).
- - `string` is a string of characters, or more accurately: an array of char with variable length.
- 
- Text in code is identified by encapsulating the data in quotes `"`:
- ```a
- "a" // char
- "Hello World!" // string
- 10 // number
- "10" // string
- ```
+| Name | Description                                                                                                                         | Usage          |
+| ---- |-------------------------------------------------------------------------------------------------------------------------------------|----------------|
+| char | A single 16-bit Unicode character. It has a minimum value of '\u0000' (or 0) and a maximum value of '\uffff' (or 65,535 inclusive). | `v = "a"`        |
+| string | A string of characters, or more accurately: an array of char with variable length.                                                  | `v = "aa"`     |
  
 ### Special
- - `var` the generic type. Gets replaced by the actual type at compilation.
- - `code` is a single code block.
- - `<ObjectName>` is a type/object you created and named, that contains variables.
+| Name       | Description                                                                          | Usage              |
+|------------|--------------------------------------------------------------------------------------|--------------------|
+| code       | A single code block                                                                  | `v = (){}`         |
+| ObjectName | A ObjectName.a file you created. If in another folder requires an import to be used. | `v = ObjectName()` |
 
+### Attributes
 Variables can have additional/optional attributes which get added 
-at the start: `public final int a = 10`
- - `public` makes the variable accessible from other files.
+at the start: `hidden final a = 10`
+ - `hidden` hides the variable from other files. 
+You can disable this by adding `show hidden` to the start of your file.
  - `final` makes the variable unchangeable after first value assignment.
  - `[<size>]` creates an array of the current type, of the specified size (integer type).
 
+<details>
+<summary>FAQ</summary>
+
+### Why is there no public/private?
+All variables are public by default. If you search public and private on GitHub
+you will see that public is used around 422 million times and private only 177M times,
+thus public is the default, to reduce the amount of code written.
+
+### Where is null?
+Gone! Due to the countless runtime errors arising from it and because otherwise
+we would need to name the type when defining a variable. This way its ensured all variables
+have a default value which lets us determine the type at compile time and gives us the same
+benefits as statically typed languages.
+
+</details>
 
 
 ## Scopes
@@ -282,22 +323,23 @@ AnotherLib anotherLib = new AnotherLib()
 
 
 ## Inheritance
-There are two ways of inheriting another objects' functionality, namely
-via the `inherit` and `override` keywords.
+There are two ways of inheritsing another objects' functionality, namely
+via the `inherits` and `override` keywords.
 
-`inherit <obj1>, <obj2>, ...` lets you use the methods and fields of the inherited object in your current object.
+`inherits <obj1>, <obj2>, ...` lets you use the methods and fields of the inheritsed object in your current object.
 - Their constructors are called in the order they were listed.
 - If there are overlapping functions (functions with equal names),
 those objects cannot be extended.
 
-`override <obj1>, <obj2>, ...` lets you use the methods and fields of the overriden object in your current object, but you
+`overrides <obj1>, <obj2>, ...` lets you use the methods and fields of the overriden object in your current object, but you
 must provide your own implementation for all of them.
 - Their constructors must also be overriden, and are called in the order they were listed.
 
 ```A
-inherit AnotherObject, AnotherObject2
-override AnotherObject3, /path/to/AnotherObject4
+inherits AnotherObject, AnotherObject2
+overrides AnotherObject3, /path/to/AnotherObject4
 ```
+
 
 ## Project structure and dependencies/libs
 The project root directory is located where your `a` directory is in.
