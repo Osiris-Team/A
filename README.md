@@ -168,20 +168,20 @@ Functions are special code blocks that are held by the `code` variable.
 Note that functions are `final` by default due to the limitations by the underlying C language.
 ```A
 b = 0;
-code setNumber = {
+setNumber = {
   b = 9
 }
 setNumber // Does nothing
 setNumber() // Executes the code
 
-code getNumber = returns int {
+getNumber = returns int {
   return b
 }
 result = getNumber() // Executes the code and returns b
 ```
 Parameters can be passed over too like so:
 ```A
-code multiply = returns int (int a, int b) {
+multiply = returns int (int a, int b) {
   return a * b
 }
 multiply(10, 20)
@@ -189,7 +189,7 @@ multiply(10, 20)
 Note that changing a parameter's value in a function,
 affects the original variables value:
 ```A
-code setTo10 = (int a) {
+setTo10 = (int a) {
   a = 10
 }
 myVariable = 27
@@ -200,8 +200,8 @@ setTo10(myVariable)
 ### Function overloading
 Function overloading is not allowed. 
 ```a
-code myFunction = {}
-code myFunction = (int a) {} // error
+myFunction = {}
+myFunction = (int a) {} // error
 ```
 This ensures that less duplicate documentation is written
 and related code is inside the same function.
@@ -212,7 +212,7 @@ Sometimes you want to return multiple values from a single function.
 In most languages you would need to create a new class or a new datatype which can be annoying.
 A however has a built in solution for this to make it easier:
 ```A
-code myFunction = returns int a, int b {
+myFunction = returns int a, int b {
   return 10, 20
 }
 a, b = myFunction()
@@ -232,7 +232,7 @@ Optional function parameters must have a default value.
 You can make parameters optional by writing `optional: var1, var2, etc...`.
 Here is an example:
 ```A
-code multiply = returns int (int a, int b, optional: int c = 1, int d = 1){ 
+multiply = returns int (int a, int b, optional: int c = 1, int d = 1){ 
   return a * b * c * d
 }
 multiply(10, 20) // Valid
