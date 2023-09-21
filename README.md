@@ -8,7 +8,7 @@ A achieves the same cross-platform performance as C.
 
 Its main aim ist to make programming fun, fast and easy.
 Functions are variables for example. To be exact, everything in this language is a variable.
-You can learn the whole language by reading this file and if you are unsure how to pronouce A, there are two good tutorials [here](https://www.youtube.com/watch?v=yBLdQ1a4-JI) and [here](https://www.youtube.com/watch?v=pwTzHbIXSlI).
+You can learn the whole language by reading this file and if you are unsure how to pronounce A, there are two good tutorials [here](https://www.youtube.com/watch?v=yBLdQ1a4-JI) and [here](https://www.youtube.com/watch?v=pwTzHbIXSlI).
 
 If you want to get started right away, download the [A-Sample](https://github.com/Osiris-Team/A-Sample) repo,
 open a terminal in that folder and
@@ -22,13 +22,13 @@ execute `./a/a` on Linux or `.\a\a.exe` if you are on Windows (this starts the A
  - Performance and readability have the same importance.
  - Provide cross-platform methods for all input and output devices, like (touch-)screens, keyboards, files, etc.
  - Encourage the use of event listeners.
- - Include a dependecy management system.
+ - Include a dependency management system.
 
 
 ## Status
 - No release yet, still in early development. 
 - Once the basics are done 1.0 will get released.
-- This repository contins the A compiler which is written in Java and misses a bunch of the features mentioned in this file.
+- This repository contains the A compiler which is written in Java and misses a bunch of the features mentioned in this file.
 
 
 
@@ -277,7 +277,7 @@ The constructor is the function called to initialise an object:
 - It is similar to a regular function, which means that it can also have parameters,
   but no return type (note that the parameters will be available to the instantiated object if not set to private).
 - It gets added by the compiler automatically if not existing (with no parameters).
-- Variables defined inside the contructor are only available to the instantiated object.
+- Variables defined inside the constructor are only available to the instantiated object.
 
 
 
@@ -316,21 +316,21 @@ AnotherLib anotherLib = AnotherLib()
 
 
 ## Inheritance
-There are two ways of inheritsing another objects' functionality, namely
-via the `inherits` and `override` keywords.
+There are two ways of inheriting another objects' functionality, namely
+via the `inherits` and `implements` keywords.
 
-`inherits <obj1>, <obj2>, ...` lets you use the methods and fields of the inheritsed object in your current object.
+`inherits <obj1>, <obj2>, ...` lets you use the methods and fields of the inherited object in your current object.
 - Their constructors are called in the order they were listed.
 - If there are overlapping functions (functions with equal names),
 those objects cannot be extended.
 
-`overrides <obj1>, <obj2>, ...` lets you use the methods and fields of the overriden object in your current object, but you
+`implements <obj1>, <obj2>, ...` lets you use the methods and fields of the implemented object in your current object, but you
 must provide your own implementation for all of them.
-- Their constructors must also be overriden, and are called in the order they were listed.
+- Their constructors must also be implemented, and are called in the order they were listed.
 
 ```A
 inherits AnotherObject, AnotherObject2
-overrides AnotherObject3, /path/to/AnotherObject4
+implements AnotherObject3, /path/to/AnotherObject4
 ```
 
 
