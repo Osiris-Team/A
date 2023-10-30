@@ -51,39 +51,43 @@ a = 1 // Single line comment
 
 
 
-## Folders are Classes!
+## Object Blocks
 ```
 /Main.a
-/Person
-/Person/Person.a
-/Person/Brain.a
-/Person/CanThink.a
-/Person/CanWalk.a
+/Person.a
+/Brain.a
+/Hand.a
 ```
-Folders whose names start capitalized and have a `.a` file with the same name in them, are Classes,
-otherwise they are regular folders.
+Object Blocks make it possible to break down
+an otherwise very large file into multiple smaller files, since an Object Block has access to the code
+of all the other related blocks.
 
-The other files in that folder are named class blocks. This makes it possible to break down
-an otherwise very large file into multiple smaller files, since a class block has access to the code
-of all the other class blocks in that folder.
+Besides that it allows "true" functionality extension of existing Objects (for example from an Object of another library)
+with no need of code refactoring.
 
-In other words it allows us to write organized/clean spaghetti code!
+Note that Object Blocks can be optional (simply add the optional keyword to the top of the file),
+in which case other Object Blocks will not have access to its code.
 
-Note that class blocks can be optional (simply add the optional keyword to the top of the file),
-in which case other class blocks will not have access to its code,
-but the optional class block still has access to the code of all the others.
-CanThink and CanWalk are optional btw.
+Brain:
+```
+object block of Person
+```
+
+Hand:
+```
+optional object block of Person
+```
 
 Usage in Main.a:
 ```
-// How do I use the Person class with its class blocks?
+// How do I use the Person class with its Object Blocks?
 p = Person()
 
-// How do I make sure Person gets loaded with all class blocks, even optional ones?
+// How do I make sure Person gets loaded with all Object Blocks, even optional ones?
 p = Person+*()
 
-// How do I use only a specific optional class block?
-p = Person+CanThink()
+// How do I only use specific optional Object Blocks?
+p = Person+Hand()
 ```
 
 
