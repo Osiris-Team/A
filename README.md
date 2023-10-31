@@ -104,9 +104,10 @@ benefits as statically typed languages.
 </details>
 
 
-## Scopes
+## Code/Scopes
+
 A scope is code within brackets `{}`. 
-Variables within a scope are not accessible from outside:
+Variables created within a scope are not accessible from outside:
 ```A
 a = 3
 {
@@ -116,6 +117,7 @@ a = 3
 // a can be used here
 // b cannot be used here
 ```
+
 Let's say the code above is located in the `Utils` file and we want to access 
 it in our `Main` file:
 ```A
@@ -123,6 +125,9 @@ Utils utils = Utils()
 utils.a // Can be accessed
 utils.b // Error: Cannot be accessed
 ```
+
+There are different types of code blocks, which all extend the `code` type: `function, if, ifElse, forI, forEach, while`.
+These will be explained further below.
 
 
 
