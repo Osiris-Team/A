@@ -51,47 +51,6 @@ a = 1 // Single line comment
 
 
 
-## Object Blocks
-```
-/Main.a
-/Person.a
-/Brain.a
-/Hand.a
-```
-Object Blocks make it possible to break down
-an otherwise very large file into multiple smaller files, since an Object Block has access to the code
-of all the other related blocks.
-
-Besides that it allows "true" functionality extension of existing Objects (for example from an Object of another library)
-with no need of code refactoring.
-
-Note that Object Blocks can be optional (simply add the optional keyword to the top of the file),
-in which case other Object Blocks will not have access to its code.
-
-Brain:
-```
-object block of Person
-```
-
-Hand:
-```
-optional object block of Person
-```
-
-Usage in Main.a:
-```
-// How do I use the Person class with its Object Blocks?
-p = Person()
-
-// How do I make sure Person gets loaded with all Object Blocks, even optional ones?
-p = Person+*()
-
-// How do I only use specific optional Object Blocks?
-p = Person+Hand()
-```
-
-
-
 ## Values, Variables and Types
 A variable is a value with a name/reference. 
 It's a particular set of bits or type of data located in the RAM that can be modified.
@@ -256,8 +215,8 @@ like so:
 
 `Main`
 ```A
-Person john = Person(63)
-Person peter = Person(35)
+john = Person(63)
+peter = Person(35)
 
 john.age // == 63
 john.id // == 1
@@ -285,27 +244,26 @@ The constructor is the function called to initialise an object:
 
 
 
-
-## Files and Objects
-Each file represents one object (must have no file extension).
+## Files/Objects
+Each file represents one object.
 ```
 project
- - Main
- - MathLib
+ - Main.a
+ - MathLib.a
  - folder
-    - MathLib
-    - AnotherLib
+    - MathLib.a
+    - AnotherLib.a
 ```
 `MathLib` can be used in `Main` like so:
 ```A
-MathLib math = MathLib()
+math = MathLib()
 ```
 `MathLib` from /folder can be used in `Main` like so:
 This must be done like this, since MathLib exists twice, in the
 current folder and in /folder.
 ```
-MathLib math = MathLib()
-./folder/MathLib math1 = MathLib()
+math = MathLib()
+math1 = ./folder/MathLib()
 ```
 Normally you just enter the files'/folders' relative path on the top:
 ```A
@@ -314,7 +272,45 @@ Normally you just enter the files'/folders' relative path on the top:
 // Otherwise you can import the whole folder:
 ./folder
 
-AnotherLib anotherLib = AnotherLib()
+anotherLib = AnotherLib()
+```
+
+
+
+## Object Blocks
+```
+/Main.a
+/Person.a
+/Brain.a
+/Hand.a
+```
+Object Blocks make it possible to break down
+an otherwise very large file into multiple smaller files, since an Object Block has access to the code
+of all the other related blocks (except for optional Object Blocks).
+
+Besides that it allows "true" functionality extension of existing Objects (for example from an Object of another library)
+with no need of code refactoring.
+
+Brain:
+```
+object block of Person
+```
+
+Hand:
+```
+optional object block of Person
+```
+
+Usage in Main.a:
+```
+// How do I use the Person class with its Object Blocks?
+p = Person()
+
+// How do I make sure Person gets loaded with all Object Blocks, even optional ones?
+p = Person+*()
+
+// How do I only use specific optional Object Blocks?
+p = Person+Hand()
 ```
 
 
@@ -338,7 +334,8 @@ implements AnotherObject3, /path/to/AnotherObject4
 ```
 
 
-## Project structure and dependencies/libs
+
+## Project structure and dependencies/libraries
 The project root directory is located where your `a` directory is in.
 In your code, you can only use/import code that is within that folder.
 To reference it in code use `./`.
