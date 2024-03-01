@@ -81,7 +81,7 @@ Primitive types (listed below) are available in all your code without the need o
 | Name       | Description                                                                                       | Usage              |
 |------------|---------------------------------------------------------------------------------------------------|--------------------|
 | code       | Single code block                                                                                 | `v = (){}`         |
-| ObjectName | Comes from the ObjectName.a file you created. If in another folder requires an import to be used. | `v = ObjectName()` |
+| ObjectName | Comes from the ObjectName.a file you created. If in another folder requires an import to be used. ObjectName is a placeholder for anything you might come up with. | `v = ObjectName()` |
 
 ### Attributes
 Variables can have additional/optional attributes which get added 
