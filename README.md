@@ -42,7 +42,7 @@ b = 20; c = 30
 <details>
  <summary>How is this still typesafe?</summary>
 
- Because null values are not allowed every variable has a default value from which we determine the type.
+ Because null values are not allowed, every variable has a default value from which we determine the type.
 </details>
 
 
