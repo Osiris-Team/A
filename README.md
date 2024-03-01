@@ -39,7 +39,11 @@ the semicolon is optional.
 a = 10
 b = 20; c = 30
 ```
+<summary>
+ <details>How is this still typesafe?</details>
 
+ Because null values are not allowed every variable has a default value from which we determine the type.
+</details>
 
 
 ## Comments
