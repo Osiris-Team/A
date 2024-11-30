@@ -110,6 +110,12 @@ benefits as statically typed languages.
 
 ## Code/Scopes
 
+<details>
+<summary>Removed</summary>
+
+The feature below will not be included in the language because it clashes with the function type. More specifically because the code within a function is expected
+to only run if you call it, but the code in a scope is expected to run always directly and because they look very similar this might cause uneccessary confusion.
+
 A scope is code within brackets `{}`. 
 Variables created within a scope are not accessible from outside:
 ```A
@@ -129,11 +135,7 @@ Utils utils = Utils()
 utils.a // Can be accessed
 utils.b // Error: Cannot be accessed
 ```
-
-There are different types of code blocks, which all extend the `code` type: `function, if, ifElse, forI, forEach, while`.
-These will be explained further below.
-
-
+</details>
 
 ## Functions
 Functions are special code blocks that are held by the `code` variable.
@@ -168,6 +170,74 @@ myVariable = 27
 setTo10(myVariable)
 // myVariable is now 10
 ```
+
+There are different types of code blocks, which all extend the `code` type: `function, if, if else, else if, for, for each, while`.
+These will be explained further below. 
+
+<details>
+ <summary>Logic: if, ifElse, elseIf</summary>
+ 
+```A
+a = true
+b = true
+if a { // short version for: if a == true
+  a = false // do something if a is true, set it to false for example
+} else { // else is optional
+  a = false
+}
+
+// inline example
+if a -> a = false 
+else -> a = false // else is optional
+
+if a > b -> a = false
+else if b -> b = false // elseIf example, also optional
+
+// you can easily make it a variable/function
+myLogic = { if a -> a = false }
+myLogic()
+```
+</details>
+
+<details>
+ <summary>Loops: for, for each, while</summary>
+ 
+```A
+numbers = 1, 2, 3, 4
+current = 0
+for index i = 0; i > numbers.length; i++ {
+  current = numbers[i] // access number at index position in numbers array
+}
+
+// inline example
+for index i = 0; i > numbers.length; i++ -> current = numbers[i] 
+
+for each x in numbers {
+  current = x
+}
+
+// inline example
+for each x in numbers -> current = x 
+
+for each x in numbers and index i { // for each with optional index
+  current = x
+}
+
+// inline example
+for each x in numbers and index i -> current = x
+
+i = 0
+while i < numbers.length {
+  current = numbers[i]
+  i++
+}
+
+// inline example
+i = 0
+while i < numbers.length -> current = numbers[i]; i++
+```
+</details>
+
 
 ### Function overloading
 Function overloading is not allowed. 
@@ -239,17 +309,19 @@ Person.count // == 2
 ```A
 count = 0
 
-constructor (int age) {
+constructor = (int age) {
     count++
     id = count
 }
 ```
-The constructor is the function called to initialise an object:
+The constructor is the function called to initialize an object:
 - There can only be one in a file/object.
 - It is similar to a regular function, which means that it can also have parameters,
   but no return type (note that the parameters will be available to the instantiated object if not set to private).
 - It gets added by the compiler automatically if not existing (with no parameters).
 - Variables defined inside the constructor are only available to the instantiated object.
+
+Note that everything you write outside the constructor will only be executed once, specifically at the first time the file/object is used somewhere else.
 
 
 
@@ -330,8 +402,8 @@ via the `inherits` and `implements` keywords.
 
 `inherits <obj1>, <obj2>, ...` lets you use the methods and fields of the inherited object in your current object.
 - Their constructors are called in the order they were listed.
-- If there are overlapping functions (functions with equal names),
-those objects cannot be extended.
+- If there are overlapping top-level variables (for example functions with equal names),
+you also need to specify the variable name behind the object like so (myVariableName exists inside AnotherObject and AnotherObject2 in this example): `inherits AnotherObject, AnotherObject2+myVariableName`.
 
 `implements <obj1>, <obj2>, ...` lets you use the methods and fields of the implemented object in your current object, but you
 must provide your own implementation for all of them.
