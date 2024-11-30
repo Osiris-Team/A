@@ -248,6 +248,9 @@ myFunction = (int a) {} // error
 This ensures that less duplicate documentation is written
 and related code is inside the same function.
 
+Optional function parameters should help you out if you allow multiple different types of inputs in your function for example.
+This is documented further below.
+
 
 ### Return multiple values
 Sometimes you want to return multiple values from a single function.
