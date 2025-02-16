@@ -91,20 +91,26 @@ You can disable this by adding `show hidden` to the start of your file.
  - `final` makes the variable unchangeable after first value assignment.
  - `[<size>]` creates an array of the current type, of the specified size (integer type).
 
-<details>
-<summary>FAQ</summary>
+# Extending functionality
+Primitives are strictly speaking not really primitives but objects located in `./a`, thus you can also extend their functionality by using the object parts feature explained further below. 
 
-### Why is there no public/private?
+Note that primitives must not be imported because the compiler adds a hidden import statement to import everything from `./a`.
+
+<details>
+<summary>Why is there no public/private?</summary>
+ 
 All variables are public by default. If you search public and private on GitHub
 you will see that public is used around 422 million times and private only 177M times,
 thus public is the default, to reduce the amount of code written.
+</details>
 
-### Where is null?
+<details>
+<summary>Where is null?</summary>
+
 Gone! Due to the countless runtime errors arising from it and because otherwise
 we would need to name the type when defining a variable. This way its ensured all variables
 have a default value which lets us determine the type at compile time and gives us the same
 benefits as statically typed languages.
-
 </details>
 
 
@@ -361,7 +367,7 @@ anotherLib = AnotherLib()
 
 
 
-## Object Blocks
+## Object Blocks / Parts
 ```
 /Main.a
 /Person.a
@@ -372,17 +378,17 @@ Object Blocks make it possible to break down
 an otherwise very large file into multiple smaller files, since an Object Block has access to the code
 of all the other related blocks (except for optional Object Blocks).
 
-Besides that it allows "true" functionality extension of existing Objects (for example from an Object of another library)
+Besides that it allows "true" functionality extension of existing Objects (for example from an Object of another library, or even primitive types)
 with no need of code refactoring.
 
 Brain:
 ```
-object block of Person
+part of Person
 ```
 
 Hand:
 ```
-optional object block of Person
+optional part of Person
 ```
 
 Usage in Main.a:
