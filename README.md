@@ -91,7 +91,7 @@ You can disable this by adding `show hidden` to the start of your file.
  - `final` makes the variable unchangeable after first value assignment.
  - `[<size>]` creates an array of the current type, of the specified size (integer type).
 
-# Extending functionality
+### Extending functionality
 Primitives are strictly speaking not really primitives but objects located in `./a`, thus you can also extend their functionality by using the object parts feature explained further below. 
 
 Note that primitives must not be imported because the compiler adds a hidden import statement to import everything from `./a`.
