@@ -2,13 +2,12 @@
 A language is my idea of a perfect programming language, which was
 born from the frustration and joy of using languages like Java, C, C++ and JavaScript.
 
-There is an actual compiler written in Java that compiles A to C.
-Since C gets compiled to a platform-specific binary (an executable or library),
-A achieves the same cross-platform performance as C.
+There is an actual compiler written in Java that compiles A => C => binary.
+Thus A achieves the same cross-platform performance as C.
 
-Its main aim ist to make programming fun, fast and easy.
-Functions are variables for example. To be exact, everything in this language is a variable.
-You can learn the whole language by reading this file and if you are unsure how to pronounce A, there are two good tutorials [here](https://www.youtube.com/watch?v=yBLdQ1a4-JI) and [here](https://www.youtube.com/watch?v=pwTzHbIXSlI).
+Its main aim is to make programming fun and provide higher-level concepts without sacrificing performance.
+Functions are variables for example. To be exact, everything in this language is a variable and
+you can learn the whole language by reading this file.
 
 If you want to get started right away, download the [A-Sample](https://github.com/Osiris-Team/A-Sample) repo,
 open a terminal in that folder and
@@ -16,14 +15,14 @@ execute `./a/a` on Linux or `.\a\a.exe` if you are on Windows (this starts the A
 
 
 
-## Core philosophy
- - No standard library, provide independent packages instead.
+## Core Ideas
+ - Tiny standard library, to keep the focus on language development. This will change once the language is more mature.
  - Allow easy use of GPU and hardware acceleration, instead of only writing CPU code.
- - Performance and readability have the same importance.
  - Provide cross-platform methods for all input and output devices, like (touch-)screens, keyboards, files, etc.
+ - Include a dependency management system and provide an online repository.
+ - Include a build-tool and make compilation frictionless.
+ - Performance and readability have the same importance.
  - Encourage the use of event listeners.
- - Include a dependency management system.
-
 
 ## Status
 - No release yet, still in early development. 
