@@ -192,14 +192,14 @@ if a { // short version for: if a == true
 }
 
 // inline example
-if a -> a = false 
-else -> a = false // else is optional
+if a do a = false 
+else do a = false // else is optional
 
-if a > b -> a = false
-else if b -> b = false // elseIf example, also optional
+if a > b do a = false
+else if b do b = false // elseIf example, also optional
 
 // you can easily make it a variable/function
-myLogic = { if a -> a = false }
+myLogic = { if a do a = false }
 myLogic()
 ```
 </details>
@@ -215,21 +215,21 @@ for index i = 0; i > numbers.length; i++ {
 }
 
 // inline example
-for index i = 0; i > numbers.length; i++ -> current = numbers[i] 
+for index i = 0; i > numbers.length; i++ do current = numbers[i] 
 
 for each x in numbers {
   current = x
 }
 
 // inline example
-for each x in numbers -> current = x 
+for each x in numbers do current = x 
 
 for each x in numbers and index i { // for each with optional index
   current = x
 }
 
 // inline example
-for each x in numbers and index i -> current = x
+for each x in numbers and index i do current = x
 
 i = 0
 while i < numbers.length {
@@ -239,7 +239,7 @@ while i < numbers.length {
 
 // inline example
 i = 0
-while i < numbers.length -> current = numbers[i]; i++
+while i < numbers.length do current = numbers[i]; i++
 ```
 </details>
 
