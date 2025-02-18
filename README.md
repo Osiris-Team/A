@@ -23,9 +23,12 @@ execute `./a/a` on Linux or `.\a\a.exe` if you are on Windows (this starts the A
  - Include a build-tool and make compilation frictionless.
  - Performance, fast writability, and readability have the same importance.
  - Encourage the use of event listeners.
- - Modular Object Oriented Programming (MOOP) via [object parts](#object-blocks--parts).
  - Garbage collected via [bdwgc](https://github.com/ivmai/bdwgc), can be [disabled](#TODO_HOW?).
+
+## Highlights
+ - Modular Object Oriented Programming (MOOP) via [object parts](#object-blocks--parts).
  - Compiles to C and [allows embedding raw C code](#TODO).
+ - Everything is a variable and [primitives functionality can be extended](#Extending-functionality).
 
 ## Status
 - No release yet, still in early development (spec- and implementation-wise). Once the basics are done 1.0 will get released.
