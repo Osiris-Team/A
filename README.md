@@ -17,17 +17,21 @@ execute `./a/a` on Linux or `.\a\a.exe` if you are on Windows (this starts the A
 
 ## Core Ideas
  - Tiny standard library, to keep the focus on language development. This will change once the language is more mature.
- - Allow easy use of GPU and hardware acceleration, instead of only writing CPU code.
+ - Allow easy use of GPU / hardware acceleration, instead of only writing CPU code.
  - Provide cross-platform methods for all input and output devices, like (touch-)screens, keyboards, files, etc.
  - Include a dependency management system and provide an online repository.
  - Include a build-tool and make compilation frictionless.
- - Performance and readability have the same importance.
+ - Performance, fast writability, and readability have the same importance.
  - Encourage the use of event listeners.
+ - [Modular Object Oriented Programming (MOOP) via object parts.](#object-blocks--parts)
+ - Garbage collected via [bdwgc](https://github.com/ivmai/bdwgc), can be [disabled](#TODO_HOW?).
+ - Compiles to C and [allows embedding raw C code](#TODO).
 
 ## Status
 - No release yet, still in early development. 
 - Once the basics are done 1.0 will get released.
 - This repository contains the A compiler which is written in Java and misses a bunch of the features mentioned in this file.
+However it more or less lays the groundwork and style for the compiler.
 
 
 
