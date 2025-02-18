@@ -28,8 +28,7 @@ execute `./a/a` on Linux or `.\a\a.exe` if you are on Windows (this starts the A
  - Compiles to C and [allows embedding raw C code](#TODO).
 
 ## Status
-- No release yet, still in early development. 
-- Once the basics are done 1.0 will get released.
+- No release yet, still in early development (spec- and implementation-wise). Once the basics are done 1.0 will get released.
 - This repository contains the A compiler which is written in Java and misses a bunch of the features mentioned in this file.
 However it more or less lays the groundwork and style for the compiler.
 
@@ -45,7 +44,22 @@ b = 20; c = 30
 <details>
  <summary>How is this still typesafe?</summary>
 
- Because null values are not allowed, every variable has a default value from which we determine the type.
+Because null values are not allowed, every variable has a default value from which we determine the type.
+</details>
+
+<details>
+ <summary>Issues with readability?</summary>
+
+With this Python-like approach, we do not know if it's the initial usage / declaration of the variable or updating/setting the variable, and would need to rely on IDEs to make that difference clear.
+Which I do not really like because of github PRs for example where the code is basically in its raw text form and only has some syntax highlighting.
+
+Thus maybe instead something like this?
+```A
+new a = 10
+new b = 20; new c = 30
+```
+I think in this case we could directly just insert the type name instead of "new", to increase readability, however for longer types + if we some day get generics
+this can also decrease readability.
 </details>
 
 
