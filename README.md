@@ -1,4 +1,4 @@
-# A
+# A-Lang
 A language is my idea of a perfect programming language, which was
 born from the frustration and joy of using languages like Java, C, C++ and JavaScript.
 
