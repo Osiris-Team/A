@@ -60,6 +60,12 @@ new b = 20; new c = 30
 ```
 I think in this case we could directly just insert the type name instead of "new", to increase readability, however for longer types + if we some day get generics
 this can also decrease readability.
+
+Another problem with this is that it might seem we also create a "new" object with this keyword even though we only create a new variable/pointer, for example: 
+```A
+new a = 10
+new b = a
+```
 </details>
 
 
