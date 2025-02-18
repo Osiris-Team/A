@@ -383,6 +383,12 @@ anotherLib = AnotherLib()
 
 
 
+## Object
+The default object all other objects automatically extend from contains following functions:
+- `obj.free()` for optional manual memory management, after calling this the memory for this object is cleared and referencing it is not allowed anymore.
+- `obj.clone()` returns a deep copy of the object.
+
+
 ## Object Blocks / Parts
 ```
 /Main.a
