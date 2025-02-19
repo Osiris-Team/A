@@ -302,7 +302,7 @@ setTo10((myVariable))
  
  Let's say we have a string object and we want to provide a `str.replace("x", "y")` function with replaces all x characters with y in this case,
  we would know that it affects the string directly / itself. Now we also want to provide `str1 = str.replace(("x", "y"))` function which does the same,
- however returns a new string with the changes. Does the library developer really need to define the the function twice and code the logic twice?
+ however returns a new string with the changes. Does the library developer really need to define the function twice and code the logic twice?
 </details>
 
 
