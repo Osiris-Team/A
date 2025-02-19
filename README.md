@@ -25,6 +25,7 @@ execute `./a/a` on Linux or `.\a\a.exe` if you are on Windows (this starts the A
  - Encourage the use of event listeners.
  - Garbage collected via [bdwgc](https://github.com/ivmai/bdwgc), can be [disabled](#TODO_HOW?).
  - Library developers should benefit the same amount as their users, in terms of language features.
+ - Language patterns/features should be simple, consistent, logical, and similar to each other.
 
 ## Highlights
  - Modular Object Oriented Programming (MOOP) via [object parts](#object-blocks--parts).
