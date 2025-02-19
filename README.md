@@ -271,6 +271,32 @@ while i < numbers.length do current = numbers[i]; i++
 </details>
 
 
+### Side effect-free functions and clone
+The compiler enforces the usage of double parenthesis when defining and using a function that has no side effects,
+meaning that it doesn't update its arguments. For this to work you either only read the argument or clone it and update its clone only.
+
+So we can modify the previous example, which removes the whole purpose of the setTo10 function, however it should clarify everything:
+```A
+setTo10 = ((clone int a)) {
+  a = 10
+}
+myVariable = 27
+setTo10((myVariable))
+// myVariable is still 27, because the operation is performed on a clone/copy
+```
+
+The `clone` keyword in a function parameter simply is a quality of life addition to reduce code, the previous example would look much worse without it:
+```A
+setTo10 = ((int a)) {
+  a1 = a.clone()
+  a1 = 10
+}
+myVariable = 27
+setTo10((myVariable))
+// myVariable is still 27, because the operation is performed on a clone/copy
+```
+
+
 ### Function overloading
 Function overloading is not allowed. 
 ```a
