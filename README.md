@@ -24,6 +24,7 @@ execute `./a/a` on Linux or `.\a\a.exe` if you are on Windows (this starts the A
  - Performance, fast writability, and readability have the same importance.
  - Encourage the use of event listeners.
  - Garbage collected via [bdwgc](https://github.com/ivmai/bdwgc), can be [disabled](#TODO_HOW?).
+ - Library developers should benefit the same amount as their users, in terms of language features.
 
 ## Highlights
  - Modular Object Oriented Programming (MOOP) via [object parts](#object-blocks--parts).
@@ -273,7 +274,7 @@ while i < numbers.length do current = numbers[i]; i++
 
 ### Side effect-free functions and clone
 The compiler enforces the usage of double parenthesis when defining and using a function that has no side effects,
-meaning that it doesn't update its arguments. For this to work you either only read the argument or clone it and update its clone only.
+meaning that it doesn't update its arguments or other variables/fields of the object (except static fields). For this to work you either only read the argument or clone it and update its clone only.
 
 So we can modify the previous example, which removes the whole purpose of the setTo10 function, however it should clarify everything:
 ```A
@@ -295,6 +296,14 @@ myVariable = 27
 setTo10((myVariable))
 // myVariable is still 27, because the operation is performed on a clone/copy
 ```
+
+<details>
+<summary>TODO How to reduce code duplication for libraries?</summary>
+ 
+ Let's say we have a string object and we want to provide a `str.replace("x", "y")` function with replaces all x characters with y in this case,
+ we would know that it affects the string directly / itself. Now we also want to provide `str1 = str.replace(("x", "y"))` function which does the same,
+ however returns a new string with the changes. Does the library developer really need to define the the function twice and code the logic twice?
+</details>
 
 
 ### Function overloading
@@ -367,7 +376,7 @@ Person.count // == 2
 ```
 `Person`
 ```A
-count = 0
+static count = 0
 
 constructor = (int age) {
     count++
