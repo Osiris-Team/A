@@ -110,6 +110,7 @@ Primitive types (listed below) are available in all your code without the need o
 |--------------------|------------|---------------------------------------------------------------------------------------------------|
 | `v = (){}`         | code       | Single code block                                                                                 |
 | `v = ObjectName()` | ObjectName | Comes from the ObjectName.a file you created. If in another folder requires an import to be used. ObjectName is a placeholder for anything you might come up with. |
+| `v = (0, 1, 2)` | array/tuple | Fixed size array of elements. Inspired by the function arguments syntax. Supports different types per index/element. |
 
 ### Attributes
 Variables can have additional/optional attributes which get added 
@@ -117,6 +118,8 @@ at the start: `hidden final a = 10`
  - `hidden` hides the variable from other files. 
 You can disable this by adding `show hidden` to the start of your file.
  - `final` makes the variable unchangeable after first value assignment.
+
+### Arrays/Tuples
  - `[<size>]` creates an array of the current type, of the specified size (integer type).
 
 ### Extending functionality
